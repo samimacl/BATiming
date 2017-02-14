@@ -6,3 +6,4 @@ plugins/
 *.xml
 *.json
 typings/
+.npmignore
