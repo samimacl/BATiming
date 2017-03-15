@@ -16,7 +16,7 @@ var ba_main = (function () {
 
     var var1;
 
-    function _myfunc (param) {
+    function _myfunc(param) {
         // code here
     }
 
@@ -27,4 +27,9 @@ var ba_main = (function () {
     ba_main.attr2 = {};
 
     //init object
+    ba_main.init = function () {
+        //code here
+    };
+
+    return ba_main;
 })();
