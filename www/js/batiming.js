@@ -1,3 +1,7 @@
+var batiming = batiming || {};
+
+batiming.Core = function () { };
+
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
 
