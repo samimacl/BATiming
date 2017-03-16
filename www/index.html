@@ -6,19 +6,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
+    <link rel="stylesheet" href="css/style.css" />
     <title>My App</title>
 </head>
 
-<body>
+<body class="layout-white theme-lightblue">
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
     <div class="statusbar-overlay"></div>
 
     <!-- Panels -->
     <div class="panel-overlay"></div>
-    <div class="panel panel-left panel-reveal">
-        <div class="content-block">
-            <p>Left Panel content here</p>
+    <div class="panel panel-left panel-cover">
+        <div class="list-block">
+            <ul>
+                <li id="settings">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-cog"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">Settings</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="favorites">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-star"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">Favorites</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="about">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-info-circle"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">About</div>
+                        </div>
+                    </div>
+                </li>
+                <li id="home">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon fa fa-home"></i></div>
+                        <div class="item-inner">
+                            <div class="item-title label">Home</div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
         </div>
     </div>
 

@@ -5,8 +5,6 @@ batiming.Core = function () { };
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
 
-isAndroid = false;
-isIos = true;
 Template7.global = {
     android: isAndroid,
     ios: isIos
@@ -23,7 +21,7 @@ if (isAndroid) {
 
 // Initialize app
 var myApp = new Framework7({
-    material: isAndroid ? true : false,
+    material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left'
 });

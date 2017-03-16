@@ -14,8 +14,42 @@
 .statusbar-overlay {
     background: #000000;
 }
-
-.page-content {
-    padding-left: 10px;
-    padding-right: 10px;
+.scroll {
+    overflow: auto;
+    -webkit-overflow-scrolling: touch;
+    box-sizing: border-box;
+    height: 140px;
+    position: relative;
 }
+.list-block {
+    margin: 10px 0 !important;
+}
+.content-block-title {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 14px;
+    text-transform: uppercase;
+    line-height: 1;
+    color: #6d6d72;
+    margin: 18px 15px 10px;
+}
+.list-block .item-title {
+    -webkit-flex-shrink: 1;
+    -ms-flex: 0 1 auto;
+    flex-shrink: 1;
+    white-space: inherit;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+.list-block .item-title.label {
+    width: 50%;
+    -webkit-flex-shrink: 0;
+    -ms-flex: 0 0 auto;
+    flex-shrink: 0;
+}
+
