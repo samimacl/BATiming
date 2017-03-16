@@ -4,6 +4,7 @@ batiming.Core = function () { };
 
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
+var userLoggedIn = false; //temporär für Testzwecke
 
 Template7.global = {
     android: isAndroid,
@@ -23,7 +24,15 @@ if (isAndroid) {
 var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
-    swipePanel: 'left'
+    swipePanel: 'left',
+    preroute: function (view, options) {
+        if (!userLoggedIn) {
+            userLoggedIn = true;
+            view.router.loadPage('login.html');
+
+            return false; //required to prevent default router action
+        }
+    }
 });
 
 // Add view
@@ -37,6 +46,28 @@ $$(document).on('deviceready', function () {
     console.log("Device is ready!");
 });
 
-myApp.onPageInit('about', function (page) {
-    console.log("enter about view");
+myApp.onPageInit('login', function (page) {
+    $$('.login-screen .list-button').on('click', function () {
+        var email = $$('.login-screen input[name="username"]').val();
+        var password = $$('.login-screen input[name="password"]').val();
+
+
+        //  var auth = firebase.auth();
+        // // sign up
+        // const promise = auth.createUserWithEmailAndPassword(email, password);
+        // promise.catch(e => console.log(e.message));
+
+
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            if (errorCode === 'auth/wrong-password') {
+                alert('Wrong password.');
+            } else {
+                alert(errorMessage);
+            }
+            console.log(error);
+        });
+    });
 });
