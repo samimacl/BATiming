@@ -11,15 +11,15 @@ var myApp = new Framework7({
     }
 });
 
-// Initialize Firebase
-var config = {
-    apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
-    authDomain: "ba-timing.firebaseapp.com",
-    databaseURL: "https://ba-timing.firebaseio.com",
-    storageBucket: "ba-timing.appspot.com",
-    messagingSenderId: "1050294194541"
-};
-firebase.initializeApp(config);
+// // Initialize Firebase
+// var config = {
+//     apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
+//     authDomain: "ba-timing.firebaseapp.com",
+//     databaseURL: "https://ba-timing.firebaseio.com",
+//     storageBucket: "ba-timing.appspot.com",
+//     messagingSenderId: "1050294194541"
+// };
+// firebase.initializeApp(config);
 
 
 // If we need to use custom DOM library, let's save it to $$ variable:
@@ -57,20 +57,18 @@ $$(document).on('pageInit', function (e) {
 
     if (page.name === 'login') {
         myApp.alert('Here comes Login page');
-    }
-})
+        $$('.login-screen .list-button').on('click', function () {
+        var email = $$('.login-screen input[name="username"]').val();
+        var password = $$('.login-screen input[name="password"]').val();
 
-// Option 2. Using live 'pageInit' event handlers for each page
-$$(document).on('pageInit', '.page[data-page="about"]', function (e) {
-    // Following code will be executed for page with data-page attribute equal to "about"
-    myApp.alert('Here comes About page');
-})
+            
+        //  var auth = firebase.auth();
+        // // sign up
+        // const promise = auth.createUserWithEmailAndPassword(email, password);
+        // promise.catch(e => console.log(e.message));
 
 
-$$('.login-screen .list-button').on('click', function () {
-    var email = $$('.login-screen input[name="username"]').val();
-    var password = $$('.login-screen input[name="password"]').val();
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+        firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
         // Handle Errors here.
         var errorCode = error.code;
         var errorMessage = error.message;
@@ -82,3 +80,13 @@ $$('.login-screen .list-button').on('click', function () {
         console.log(error);
     });
 });
+    }
+})
+
+// Option 2. Using live 'pageInit' event handlers for each page
+$$(document).on('pageInit', '.page[data-page="about"]', function (e) {
+    // Following code will be executed for page with data-page attribute equal to "about"
+    myApp.alert('Here comes About page');
+})
+
+
