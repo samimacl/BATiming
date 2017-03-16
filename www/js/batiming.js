@@ -28,7 +28,7 @@ var myApp = new Framework7({
     preroute: function (view, options) {
         if (!userLoggedIn) {
             userLoggedIn = true;
-            view.router.loadPage('login.html');
+            view.router.loadPage('views/login.html');
 
             return false; //required to prevent default router action
         }
