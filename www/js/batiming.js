@@ -44,6 +44,7 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
+    test.initialize(); //start iBeaconRange
 });
 
 myApp.onPageInit('login', function (page) {
