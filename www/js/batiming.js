@@ -24,7 +24,8 @@ if (isAndroid) {
 // Initialize app
 var myApp = new Framework7({
     material: isAndroid ? true : false,
-    template7Pages: true
+    template7Pages: true,
+    swipePanel: 'left'
 });
 
 // Add view

@@ -14,12 +14,26 @@
     <!-- Status bar overlay for full screen mode (PhoneGap) -->
     <div class="statusbar-overlay"></div>
 
+    <!-- Panels -->
+    <div class="panel-overlay"></div>
+    <div class="panel panel-left panel-reveal">
+        <div class="content-block">
+            <p>Left Panel content here</p>
+        </div>
+    </div>
+
     <!-- Views -->
     <div class="views">
         <div class="view view-main navbar-through">
             <div class="navbar">
                 <div class="navbar-inner">
+                    <div class="left">
+                        <a id="menuicon" href="#" class="open-panel link icon-only">
+                            <i class="icon icon-bars"></i>
+                        </a>
+                    </div>
                     <div class="center sliding">Awesome App</div>
+                    <div class="right"></div>
                 </div>
             </div>
             <div class="pages">

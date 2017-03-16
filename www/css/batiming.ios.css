@@ -14,3 +14,8 @@
 .statusbar-overlay {
     background: #000000;
 }
+
+.page-content {
+    padding-left: 10px;
+    padding-right: 10px;
+}
