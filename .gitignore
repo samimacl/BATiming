@@ -7,3 +7,4 @@ plugins/
 *.json
 typings/
 .npmignore
+node_modules/
