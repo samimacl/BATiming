@@ -4,8 +4,7 @@ var test = (function () {
     test.beaconRegion = {
         id: 'BARM-Beacon',
         uuid: '20cae8a0-a9cf-11e3-a5e2-0800200c9a66', // set!
-        major: 104,
-        minor: 1000
+        major: 104
     };
 
     test.proximityNames = [
@@ -104,7 +103,7 @@ var test = (function () {
             locationManager.setDelegate(test.delegate);
 
             let reg = test.beaconRegion;
-            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
+            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major);
             test.startScanForBeacon(beaconRegion);
         }
 
