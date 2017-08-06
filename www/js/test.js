@@ -49,7 +49,7 @@ var test = (function () {
             test.delegate.didExitRegion = function (pluginResult) {
                 console.log("didExitRegion... EXIT DONE" + "<br>" + JSOn.stringify(pluginResult));
                 //setTimeout ExitFunc
-                test.exitRegionFunc(beaconRegion);
+                test.stopScanForBeacon(beaconRegion);
             };
 
             test.delegate.didEnterRegion = function (pluginResult) {
@@ -119,10 +119,7 @@ var test = (function () {
             .done()
     }
 
-    test.stopScanForBeacon = function () {
-        let reg = test.beaconRegion;
-        let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
-
+    test.stopScanForBeacon = function (beaconRegion) {
         locationManager.stopRangingBeaconsInRegion(beaconRegion)
             .fail(function (e) {
                 console.error(e);
