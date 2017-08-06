@@ -29,7 +29,7 @@ var test = (function () {
     }
 
     test.logToDom = function (message) {
-        var e = document.createElement('label');
+      /*  var e = document.createElement('label');
         e.innerText = message;
 
         var br = document.createElement('br');
@@ -38,7 +38,8 @@ var test = (function () {
         document.body.appendChild(br);
         document.body.appendChild(br2);
 
-        window.scrollTo(0, window.document.height);
+        window.scrollTo(0, window.document.height); */
+        console.log(message);
     };
 
     test.InitializeBeaconDelegate = function () {
@@ -74,12 +75,12 @@ var test = (function () {
                 }
             };
 
-            delegate.didStartMonitoringForRegion = function (pluginResult) {
+            test.delegate.didStartMonitoringForRegion = function (pluginResult) {
                 console.log('didStartMonitoringForRegion:', pluginResult);
                 test.logToDom('didStartMonitoringForRegion:' + JSON.stringify(pluginResult));
             };
 
-            delegate.didRangeBeaconsInRegion = function (pluginResult) {
+            test.delegate.didRangeBeaconsInRegion = function (pluginResult) {
                 test.logToDom('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
                 test.didRangeBeaconsInRegion(pluginResult);
 
@@ -97,11 +98,11 @@ var test = (function () {
                 }
             };
 
-            ba_beacons.delegate.monitoringDidFailForRegionWithError = function (error) {
+            test.delegate.monitoringDidFailForRegionWithError = function (error) {
                 test.logToDom('Beacon-Monitoring-Fehler', JSON.stringify(error));
             };
 
-            locationManager.setDelegate(delegate);
+            locationManager.setDelegate(test.delegate);
 
             let reg = test.beaconRegion;
             let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
@@ -130,6 +131,11 @@ var test = (function () {
 
         test.scheduledExitFunc = '';
         test.inBeaconRegion = false;
+        test.beaconMinor = 'unbekannt';
+    }
+
+    test.stopBeaconUsage = function() {
+        test.delegate = null;
         test.beaconMinor = 'unbekannt';
     }
 
