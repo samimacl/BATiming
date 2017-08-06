@@ -103,7 +103,7 @@ var test = (function () {
             locationManager.setDelegate(test.delegate);
 
             let reg = test.beaconRegion;
-            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major);
+            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid);
             test.startScanForBeacon(beaconRegion);
         }
 
