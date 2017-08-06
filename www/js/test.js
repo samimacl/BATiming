@@ -82,7 +82,6 @@ var test = (function () {
 
             test.delegate.didRangeBeaconsInRegion = function (pluginResult) {
                 test.logToDom('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
-                test.didRangeBeaconsInRegion(pluginResult);
 
                 if (pluginResult.beacons[0]) {
                     test.beaconMinor = pluginResult.beacons[0].minor;
