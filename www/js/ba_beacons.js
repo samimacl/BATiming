@@ -10,7 +10,7 @@ var ba_beacons = (function () {
     var ba_beacons = {};
 
     // Region by uuid and major 114 (BARM Beacon Area)
-    ba_beacons.beaconRegionLoctigo = {
+    ba_beacons.beaconRegion = {
         id: 'BARM-Beacon',
         uuid: '20cae8a0-a9cf-11e3-a5e2-0800200c9a66', // set!
         major: 104
