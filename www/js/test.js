@@ -4,7 +4,8 @@ var test = (function () {
     test.beaconRegion = {
         id: 'BARM-Beacon',
         uuid: '20cae8a0-a9cf-11e3-a5e2-0800200c9a66', // set!
-        major: 104
+        major: 104,
+        minor: 1000
     };
 
     test.proximityNames = [
@@ -19,33 +20,69 @@ var test = (function () {
         test.startScanForBeacon();
     }
 
+    test.logToDom = function (message) {
+        var e = document.createElement('label');
+        e.innerText = message;
+
+        var br = document.createElement('br');
+        var br2 = document.createElement('br');
+        document.body.appendChild(e);
+        document.body.appendChild(br);
+        document.body.appendChild(br2);
+
+        window.scrollTo(0, window.document.height);
+    };
+
     test.startScanForBeacon = function () {
-        test.delegate = new cordova.plugins.locationManager.Delegate();
+        var delegate = new cordova.plugins.locationManager.Delegate();
 
-        test.delegate.didDetermineStateForRegion = function (pluginResult) {
-
+        delegate.didDetermineStateForRegion = function (pluginResult) {
+            logToDom('[DOM] didDetermineStateForRegion: ' + JSON.stringify(pluginResult));
+            cordova.plugins.locationManager.appendToDeviceLog('[DOM] didDetermineStateForRegion: ' +
+                JSON.stringify(pluginResult));
         };
 
-        test.delegate.didStartMonitoringForRegion = function (pluginResult) {
-
+        delegate.didStartMonitoringForRegion = function (pluginResult) {
+            console.log('didStartMonitoringForRegion:', pluginResult);
+            logToDom('didStartMonitoringForRegion:' + JSON.stringify(pluginResult));
         };
 
-        test.delegate.didRangeBeaconsInRegion = function (pluginResult) {
+        delegate.didRangeBeaconsInRegion = function (pluginResult) {
+            logToDom('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
             test.didRangeBeaconsInRegion(pluginResult);
         };
 
-        locationManager.setDelegate(test.delegate);
+        locationManager.setDelegate(delegate);
+
         let reg = test.beaconRegion;
         let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
-        locationManager.didStartMonitoringForRegion(beaconRegion)
-            .fail(console.error)
-            .done()
 
         //start ranging
         locationManager.startRangingBeaconsInRegion(beaconRegion)
-            .fail(console.error)
+            .fail(function (e) {
+                console.error(e);
+            })
             .done()
+
+        /* locationManager.didStartMonitoringForRegion(beaconRegion)
+            .fail(function (e) {
+                console.error(e);
+            })
+            .done()
+        */
+
     };
+
+    test.stopScanForBeacon = function () {
+        let reg = test.beaconRegion;
+        let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
+
+        locationManager.stopRangingBeaconsInRegion(beaconRegion)
+            .fail(function (e) {
+                console.error(e);
+            })
+            .done();
+    }
 
     test.didRangeBeaconsInRegion = function (pluginResult) {
         if (0 == pluginResult.beacons.length) {
