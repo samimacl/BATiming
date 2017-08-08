@@ -45,6 +45,13 @@ var mainView = myApp.addView('.view-main', {
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
     test.initialize(); //start iBeaconRange
+
+    if (!userLoggedIn) {
+        userLoggedIn = true;
+        myapp.view.router.loadPage('views/login.html');
+
+        return false; //required to prevent default router action
+    }
 });
 
 myApp.onPageInit('login', function (page) {
