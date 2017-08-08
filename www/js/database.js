@@ -1,35 +1,60 @@
 /* ----------------------------------------------------------------------- 
-*   templateModule.js - Template für Modul
+*   database.js - Funktionen für den Zugriff auf die Firebase-Datenbank.
 *
 *   (c) 2017 WS14-II - Tobias Groß, Sascha Knöchel, Andreas Garben, Atiq Butt
 *
 *  ----------------------------------------------------------------------- */
 
-var ba_main = (function () {
-    "use strict";
+var Database = (function () {
+    staticObject = null;
+    this.fbInstance = null;
+    this.dbUrl = null;
 
-    //Application object
-    var ba_main = {};
-
-    // ********************************************************************
-    //Private variables & private methods
-
-    var var1;
-
-    function _myfunc(param) {
-        // code here
+    //Singleton-Pattern
+    return {
+        getInstance = function () {
+            if (staticObject == null) {
+                staticObject = new Database();
+            }
+            return staticObject;
+        }
     }
 
-    // ********************************************************************
-    //Member variables & member methods
+    function getFirebaseObject() {
+        if (fbInstance == null) {
+            fbInstance = new Firebase(dbUrl);
+        }
+    }
 
-    ba_main.attr1 = "";
-    ba_main.attr2 = {};
+    function setFirebaseObject(object) {
+        fbInstance = object;
+        //fbInstance.initializeApp({databaseUrl : dbUrl}); Muss im Login passieren
+    }
 
-    //init object
-    ba_main.init = function () {
-        //code here
-    };
+    function setDatabaseUrl(url) {
+        dbUrl = url;
+    }
 
-    return ba_main;
+    function setUserAuth(userMail, userPassword) {
+        fbInstance.auth(); //Mail+Pwd
+    }
+
+    function getSnapshotByPath(refPath) {
+        var ref = fbInstance.database().ref(refPath);
+        var result;
+        ref.once("value").then(function(snapshot) {
+            result = snapshot;
+        });
+        return result;
+    }
+
+    function getCurrentUserID() {
+        return fbInstance.User.uid;
+    }
+
+    function getCurrentUserData() {
+        return getSnapshotByPath("personen/person_" + getCurrentUserID());
+    }
+
+
 })();
