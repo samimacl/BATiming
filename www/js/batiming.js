@@ -6,6 +6,14 @@ var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
 var userLoggedIn = false; //temporär für Testzwecke
 
+var config = {
+    apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
+    authDomain: "ba-timing.firebaseapp.com",
+    databaseURL: "https://ba-timing.firebaseio.com",
+    storageBucket: "ba-timing.appspot.com",
+    messagingSenderId: "1050294194541"
+};
+
 Template7.global = {
     android: isAndroid,
     ios: isIos
@@ -33,6 +41,7 @@ var myApp = new Framework7({
             return false; //required to prevent default router action
         }
     }
+
 });
 
 // Add view
