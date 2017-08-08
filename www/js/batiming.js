@@ -6,6 +6,14 @@ var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
 var userLoggedIn = false; //temporär für Testzwecke
 
+var config = {
+    apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
+    authDomain: "ba-timing.firebaseapp.com",
+    databaseURL: "https://ba-timing.firebaseio.com",
+    storageBucket: "ba-timing.appspot.com",
+    messagingSenderId: "1050294194541"
+};
+
 Template7.global = {
     android: isAndroid,
     ios: isIos
@@ -31,9 +39,9 @@ var myApp = new Framework7({
             view.router.loadPage('views/login.html');
 
             return false; //required to prevent default router action
-        } 
+        }
     }
-    
+
 });
 
 // Add view
@@ -46,13 +54,12 @@ var mainView = myApp.addView('.view-main', {
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
     test.initialize(); //start iBeaconRange
-    
+
     if (!userLoggedIn) {
         userLoggedIn = true;
         myapp.view.router.loadPage('views/login.html');
 
         return false; //required to prevent default router action
-    } 
     }
 });
 
@@ -75,19 +82,19 @@ myApp.onPageInit('login', function (page) {
     });
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-  userLoggedIn = true;
-  user.providerData.forEach(function (profile) {
-    console.log("Sign-in provider: "+profile.providerId);
-    console.log("  Provider-specific UID: "+profile.uid);
-    console.log("  Name: "+profile.displayName);
-    console.log("  Email: "+profile.email);
-    console.log("  Photo URL: "+profile.photoURL);
-    console.log("  UUID: "+user.uuid);
-  });
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        userLoggedIn = true;
+        user.providerData.forEach(function (profile) {
+            console.log("Sign-in provider: " + profile.providerId);
+            console.log("  Provider-specific UID: " + profile.uid);
+            console.log("  Name: " + profile.displayName);
+            console.log("  Email: " + profile.email);
+            console.log("  Photo URL: " + profile.photoURL);
+            console.log("  UUID: " + user.uuid);
+        });
 
-  } else {
-   userLoggedIn = false;
-  }
+    } else {
+        userLoggedIn = false;
+    }
 })
