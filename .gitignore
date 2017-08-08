@@ -5,5 +5,5 @@ plugins/
 .vscode/*
 *.xml
 typings/
-.npmignore
+package-lock.json
 node_modules/
