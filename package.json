@@ -1,0 +1,23 @@
+{
+    "name": "MyApp",
+    "version": "1.0.0",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "cordova": {
+        "plugins": {
+            "cordova-plugin-console": {},
+            "cordova-plugin-statusbar": {},
+            "cordova-plugin-whitelist": {},
+            "com.unarin.cordova.beacon": {}
+        },
+        "platforms": []
+    },
+    "dependencies": {
+        "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
+        "cordova-android": "^6.2.3",
+        "cordova-plugin-console": "~1.0.1",
+        "cordova-plugin-statusbar": "~1.0.1",
+        "cordova-plugin-whitelist": "~1.2.0"
+    }
+}

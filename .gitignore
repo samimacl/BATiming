@@ -4,7 +4,6 @@ platforms/
 plugins/
 .vscode/*
 *.xml
-*.json
 typings/
 .npmignore
 node_modules/
