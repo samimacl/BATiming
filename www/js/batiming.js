@@ -4,7 +4,6 @@ batiming.Core = function () { };
 
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
-var userLoggedIn = false; //temporär für Testzwecke
 
 Template7.global = {
     android: isAndroid,
@@ -24,15 +23,7 @@ if (isAndroid) {
 var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
-    swipePanel: 'left',
-    preroute: function (view, options) {
-        if (!userLoggedIn) {
-            userLoggedIn = true;
-            view.router.loadPage('views/login.html');
-
-            return false; //required to prevent default router action
-        }
-    }
+    swipePanel: 'left'
 });
 
 // Add view
@@ -47,28 +38,44 @@ $$(document).on('deviceready', function () {
     test.initialize(); //start iBeaconRange
 });
 
-myApp.onPageInit('login', function (page) {
-    $$('.login-screen .list-button').on('click', function () {
-        var email = $$('.login-screen input[name="username"]').val();
-        var password = $$('.login-screen input[name="password"]').val();
+ $$('.login-screen .list-button').on('click', function () {
+    var email = $$('.login-screen input[name = "username"]').val();
+    var password = $$('.login-screen input[name = "password"]').val();
 
+    // Testzwecke
+    email = "gross@softbauware.de";
+    password = "tnsppv";
 
-        //  var auth = firebase.auth();
-        // // sign up
-        // const promise = auth.createUserWithEmailAndPassword(email, password);
-        // promise.catch(e => console.log(e.message));
-
-
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            if (errorCode === 'auth/wrong-password') {
-                alert('Wrong password.');
-            } else {
-                alert(errorMessage);
-            }
-            console.log(error);
-        });
+    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+        myApp.alert(error.message);
     });
 });
+
+ $$('.login-screen .register-login-screen').on('click', function () {
+    var email = $$('.login-screen input[name = "username"]').val();
+    var password = $$('.login-screen input[name = "password"]').val();
+
+    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+        myApp.alert(error.message);
+    }); 
+});
+
+ $$('.page .sign-out').on('click', function () {
+    firebase.auth().signOut().then(function() {
+        // Sign-out successful.
+         myApp.loginScreen();
+    }).catch(function(error) {
+        // An error happened.
+    });
+});
+
+
+firebase.auth().onAuthStateChanged(function(user) {
+  if (user) {
+    myApp.closeModal('.login-screen');
+    console.log(user);
+  } else {
+    // No user is signed in.
+  }
+});
+
