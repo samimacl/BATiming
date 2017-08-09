@@ -32,6 +32,9 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+// Load about page:
+mainView.router.load({pageName: 'settings'});
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
@@ -39,23 +42,21 @@ $$(document).on('deviceready', function () {
 });
 
  $$('.login-screen .list-button').on('click', function () {
-    var email = $$('.login-screen input[name = "username"]').val();
-    var password = $$('.login-screen input[name = "password"]').val();
-
-    // Testzwecke
-    email = "gross@softbauware.de";
-    password = "tnsppv";
-
-    firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
+    firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
 });
 
  $$('.login-screen .register-login-screen').on('click', function () {
-    var email = $$('.login-screen input[name = "username"]').val();
-    var password = $$('.login-screen input[name = "password"]').val();
+    firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function(error) {
+        myApp.alert(error.message);
+    }); 
+});
 
-    firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+ $$('.login-screen .resetpw-login-screen').on('click', function () {
+    firebase.auth().sendPasswordResetEmail($$('.login-screen input[name = "username"]').val()).then(function() {
+        myApp.alert("E-Mail versandt!");
+    }).catch(function(error) {
         myApp.alert(error.message);
     }); 
 });
@@ -66,16 +67,25 @@ $$(document).on('deviceready', function () {
          myApp.loginScreen();
     }).catch(function(error) {
         // An error happened.
+         myApp.alert(error.message);
     });
 });
 
-
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
+      //User is signed in.
     myApp.closeModal('.login-screen');
-    console.log(user);
   } else {
     // No user is signed in.
+    myApp.loginScreen();
   }
 });
 
+ $$('.page .list-button item-link').on('click', function () {
+    myApp.alert("E-Mail versandt!");
+});
+
+// In page callbacks:
+myApp.onPageInit('settings', function (page) {
+  // "page" variable contains all required information about loaded and initialized page 
+})
