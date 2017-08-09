@@ -1,6 +1,6 @@
 var batiming = batiming || {};
 
-batiming.Core = function () { };
+batiming.Core = function () {};
 
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
@@ -25,6 +25,7 @@ var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left',
+    materialRipple: true,
     preroute: function (view, options) {
         if (!userLoggedIn) {
             userLoggedIn = true;
@@ -44,7 +45,16 @@ var mainView = myApp.addView('.view-main', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
-    test.initialize(); //start iBeaconRange
+
+    $$('#b_beacon').on('click', function () {
+        test.initialize();
+    });
+
+    cordova.plugins.backgroundMode.enable();
+    if (isAndroid)
+        cordova.plugins.backgroundMode.overrideBackButton();
+    if (userLoggedIn)
+        test.initialize(); //start iBeaconRange
 });
 
 myApp.onPageInit('login', function (page) {

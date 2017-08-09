@@ -4,7 +4,8 @@ var test = (function () {
     test.beaconRegion = {
         id: 'BARM-Beacon',
         uuid: '20cae8a0-a9cf-11e3-a5e2-0800200c9a66', // set!
-        major: 104
+        major: 125,
+        minor: 18953
     };
 
     test.proximityNames = [
@@ -28,16 +29,16 @@ var test = (function () {
     }
 
     test.logToDom = function (message) {
-      /*  var e = document.createElement('label');
-        e.innerText = message;
+        /*  var e = document.createElement('label');
+          e.innerText = message;
 
-        var br = document.createElement('br');
-        var br2 = document.createElement('br');
-        document.body.appendChild(e);
-        document.body.appendChild(br);
-        document.body.appendChild(br2);
+          var br = document.createElement('br');
+          var br2 = document.createElement('br');
+          document.body.appendChild(e);
+          document.body.appendChild(br);
+          document.body.appendChild(br2);
 
-        window.scrollTo(0, window.document.height); */
+          window.scrollTo(0, window.document.height); */
         console.log(message);
     };
 
@@ -46,14 +47,12 @@ var test = (function () {
 
         if (test.delegate) {
             test.delegate.didExitRegion = function (pluginResult) {
-                console.log("didExitRegion... EXIT DONE" + "<br>" + JSOn.stringify(pluginResult));
-                //setTimeout ExitFunc
-                test.stopScanForBeacon(beaconRegion);
+                console.log("didExitRegion... EXIT DONE" + "<br>" + JSON.stringify(pluginResult));
+           //     test.stopScanForBeacon(beaconRegion);
             };
 
             test.delegate.didEnterRegion = function (pluginResult) {
                 console.log("didEnterRegion...ENTER DONE" + "<br>" + JSON.stringify(pluginResult));
-                test.inBeaconRegion = true;
                 test.startScanForBeacon(beaconRegion);
             };
 
@@ -63,14 +62,9 @@ var test = (function () {
                     JSON.stringify(pluginResult));
 
                 if (pluginResult.state == "CLRegionStateInside") {
-                    ba_beacons.inBeaconRegion = true;
-                    locationManager.stopRangingBeaconsInRegion(beaconRegion)
-                        .fail(function () {
-                            alert("Stop Ranging Beacons In Region...FAILED");
-                        })
-                        .done(function () {
-                            console.log("Ranging Beacons In Region...STOPPED");
-                        });
+                   console.log("In Region");
+                } else if (pluginResult.state === "CLRegionStateOutside") {
+                    console.log("Exit Region");
                 }
             };
 
@@ -80,8 +74,7 @@ var test = (function () {
             };
 
             test.delegate.didRangeBeaconsInRegion = function (pluginResult) {
-                test.logToDom('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
-
+                console.log('[DOM] didRangeBeaconsInRegion: ' + JSON.stringify(pluginResult));
                 if (pluginResult.beacons[0]) {
                     test.beaconMinor = pluginResult.beacons[0].minor;
                     test.inBeaconRegion = true;
@@ -103,11 +96,21 @@ var test = (function () {
             locationManager.setDelegate(test.delegate);
 
             let reg = test.beaconRegion;
-            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid);
-            test.startScanForBeacon(beaconRegion);
+            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
+            test.startMonitoringForRegion(beaconRegion);
         }
 
     };
+
+    test.startMonitoringForRegion = function (beaconRegion) {
+        locationManager.startMonitoringForRegion(beaconRegion)
+            .fail(function () {
+                alert("Start Monitoring For Region...FAILED");
+            })
+            .done(function () {
+                console.log("Monitoring For Region...START");
+            });
+    }
 
     test.startScanForBeacon = function (beaconRegion) {
         locationManager.startRangingBeaconsInRegion(beaconRegion)
@@ -124,12 +127,18 @@ var test = (function () {
             })
             .done();
 
+/*        locationManager.stopMonitoringForRegion(beaconRegion)
+            .fail(function (e) {
+                console.error(e);
+            })
+            .done(console.log("Stop Monitoring")); */
+
         test.scheduledExitFunc = '';
         test.inBeaconRegion = false;
         test.beaconMinor = 'unbekannt';
     }
 
-    test.stopBeaconUsage = function() {
+    test.stopBeaconUsage = function () {
         test.delegate = null;
         test.beaconMinor = 'unbekannt';
     }
