@@ -4,10 +4,11 @@ batiming.Core = function () {};
 
 var isAndroid = Framework7.prototype.device.android === true;
 var isIos = Framework7.prototype.device.isIos === true;
+var devMode = true;
 
 Template7.global = {
-    android: isAndroid,
-    ios: isIos
+    android: isAndroid = false,
+    ios: isIos = true
 }
 
 var $$ = Dom7;
@@ -81,6 +82,9 @@ firebase.auth().onAuthStateChanged(function (user) {
         myApp.closeModal('.login-screen');
         console.log(user);
     } else {
+        if (devMode) {
+            myApp.closeModal('.login-screen');
+        }
         // No user is signed in.
     }
 });
