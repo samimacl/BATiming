@@ -2,7 +2,7 @@ var storageManager = (function () {
     let self = this;
     let prefix = 'BATiming';
 
-    storageManager.getAllItems = function () {
+    storageManager.getAllItems = async function () {
         var items = [];
         for (var item in localStorage) {
             if (startsWith(item, prefix)) {
@@ -23,15 +23,15 @@ var storageManager = (function () {
         return prefix;
     };
 
-    storageManager.addItem = function (category, key) {
+    storageManager.addItem = async function (category, key) {
         localStorage[prefix + category] = key;
     };
 
-    storageManager.getItem = function (key) {
+    storageManager.getItem = async function (key) {
         return localStorage.getItem(key);
     };
 
-    storageManager.removeItem = function (key) {
+    storageManager.removeItem = async function (key) {
         localStorage.removeItem(key);
     };
 
