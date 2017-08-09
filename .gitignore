@@ -3,6 +3,5 @@ hooks/
 platforms/
 plugins/
 .vscode/*
-*.xml
 typings/
 node_modules/
