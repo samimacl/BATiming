@@ -24,15 +24,7 @@ var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left',
-    materialRipple: true,
-    preroute: function (view, options) {
-        if (!userLoggedIn) {
-            userLoggedIn = true;
-            view.router.loadPage('views/login.html');
-
-            return false; //required to prevent default router action
-        }
-    }
+    materialRipple: true
 });
 
 // Add view
@@ -55,8 +47,6 @@ $$(document).on('deviceready', function () {
     cordova.plugins.backgroundMode.enable();
     if (isAndroid)
         cordova.plugins.backgroundMode.overrideBackButton();
-    if (userLoggedIn)
-        test.initialize(); //start iBeaconRange
 });
 
  $$('.login-screen .list-button').on('click', function () {
@@ -76,34 +66,25 @@ $$(document).on('deviceready', function () {
         myApp.alert("E-Mail versandt!");
     }).catch(function(error) {
         myApp.alert(error.message);
-    }); 
+    });
 });
 
- $$('.page .sign-out').on('click', function () {
-    firebase.auth().signOut().then(function() {
+$$('.page .sign-out').on('click', function () {
+    firebase.auth().signOut().then(function () {
         // Sign-out successful.
-         myApp.loginScreen();
-    }).catch(function(error) {
+        myApp.loginScreen();
+    }).catch(function (error) {
         // An error happened.
          myApp.alert(error.message);
     });
 });
 
-firebase.auth().onAuthStateChanged(function(user) {
-  if (user) {
-      //User is signed in.
-    myApp.closeModal('.login-screen');
-  } else {
-    // No user is signed in.
-    myApp.loginScreen();
-  }
-});
 
- $$('.page .list-button item-link').on('click', function () {
-    myApp.alert("E-Mail versandt!");
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        myApp.closeModal('.login-screen');
+        console.log(user);
+    } else {
+        // No user is signed in.
+    }
 });
-
-// In page callbacks:
-myApp.onPageInit('settings', function (page) {
-  // "page" variable contains all required information about loaded and initialized page 
-})
