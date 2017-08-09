@@ -9,14 +9,17 @@
             "cordova-plugin-console": {},
             "cordova-plugin-statusbar": {},
             "cordova-plugin-whitelist": {},
-            "com.unarin.cordova.beacon": {}
+            "com.unarin.cordova.beacon": {},
+            "cordova-plugin-background-mode": {}
         },
         "platforms": []
     },
     "dependencies": {
         "com.unarin.cordova.beacon": "git+https://github.com/petermetz/cordova-plugin-ibeacon.git",
         "cordova-android": "^6.2.3",
+        "cordova-plugin-background-mode": "^0.7.2",
         "cordova-plugin-console": "~1.0.1",
+        "cordova-plugin-device": "^1.1.6",
         "cordova-plugin-statusbar": "~1.0.1",
         "cordova-plugin-whitelist": "~1.2.0"
     }
