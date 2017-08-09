@@ -47,6 +47,10 @@ $$(document).on('deviceready', function () {
         cordova.plugins.backgroundMode.overrideBackButton();
 });
 
+$$('#b_beacon').on('click', function () {
+    timeManager.startWorkFlow();
+});
+
  $$('.login-screen .list-button').on('click', function () {
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
