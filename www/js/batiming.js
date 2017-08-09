@@ -39,10 +39,7 @@ mainView.router.load({pageName: 'settings'});
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
-
-    $$('#b_beacon').on('click', function () {
-        test.initialize();
-    });
+    beacon.initialize();
 
     cordova.plugins.backgroundMode.enable();
     if (isAndroid)
@@ -78,7 +75,6 @@ $$('.page .sign-out').on('click', function () {
          myApp.alert(error.message);
     });
 });
-
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
