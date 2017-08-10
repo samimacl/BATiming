@@ -96,7 +96,7 @@ var formData = {
     'nachname': 'Garben',
     'email': 'john@doe.com',
     'matrikelnummer': '12345',
-    'fachbereich': 'Wirtschaftsinformatik'
+    'fachbereich': '2'
   }
 myApp.formFromData('#my-form', formData);
 });
