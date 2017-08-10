@@ -19,5 +19,30 @@ var timeManager = (function () {
         return data;
     }
 
+    timeManager.bookTimeEntry = async function (pluginResult) {
+        if (timeManager.state = 1) {
+            console.log("Begin saving time entry");
+            //Database.Save....
+            //make <p> visible with detail Information, button moves slower down with animation und got disabled
+            // if succesfull:
+            timeManager.state++;
+            let bookedData = [];
+            timeManager.writeHistoryEntry(bookedData);
+        }
+    }
+
+    timeManager.writeHistoryEntry = async function (bookedData) {
+        if (timeManager.state == 2) {
+            //write history entry  
+            timeManager.state++;
+            timeManager.stopWorkflow();
+        }
+    }
+
+    timeManager.stopWorkflow = function () {
+        timeManager.state = 0;
+        console.log('Workflow stopped...');
+    }
+
     return timeManager;
 })();

@@ -49,7 +49,6 @@ var beacon = (function () {
 
                 if (pluginResult.state == "CLRegionStateInside") {
                    console.log("In Region");
-                    alert("do something");
                 } else if (pluginResult.state === "CLRegionStateOutside") {
                     console.log("Exit Region");
                 }
@@ -65,6 +64,7 @@ var beacon = (function () {
                 if (pluginResult.beacons[0]) {
                     beacon.beaconMinor = pluginResult.beacons[0].minor;
                     beacon.inBeaconRegion = true;
+                    timeManager.bookTimeEntry(JSON.stringify(pluginResult));
 
                     if (beacon.stopRangingBeaconsUntilNewEntry) {
                         locationManager.stopRangingBeaconsInRegion(beacon.beaconRegion)
