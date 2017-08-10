@@ -2,13 +2,16 @@ var batiming = batiming || {};
 
 batiming.Core = function () {};
 
-var isAndroid = Framework7.prototype.device.android === true;
-var isIos = Framework7.prototype.device.isIos === true;
+//var isAndroid = Framework7.prototype.device.android === true;
+//var isIos = Framework7.prototype.device.isIos === true;
+var isAndroid = false;
+var isIos = true;
+
 var devMode = true;
 
 Template7.global = {
-    android: isAndroid = false,
-    ios: isIos = true
+    android: isAndroid,
+    ios: isIos
 }
 
 var $$ = Dom7;
