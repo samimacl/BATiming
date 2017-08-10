@@ -1,0 +1,88 @@
+{
+    "Vorlesungen": 
+    {
+        "Vorlesung_1" : 
+        {
+            "Titel" : "Testvorlesung",
+            "Studiengruppe_ID" : "Studiengruppe_5",
+            "Dozent_ID" : "Person_4",
+            "Termine" : 
+            {
+                "Termin_6" : 
+                {
+                    "Beginn" : "2017-03-15T13:30:00",
+                    "Ende" : "2017-03-15T16:45:00",
+                    "Raum" : "203",
+                    "Anwesenheiten" : 
+                    [
+                        {
+                            "Person" : "Person_2",
+                            "Kommt" : "2017-03-15T13:27:00",
+                            "Entschuldigt" : "0",
+                            "Bemerkung" : ""
+                        },
+                        {
+                            "Person" : "Person_3",
+                            "Rolle" : "0",
+                            "Kommt" : null,
+                            "Entschuldigt" : "1",
+                            "Bemerkung" : "Beurlaubt wegen Firmenveranstaltung"
+                        }                          
+                    ]
+                },
+                "Termin_7" : 
+                {
+                    "Beginn" : "2017-03-16T13:30:00",
+                    "Ende" : "2017-03-16T16:45:00",
+                    "Raum" : "203",
+                    "Anwesenheiten" : null
+                } 
+            }
+        }
+    },
+
+    "Personen" : 
+    {
+        "Person_2" : 
+        {
+            "Name" : "Knöchel",
+            "Vorname" :"Sascha",
+            "Studiengruppe" : "Studiengruppe_5",
+            "PersonalID" : "12345",
+            "Rolle" : "0"
+        },
+        "Person_3" :
+        {
+            "Name" : "Gross",
+            "Vorname" :"Tobias",
+            "Studiengruppe" : "Studiengruppe_55",
+            "PersonalID" : "12346",
+            "Rolle" : "0"
+        },
+        "Person_4" :
+        {
+            "Name" : "Kreinbihl",
+            "Vorname" :"Michael",
+            "Studiengruppe" : "",
+            "PersonalID" : "12347",
+            "Rolle" : "1"
+        }
+    },
+
+    "Studiengruppen" :
+    {
+        "Studiengruppe_5" :
+        {
+            "Name" : "WS-14-II",
+            "Fachbereich" : "Wirtschaftsinformatik",
+            "Studenten" :
+            [
+                "Person_2", "Person_3"
+            ],
+            "Vorlesungen" : 
+            [
+                "Vorlesung_1"
+            ]
+        }
+    }
+}
