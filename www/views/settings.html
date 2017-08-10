@@ -33,53 +33,57 @@
 
     <div class="page-content">
         <!-- Page content goes here -->
-        <div class="content-block-title">Icons and inputs</div>
-            <div class="list-block">
+        <div class="content-block-title">Stammdaten</div>
+            <form id="my-form" class="list-block store-data">
             <ul>
-                <!-- Text inputs -->
                 <li>
-                <div class="item-content">
-                    <div class="item-media"><i class="icon f7-icons">person</i></div>
-                    <div class="item-inner">
-                    <div class="item-input">
-                        <input type="text" placeholder="Your name">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon f7-icons">person</i></div>
+                        <div class="item-inner">
+                        <div class="item-input">
+                            <input type="text" name = "vorname" placeholder="Vorname">
+                        </div>
+                        </div>
                     </div>
-                    </div>
-                </div>
                 </li>
                 <li>
-                <div class="item-content">
-                    <div class="item-media"><i class="icon f7-icons">email</i></div>
-                    <div class="item-inner">
-                    <div class="item-input">
-                        <input type="email" placeholder="E-mail">
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon f7-icons">persons</i></div>
+                        <div class="item-inner">
+                        <div class="item-input">
+                            <input type="text" name = "nachname" placeholder="Nachname">
+                        </div>
                     </div>
-                    </div>
-                </div>
                 </li>
-            
-                <!-- Select -->
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon f7-icons">email</i></div>
+                        <div class="item-inner">
+                        <div class="item-input">
+                            <input type="email" name = "email" placeholder="E-mail">
+                        </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="item-content">
+                        <div class="item-media"><i class="icon f7-icons">card</i></div>
+                        <div class="item-inner">
+                        <div class="item-input">
+                            <input type="text" name = "matrikelnummer" placeholder="Matrikelnummer">
+                        </div>
+                    </div>
+                </li>
+                <li>
                 <li>
                 <div class="item-content">
-                    <div class="item-media"><i class="icon f7-icons">persons</i></div>
+                    <div class="item-media"><i class="icon f7-icons">at</i></div>
                     <div class="item-inner">
                     <div class="item-input">
-                        <select>
-                        <option>Male</option>
-                        <option>Female</option>
+                        <select name = "fachbereich">
+                            <option>Betriebswirtschaftslehre</option>
+                            <option>Wirtschaftsinformatik</option>
                         </select>
-                    </div>
-                    </div>
-                </div>
-                </li>
-            
-                <!-- Date -->
-                <li>
-                <div class="item-content">
-                    <div class="item-media"><i class="icon f7-icons">calendar</i></div>
-                    <div class="item-inner">
-                    <div class="item-input">
-                        <input type="date" placeholder="Birth day" value="2014-04-30">
                     </div>
                     </div>
                 </div>
