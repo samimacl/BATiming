@@ -34,12 +34,12 @@ var beacon = (function () {
         if (beacon.delegate) {
             beacon.delegate.didExitRegion = function (pluginResult) {
                 console.log("didExitRegion... EXIT DONE" + "<br>" + JSON.stringify(pluginResult));
-             //   beacon.stopScanForBeacon(beaconRegion);
+                beacon.stopScanForBeacon(beacon.beaconRegion);
             };
 
             beacon.delegate.didEnterRegion = function (pluginResult) {
                 console.log("didEnterRegion...ENTER DONE" + "<br>" + JSON.stringify(pluginResult));
-                beacon.startScanForBeacon(beaconRegion);
+                beacon.startScanForBeacon(beacon.beaconRegion);
             };
 
             beacon.delegate.didDetermineStateForRegion = function (pluginResult) {
@@ -67,7 +67,7 @@ var beacon = (function () {
                     beacon.inBeaconRegion = true;
 
                     if (beacon.stopRangingBeaconsUntilNewEntry) {
-                        locationManager.stopRangingBeaconsInRegion(beaconRegion)
+                        locationManager.stopRangingBeaconsInRegion(beacon.beaconRegion)
                             .fail(function (e) {
                                 console.error(e)
                             })
@@ -87,7 +87,7 @@ var beacon = (function () {
 
     };
 
-    beacon.startMonitoringForRegion = function () {
+    beacon.startMonitoringForRegion = function (beaconRegion) {
         locationManager.startMonitoringForRegion(beaconRegion)
             .fail(function () {
                 alert("Start Monitoring For Region...FAILED");

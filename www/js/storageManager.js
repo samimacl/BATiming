@@ -1,17 +1,16 @@
 var storageManager = (function () {
-    let self = this;
+    let storageManager = {};
     let prefix = 'BATiming';
 
     storageManager.getAllItems = async function () {
         var items = [];
         for (var item in localStorage) {
-            if (startsWith(item, prefix)) {
-                var key = self.getItem(item);
-                var value = [key, ';', self.getItem(key)];
+            if (storageManager.startsWith(item, prefix)) {
+                var key = this.getItem(item);
+                var value = [key, ';', this.getItem(key)];
                 items.push(value.join(''));
             }
         }
-
         return items;
     };
 
@@ -35,7 +34,11 @@ var storageManager = (function () {
         localStorage.removeItem(key);
     };
 
-    this.clear = function () {
+    storageManager.clear = function () {
         localStorage.clear();
     };
+
+    storageManager.addItem("Test", 5);
+
+    return storageManager;
 })();
