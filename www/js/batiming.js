@@ -116,3 +116,13 @@ firebase.auth().onAuthStateChanged(function (user) {
         // No user is signed in.
     }
 });
+
+// Handle Cordova Device Ready Event
+$$(document).on('deviceready', function () {
+    console.log("Device is ready!");
+    beacon.initialize();
+
+    cordova.plugins.backgroundMode.enable();
+    if (isAndroid)
+        cordova.plugins.backgroundMode.overrideBackButton();
+});
