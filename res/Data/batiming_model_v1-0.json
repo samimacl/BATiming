@@ -12,33 +12,61 @@
                 {
                     "Beginn" : "2017-03-15T13:30:00",
                     "Ende" : "2017-03-15T16:45:00",
-                    "Raum" : "203",
-                    "Anwesenheiten" : 
-                    [
-                        {
-                            "Person" : "Person_2",
-                            "Kommt" : "2017-03-15T13:27:00",
-                            "Entschuldigt" : "0",
-                            "Bemerkung" : ""
-                        },
-                        {
-                            "Person" : "Person_3",
-                            "Rolle" : "0",
-                            "Kommt" : null,
-                            "Entschuldigt" : "1",
-                            "Bemerkung" : "Beurlaubt wegen Firmenveranstaltung"
-                        }                          
-                    ]
+                    "Raum" : "203"
                 },
                 "Termin_7" : 
                 {
                     "Beginn" : "2017-03-16T13:30:00",
                     "Ende" : "2017-03-16T16:45:00",
-                    "Raum" : "203",
-                    "Anwesenheiten" : null
+                    "Raum" : "203"
                 } 
             }
         }
+    },
+
+    "Calendar" :
+    {
+
+    },
+
+    "Anwesenheiten" :
+    {
+        "Termin_6" :
+        {
+            "Vorlesung_ID" : "Vorlesung_1",
+            "DozentenFreigabe" : "2017-03-16T16:45:00",
+            "Teilnehmer" :
+            [
+                {
+                    "Person" : "Person_2",
+                    "Kommt" : "2017-03-15T13:27:00",
+                    "Entschuldigt" : "0",
+                    "Bemerkung" : ""
+                },
+                {
+                    "Person" : "Person_3",
+                    "Rolle" : "0",
+                    "Kommt" : null,
+                    "Entschuldigt" : "1",
+                    "Bemerkung" : "Beurlaubt wegen Firmenveranstaltung"
+                }                          
+            ]
+        }
+    },
+
+    "BookingHistory" :
+    {
+        "Person_2" :
+        [
+            {
+                "Vorlesung" : "Mathe 123",
+                "Termin_ID" : "Termin_6",
+                "Raum" : "203",
+                "Kommt" : "2017-03-15T13:27:00",
+                "Entschuldigt" : null,
+                "Bemerkung" : null
+            }
+        ]
     },
 
     "Personen" : 
@@ -66,6 +94,14 @@
             "Studiengruppe" : "",
             "PersonalID" : "12347",
             "Rolle" : "1"
+        },
+        "Person_OJTIJb6qKqR4nBXghGt1mgoCVZP2" :
+        {
+            "Name" : "TEST 1",
+            "Vorname" :"TEST",
+            "Studiengruppe" : "",
+            "PersonalID" : "12347",
+            "Rolle" : "0"
         }
     },
 

@@ -37,7 +37,7 @@ var Database = (function () {
     }
 
     function setUserAuth(userMail, userPassword) {
-        fbInstance.auth(); //Mail+Pwd
+        fbInstance.auth().signInWithEmailAndPassword(userMail, userPassword)
     }
 
     function getSnapshotByPath(refPath) {
@@ -55,6 +55,29 @@ var Database = (function () {
 
     function getCurrentUserData() {
         return getSnapshotByPath("personen/person_" + getCurrentUserID());
+    }
+
+    function createPerson(userID, name, vorname, studiengruppe, personalID, rolle) {
+        var ref = fbInstance.database().ref("personen/person_" + userID);
+        var newRef = ref.push();
+        newRef.set({
+            "Name" : name,
+            "Vorname" : vorname,
+            "Studiengruppe" : studiengruppe,
+            "PersonalID" : personalID,
+            "Rolle" : rolle //0 = Student, 1 = Dozent
+        })
+    }
+
+    function updatePerson(userID, name, vorname, studiengruppe, personalID) {
+        var ref = fbInstance.database().ref("personen/person_" + userID);
+        var newRef = ref.push();
+        newRef.set({
+            "Name" : name,
+            "Vorname" : vorname,
+            "Studiengruppe" : studiengruppe,
+            "PersonalID" : personalID,
+        })
     }
 
 
