@@ -28,7 +28,6 @@ var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left',
-    materialRipple: true
 });
 
 // Add view
@@ -37,9 +36,8 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-// Load about page:
-mainView.router.load({
-    pageName: 'settings'
+var dozentView = myApp.addView('.view-dozent', {
+    dynamicNavbar: true
 });
 
 // Handle Cordova Device Ready Event
@@ -103,6 +101,9 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(user);
     } else {
         if (devMode) {
+            // for test purposes
+            $$('.view-main').hide();
+            $$('.view-dozent').show();
             myApp.closeModal('.login-screen');
         }
         // No user is signed in.
