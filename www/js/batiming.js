@@ -28,6 +28,18 @@ var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left',
+<<<<<<< HEAD
+=======
+    materialRipple: true,
+    preroute: function (view, options) {
+        if (!userLoggedIn) {
+            userLoggedIn = true;
+            view.router.loadPage('views/login.html');
+
+            return false; //required to prevent default router action
+        }
+    }
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 });
 
 // Add view
@@ -43,11 +55,23 @@ var dozentView = myApp.addView('.view-dozent', {
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
+<<<<<<< HEAD
     beacon.initialize();
+=======
+
+    $$('#b_beacon').on('click', function () {
+        test.initialize();
+    });
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 
     cordova.plugins.backgroundMode.enable();
     if (isAndroid)
         cordova.plugins.backgroundMode.overrideBackButton();
+<<<<<<< HEAD
+=======
+    if (userLoggedIn)
+        test.initialize(); //start iBeaconRange
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 });
 
 $$('#b_beacon').on('click', function () {
