@@ -70,7 +70,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(user);
     } else {
         if (devMode) {
-            myApp.closeModal('.login-screen');
+            // myApp.closeModal('.login-screen');
         }
         // No user is signed in.
     }
