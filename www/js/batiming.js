@@ -7,7 +7,7 @@ batiming.Core = function () {};
 var isAndroid = false;
 var isIos = true;
 
-var devMode = true;
+var devMode = false;
 
 Template7.global = {
     android: isAndroid,
@@ -97,6 +97,13 @@ $$('.page .sign-out').on('click', function () {
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
+        Database.getCurrentPerson(function (data) {
+            console.log(data);
+            if (data.Rolle != null && data.Rolle == '1') {
+                $$('.view-main').hide();
+                $$('.view-dozent').show();
+            }
+        });
         myApp.closeModal('.login-screen');
         console.log(user);
     } else {
