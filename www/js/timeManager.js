@@ -1,10 +1,10 @@
 var timeManager = (function () {
     let timeManager = {};
 
-    timeManager.state = 0;
+    let state = 0;
 
     timeManager.startWorkflow = async function () {
-        if (timeManager.state > 0)
+        if (state > 0)
             throw Error('Workflow already started.');
         // check, whether localStorage for lesson is stored
         // if not, load data through database object
@@ -15,26 +15,26 @@ var timeManager = (function () {
         if (data == null)
             Database.load...
         */
-        timeManager.state++;
+        state++;
         return data;
     }
 
     timeManager.bookTimeEntry = async function (pluginResult) {
-        if (timeManager.state = 1) {
+        if (state = 1) {
             console.log("Begin saving time entry");
             //Database.Save....
             //make <p> visible with detail Information, button moves slower down with animation und got disabled
             // if succesfull:
-            timeManager.state++;
+            state++;
             let bookedData = [];
             timeManager.writeHistoryEntry(bookedData);
         }
     }
 
     timeManager.writeHistoryEntry = async function (bookedData) {
-        if (timeManager.state == 2) {
+        if (state == 2) {
             //write history entry  
-            timeManager.state++;
+            state++;
             timeManager.stopWorkflow();
         }
     }
