@@ -7,55 +7,55 @@
 *  ----------------------------------------------------------------------- */
 
 var Database = function () {
-    _singleton = null;
-    fbInstance = firebase; //Setter/Getter ??
-    fbUserMail = null;
-    fbUserPassword = null;
-    dbUrl = null;
+    var _singleton = null;
+    var fbInstance = firebase; //Setter/Getter ??
+    var fbUserMail = null;
+    var fbUserPassword = null;
+    var dbUrl = null;
 
     //Singleton-Pattern
     return this.getInstance();
 };
 
-Database.prototype.getInstance = function () {
+Database.getInstance = function () {
     if (_singleton == null) {
         _singleton = new Database();
     }
     return _singleton;
 }
 
-Database.prototype.createFirebaseObject = function(configParams, userMail, userPassword) {
+Database.createFirebaseObject = function(configParams, userMail, userPassword) {
     fbInstance = firebase;
     fbInstance.initializeApp(configParams);
     this.setUserAuth(userMail, userPassword);
 }
 
-Database.prototype.getFirebaseObject = function () {
+Database.getFirebaseObject = function () {
     return fbInstance;
 }
 
-Database.prototype.setFirebaseObject = function (object) {
+Database.setFirebaseObject = function (object) {
     fbInstance = object;
     //fbInstance.initializeApp({databaseUrl : dbUrl}); Muss im Login passieren
 }
 
-Database.prototype.setDatabaseUrl = function (url) {
+Database.setDatabaseUrl = function (url) {
     dbUrl = url;
 }
 
-Database.prototype.setUserAuth = function (userMail, userPassword) {
+Database.setUserAuth = function (userMail, userPassword) {
     fbUserMail = userMail;
     fbUserPassword = userPassword;
     fbInstance.auth().signInWithEmailAndPassword(userMail, userPassword);
 }
 
 //Returns String
-Database.prototype.getCurrentUserID = function () {
+Database.getCurrentUserID = function () {
     return fbInstance.auth().currentUser.uid;
 }
 
 //Returns JSON-Object
-Database.prototype.getCurrentPersonData = function (callbackFunction) {
+Database.getCurrentPerson = function (callbackFunction) {
     //Check if logged in
     if (firebase.auth().currentUser) {
         var ref = fbInstance.database().ref("Personen/Person_" + this.getCurrentUserID());
@@ -69,7 +69,7 @@ Database.prototype.getCurrentPersonData = function (callbackFunction) {
 }
 
 //Returns JSON-Object
-Database.prototype.getPersonByID = function(userID, callbackFunction) {
+Database.getPersonByID = function(userID, callbackFunction) {
     //Check if logged in
     if (firebase.auth().currentUser) {
         if (!userID) {
@@ -87,7 +87,7 @@ Database.prototype.getPersonByID = function(userID, callbackFunction) {
 }
 
 //Returns void
-Database.prototype.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
+Database.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
      //Check if logged in
     if (firebase.auth().currentUser) {
         var ref = fbInstance.database().ref("Personen/Person_" + userID);
@@ -105,7 +105,7 @@ Database.prototype.createPerson = function (userID, name, vorname, studiengruppe
 }
 
 //Returns void
-Database.prototype.updatePerson = function (userID, name, vorname, studiengruppe, personalID) {
+Database.updatePerson = function (userID, name, vorname, studiengruppe, personalID) {
     var ref = fbInstance.database().ref("Personen/Person_" + userID);
     // var newRef = ref.push();
     // newRef.set({
@@ -117,7 +117,7 @@ Database.prototype.updatePerson = function (userID, name, vorname, studiengruppe
 };
 
 //Returns String
-Database.prototype.getCurrentLectureKeyByStudyGroup = function(studyGroup, callbackFunction) {
+Database.getCurrentLectureKeyByStudyGroup = function(studyGroup, callbackFunction) {
      //Check if logged in
     if (firebase.auth().currentUser) {
         if (!studyGroup) {
@@ -149,7 +149,7 @@ Database.prototype.getCurrentLectureKeyByStudyGroup = function(studyGroup, callb
 }
 
 //Returns String-Array
-Database.prototype.getLectureKeysByStudyGroups = function(studyGroup, callbackFunction) {
+Database.getLectureKeysByStudyGroups = function(studyGroup, callbackFunction) {
      //Check if logged in
     if (firebase.auth().currentUser) {
         if (!studyGroup) {
@@ -170,7 +170,7 @@ Database.prototype.getLectureKeysByStudyGroups = function(studyGroup, callbackFu
 }
 
 //Returns JSON-Object
-Database.prototype.getLectureByKey = function (lectureKey, callbackFunction) {
+Database.getLectureByKey = function (lectureKey, callbackFunction) {
      //Check if logged in
     if (firebase.auth().currentUser) {
         if (!studyGroup) {
@@ -186,10 +186,10 @@ Database.prototype.getLectureByKey = function (lectureKey, callbackFunction) {
     }
 }
 
-Database.prototype.bookTimeEntry = function(terminID, excusedFlag, remark) {
+Database.bookTimeEntry = function(terminID, excusedFlag, remark) {
     return null;
 }
 
-Database.prototype.bookHistoryEntry = function(lectureDesc, terminID, roomDesc, bookingTime, remark) {
+Database.bookHistoryEntry = function(lectureDesc, terminID, roomDesc, bookingTime, remark) {
     return null;
 }
