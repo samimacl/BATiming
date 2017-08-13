@@ -112,3 +112,8 @@ var storedData = myApp.formGetData('my-form');
        alert('Yet there is no stored data for this form. Please try to change any field')
     }
 });
+
+ $$('.panel-close').on('click', function (e) {
+        myApp.closePanel();
+    });
+ 
