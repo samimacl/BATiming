@@ -97,6 +97,7 @@ var Database = (function () {
         }
     }
 
+<<<<<<< HEAD
     //Returns void
     Database.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
         //Check if logged in
@@ -160,6 +161,55 @@ var Database = (function () {
                                 if (!terminJSON.Ende >= timeString) {
                                     callbackFunction(terminJSON.Vorlesung_ID);
                                 }
+=======
+//Returns void
+Database.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
+     //Check if logged in
+    if (firebase.auth().currentUser) {
+        var ref = fbInstance.database().ref("Personen");
+        var newRef = ref.child("Person_" + userID);
+        newRef.set({
+            "Name" : name,
+            "Vorname" : vorname,
+            "Studiengruppe" : studiengruppe,
+            "PersonalID" : personalID,
+            "Rolle" : rolle //0 = Student, 1 = Dozent
+        });
+    } else {
+        //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+    }
+}
+
+//Returns void
+Database.updatePerson = function (userID, name, vorname, studiengruppe, personalID) {
+    var ref = fbInstance.database().ref("Personen/Person_" + userID);
+    // var newRef = ref.push();
+    // newRef.set({
+    //     "Name" : name,
+    //     "Vorname" : vorname,
+    //     "Studiengruppe" : studiengruppe,
+    //     "PersonalID" : personalID,
+    // })
+};
+
+//Returns String
+Database.getCurrentLectureKeyByStudyGroup = function(studyGroup, callbackFunction) {
+     //Check if logged in
+    if (firebase.auth().currentUser) {
+        if (!studyGroup) {
+            var date = Date();
+            var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+            var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+            var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
+            ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
+                // callbackFunction(snap.val());
+                snap.forEach(function(childNode){
+                    childNode.forEach(function(childChildNode) {
+                        var terminJSON = childChildNode.val();
+                        if (!terminJSON) {
+                            if (!terminJSON.Ende >= timeString) {
+                                callbackFunction(terminJSON.Vorlesung_ID);
+>>>>>>> Tobi
                             }
                         });
                     });
