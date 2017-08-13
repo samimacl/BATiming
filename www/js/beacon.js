@@ -34,12 +34,12 @@ var beacon = (function () {
         if (beacon.delegate) {
             beacon.delegate.didExitRegion = function (pluginResult) {
                 console.log("didExitRegion... EXIT DONE" + "<br>" + JSON.stringify(pluginResult));
-             //   beacon.stopScanForBeacon(beaconRegion);
+                beacon.stopScanForBeacon(beacon.beaconRegion);
             };
 
             beacon.delegate.didEnterRegion = function (pluginResult) {
                 console.log("didEnterRegion...ENTER DONE" + "<br>" + JSON.stringify(pluginResult));
-                beacon.startScanForBeacon(beaconRegion);
+                beacon.startScanForBeacon(beacon.beaconRegion);
             };
 
             beacon.delegate.didDetermineStateForRegion = function (pluginResult) {
@@ -49,7 +49,6 @@ var beacon = (function () {
 
                 if (pluginResult.state == "CLRegionStateInside") {
                    console.log("In Region");
-                    alert("do something");
                 } else if (pluginResult.state === "CLRegionStateOutside") {
                     console.log("Exit Region");
                 }
@@ -65,9 +64,10 @@ var beacon = (function () {
                 if (pluginResult.beacons[0]) {
                     beacon.beaconMinor = pluginResult.beacons[0].minor;
                     beacon.inBeaconRegion = true;
+                    timeManager.bookTimeEntry(JSON.stringify(pluginResult));
 
                     if (beacon.stopRangingBeaconsUntilNewEntry) {
-                        locationManager.stopRangingBeaconsInRegion(beaconRegion)
+                        locationManager.stopRangingBeaconsInRegion(beacon.beaconRegion)
                             .fail(function (e) {
                                 console.error(e)
                             })
@@ -87,7 +87,7 @@ var beacon = (function () {
 
     };
 
-    beacon.startMonitoringForRegion = function () {
+    beacon.startMonitoringForRegion = function (beaconRegion) {
         locationManager.startMonitoringForRegion(beaconRegion)
             .fail(function () {
                 alert("Start Monitoring For Region...FAILED");

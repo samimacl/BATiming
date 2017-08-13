@@ -2,13 +2,16 @@ var batiming = batiming || {};
 
 batiming.Core = function () {};
 
-var isAndroid = Framework7.prototype.device.android === true;
-var isIos = Framework7.prototype.device.isIos === true;
+//var isAndroid = Framework7.prototype.device.android === true;
+//var isIos = Framework7.prototype.device.isIos === true;
+var isAndroid = false;
+var isIos = true;
+
 var devMode = true;
 
 Template7.global = {
-    android: isAndroid = false,
-    ios: isIos = true
+    android: isAndroid,
+    ios: isIos
 }
 
 var $$ = Dom7;
@@ -25,7 +28,18 @@ var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left',
-    materialRipple: true
+<<<<<<< HEAD
+=======
+    materialRipple: true,
+    preroute: function (view, options) {
+        if (!userLoggedIn) {
+            userLoggedIn = true;
+            view.router.loadPage('views/login.html');
+
+            return false; //required to prevent default router action
+        }
+    }
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 });
 
 // Add view
@@ -34,39 +48,63 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-// Load about page:
-mainView.router.load({pageName: 'settings'});
+var dozentView = myApp.addView('.view-dozent', {
+    dynamicNavbar: true
+});
 
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
+<<<<<<< HEAD
     beacon.initialize();
+=======
+
+    $$('#b_beacon').on('click', function () {
+        test.initialize();
+    });
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 
     cordova.plugins.backgroundMode.enable();
     if (isAndroid)
         cordova.plugins.backgroundMode.overrideBackButton();
+<<<<<<< HEAD
+=======
+    if (userLoggedIn)
+        test.initialize(); //start iBeaconRange
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 });
 
 $$('#b_beacon').on('click', function () {
-    timeManager.startWorkFlow();
+    timeManager.startWorkflow()
+        .then(function (data) {
+            if (data == null)
+                throw Error("Data is null");
+            console.log("Workflow started" + "\n" + data);
+        })
+        .then(function () {
+            beacon.startMonitoringForRegion(beacon.beaconRegion);
+        })
+        .catch(function (e) {
+            console.log(e)
+        });
 });
 
- $$('.login-screen .list-button').on('click', function () {
+$$('.login-screen .list-button').on('click', function () {
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
 });
 
- $$('.login-screen .register-login-screen').on('click', function () {
-    firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function(error) {
+$$('.login-screen .register-login-screen').on('click', function () {
+    firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
-    }); 
+    });
 });
 
- $$('.login-screen .resetpw-login-screen').on('click', function () {
-    firebase.auth().sendPasswordResetEmail($$('.login-screen input[name = "username"]').val()).then(function() {
+$$('.login-screen .resetpw-login-screen').on('click', function () {
+    firebase.auth().sendPasswordResetEmail($$('.login-screen input[name = "username"]').val()).then(function () {
         myApp.alert("E-Mail versandt!");
-    }).catch(function(error) {
+    }).catch(function (error) {
         myApp.alert(error.message);
     });
 });
@@ -77,7 +115,7 @@ $$('.page .sign-out').on('click', function () {
         myApp.loginScreen();
     }).catch(function (error) {
         // An error happened.
-         myApp.alert(error.message);
+        myApp.alert(error.message);
     });
 });
 
@@ -87,6 +125,9 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(user);
     } else {
         if (devMode) {
+            // for test purposes
+            $$('.view-main').hide();
+            $$('.view-dozent').show();
             myApp.closeModal('.login-screen');
         }
         // No user is signed in.
