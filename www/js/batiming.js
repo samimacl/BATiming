@@ -108,10 +108,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(user);
     } else {
         if (devMode) {
-            // for test purposes
-            $$('.view-main').hide();
-            $$('.view-dozent').show();
-            myApp.closeModal('.login-screen');
+            // myApp.closeModal('.login-screen');
         }
         // No user is signed in.
     }
