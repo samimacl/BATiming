@@ -75,22 +75,21 @@ var Database = (function () {
         }
     }
 
-    //Returns void
-    Database.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
-        //Check if logged in
-        if (firebase.auth().currentUser) {
-            var ref = fbInstance.database().ref("Personen/Person_" + userID);
-            var newRef = ref.push();
-            newRef.set({
-                "Name": name,
-                "Vorname": vorname,
-                "Studiengruppe": studiengruppe,
-                "PersonalID": personalID,
-                "Rolle": rolle //0 = Student, 1 = Dozent
-            });
-        } else {
-            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
-        }
+//Returns void
+Database.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
+     //Check if logged in
+    if (firebase.auth().currentUser) {
+        var ref = fbInstance.database().ref("Personen");
+        var newRef = ref.child("Person_" + userID);
+        newRef.set({
+            "Name" : name,
+            "Vorname" : vorname,
+            "Studiengruppe" : studiengruppe,
+            "PersonalID" : personalID,
+            "Rolle" : rolle //0 = Student, 1 = Dozent
+        });
+    } else {
+        //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
     }
 
     //Returns void
