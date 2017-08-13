@@ -90,8 +90,8 @@ Database.getPersonByID = function(userID, callbackFunction) {
 Database.createPerson = function (userID, name, vorname, studiengruppe, personalID, rolle) {
      //Check if logged in
     if (firebase.auth().currentUser) {
-        var ref = fbInstance.database().ref("Personen/Person_" + userID);
-        var newRef = ref.push();
+        var ref = fbInstance.database().ref("Personen");
+        var newRef = ref.child("Person_" + userID);
         newRef.set({
             "Name" : name,
             "Vorname" : vorname,
