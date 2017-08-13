@@ -1,10 +1,13 @@
 var batiming = batiming || {};
 
-batiming.Core = function () { };
+batiming.Core = function () {};
 
-var isAndroid = Framework7.prototype.device.android === true;
-var isIos = Framework7.prototype.device.isIos === true;
-var userLoggedIn = false; //temporär für Testzwecke
+//var isAndroid = Framework7.prototype.device.android === true;
+//var isIos = Framework7.prototype.device.isIos === true;
+var isAndroid = false;
+var isIos = true;
+
+var devMode = true;
 
 Template7.global = {
     android: isAndroid,
@@ -25,6 +28,9 @@ var myApp = new Framework7({
     material: isAndroid === true ? true : false,
     template7Pages: true,
     swipePanel: 'left',
+<<<<<<< HEAD
+=======
+    materialRipple: true,
     preroute: function (view, options) {
         if (!userLoggedIn) {
             userLoggedIn = true;
@@ -33,6 +39,7 @@ var myApp = new Framework7({
             return false; //required to prevent default router action
         }
     }
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 });
 
 // Add view
@@ -41,34 +48,88 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+var dozentView = myApp.addView('.view-dozent', {
+    dynamicNavbar: true
+});
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
-    test.initialize(); //start iBeaconRange
+<<<<<<< HEAD
+    beacon.initialize();
+=======
+
+    $$('#b_beacon').on('click', function () {
+        test.initialize();
+    });
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
+
+    cordova.plugins.backgroundMode.enable();
+    if (isAndroid)
+        cordova.plugins.backgroundMode.overrideBackButton();
+<<<<<<< HEAD
+=======
+    if (userLoggedIn)
+        test.initialize(); //start iBeaconRange
+>>>>>>> 5e1fad37018a80ed9b80ab1e8a319f7c9739a426
 });
 
-myApp.onPageInit('login', function (page) {
-    $$('.login-screen .list-button').on('click', function () {
-        var email = $$('.login-screen input[name="username"]').val();
-        var password = $$('.login-screen input[name="password"]').val();
-
-
-        //  var auth = firebase.auth();
-        // // sign up
-        // const promise = auth.createUserWithEmailAndPassword(email, password);
-        // promise.catch(e => console.log(e.message));
-
-
-        firebase.auth().signInWithEmailAndPassword(email, password).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            if (errorCode === 'auth/wrong-password') {
-                alert('Wrong password.');
-            } else {
-                alert(errorMessage);
-            }
-            console.log(error);
+$$('#b_beacon').on('click', function () {
+    timeManager.startWorkflow()
+        .then(function (data) {
+            if (data == null)
+                throw Error("Data is null");
+            console.log("Workflow started" + "\n" + data);
+        })
+        .then(function () {
+            beacon.startMonitoringForRegion(beacon.beaconRegion);
+        })
+        .catch(function (e) {
+            console.log(e)
         });
+});
+
+$$('.login-screen .list-button').on('click', function () {
+    firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+        myApp.alert(error.message);
     });
+});
+
+$$('.login-screen .register-login-screen').on('click', function () {
+    firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+        myApp.alert(error.message);
+    });
+});
+
+$$('.login-screen .resetpw-login-screen').on('click', function () {
+    firebase.auth().sendPasswordResetEmail($$('.login-screen input[name = "username"]').val()).then(function () {
+        myApp.alert("E-Mail versandt!");
+    }).catch(function (error) {
+        myApp.alert(error.message);
+    });
+});
+
+$$('.page .sign-out').on('click', function () {
+    firebase.auth().signOut().then(function () {
+        // Sign-out successful.
+        myApp.loginScreen();
+    }).catch(function (error) {
+        // An error happened.
+        myApp.alert(error.message);
+    });
+});
+
+firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+        myApp.closeModal('.login-screen');
+        console.log(user);
+    } else {
+        if (devMode) {
+            // for test purposes
+            $$('.view-main').hide();
+            $$('.view-dozent').show();
+            myApp.closeModal('.login-screen');
+        }
+        // No user is signed in.
+    }
 });

@@ -3,7 +3,9 @@ hooks/
 platforms/
 plugins/
 .vscode/*
+<<<<<<< HEAD
 *.xml
+=======
+>>>>>>> 7ff308f78b8df213d0dfec2d166372d275c4f932
 typings/
-.npmignore
 node_modules/
