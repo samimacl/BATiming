@@ -65,16 +65,6 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
-// Handle Cordova Device Ready Event
-$$(document).on('deviceready', function () {
-    console.log("Device is ready!");
-    beacon.initialize();
-
-    cordova.plugins.backgroundMode.enable();
-    if (isAndroid)
-        cordova.plugins.backgroundMode.overrideBackButton();
-});
-
 // https://framework7.io/docs/form-storage.html
 // https://framework7.io/docs/form-data.html
 myApp.onPageInit('settings', function (page) {
