@@ -67,11 +67,7 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
-<<<<<<< HEAD
 $$('.login-screen .login-login-screen').on('click', function () {
-=======
-$$('.login-screen .list-button').on('click', function () {
->>>>>>> origin/atiq
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
