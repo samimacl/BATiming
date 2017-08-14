@@ -41,11 +41,10 @@ var batiming = (function () {
     });
 
     $$('.login-screen .register-login-screen').on('click', function () {
-        // firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
-        //     myApp.alert(error.message);
-        // });
+        firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+            myApp.alert(error.message);
+        });
         myApp.closeModal('.login-screen');
-
     });
 
     // Handle Cordova Device Ready Event
