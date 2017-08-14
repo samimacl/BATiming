@@ -7,7 +7,7 @@ batiming.Core = function () {};
 var isAndroid = false;
 var isIos = true;
 
-var devMode = false;
+var devMode = true;
 
 Template7.global = {
     android: isAndroid,
