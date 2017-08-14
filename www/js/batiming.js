@@ -40,6 +40,8 @@ var dozentView = myApp.addView('.view-dozent', {
     dynamicNavbar: true
 });
 
+var database = new Database();
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
@@ -65,7 +67,11 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
+<<<<<<< HEAD
 $$('.login-screen .login-login-screen').on('click', function () {
+=======
+$$('.login-screen .list-button').on('click', function () {
+>>>>>>> origin/atiq
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
@@ -99,11 +105,14 @@ $$('.sign-out').on('click', function () {
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-        Database.getCurrentPerson(function (data) {
+        database.getCurrentPerson(function (data) {
             console.log(data);
             if (data.Rolle != null && data.Rolle == '1') {
                 $$('.view-main').hide();
                 $$('.view-dozent').show();
+            } else {
+                $$('.view-main').show();
+                $$('.view-dozent').hide();
             }
         });
         myApp.closeModal('.login-screen');
@@ -131,25 +140,25 @@ $$(document).on('deviceready', function () {
 // https://framework7.io/docs/form-data.html
 myApp.onPageInit('settings', function (page) {
     // Daten befüllen Example
-var formData = {
-    'vorname': 'Andreas',
-    'nachname': 'Garben',
-    'email': 'john@doe.com',
-    'matrikelnummer': '12345',
-    'fachbereich': '2'
-  }
-myApp.formFromData('#my-form', formData);
+    var formData = {
+        'vorname': 'Andreas',
+        'nachname': 'Garben',
+        'email': 'john@doe.com',
+        'matrikelnummer': '12345',
+        'fachbereich': '2'
+    }
+    myApp.formFromData('#my-form', formData);
 });
- 
+
 myApp.onPageBack('settings', function (page) {
     // Daten Speichern beim Seite verlassen Example
-var storedData = myApp.formGetData('my-form');
-    if(storedData) {
+    var storedData = myApp.formGetData('my-form');
+    if (storedData) {
         // Speeichern
-       myApp.alert(JSON.stringify(storedData));
+        myApp.alert(JSON.stringify(storedData));
     } else {
         // keine Änderungen
-       alert('Yet there is no stored data for this form. Please try to change any field')
+        alert('Yet there is no stored data for this form. Please try to change any field')
     }
 });
 
