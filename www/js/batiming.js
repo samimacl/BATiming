@@ -40,6 +40,8 @@ var dozentView = myApp.addView('.view-dozent', {
     dynamicNavbar: true
 });
 
+var database = new Database();
+
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
