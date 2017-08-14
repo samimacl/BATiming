@@ -3,7 +3,7 @@ var storageManager = (function () {
     let prefix = 'BATiming';
     let separator = '_';
 
-    storageManager.getAllItems = async function () {
+    storageManager.getAllItems = function () {
         var items = [];
         for (var item in localStorage) {
             if (storageManager.startsWith(item, prefix)) {
@@ -23,18 +23,18 @@ var storageManager = (function () {
         return prefix;
     };
 
-    storageManager.addItem = async function (withPrefix, key, value) {
-        if (localStorage.getItem(withPrefix, key) === null) {
+    storageManager.addItem = function (withPrefix, key, value) {
+        if (this.getItem(withPrefix, key) === null) {
             let keyName = withPrefix === true ? prefix + separator + key : key;
             localStorage.setItem(keyName, JSON.stringify(value));
         }
     };
 
-    storageManager.getItem = async function (withPrefix, key) {
+    storageManager.getItem = function (withPrefix, key) {
         return withPrefix === true ? localStorage.getItem(prefix + separator + key) : localStorage.getItem(key);
     };
 
-    storageManager.removeItem = async function (withPrefix, key) {
+    storageManager.removeItem = function (withPrefix, key) {
         return withPrefix === true ? localStorage.removeItem(prefix + separator + key) : localStorage.removeItem(key);
     };
 
