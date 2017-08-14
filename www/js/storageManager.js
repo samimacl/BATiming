@@ -38,7 +38,14 @@ var storageManager = (function () {
         localStorage.clear();
     };
 
-    storageManager.addItem("Test", 5);
+    storageManager.setPrefix = function (pre) {
+        if (pre != null && pre !== "")
+            prefix = pre;
+    };
+
+    storageManager.getPrefix = function () {
+        return prefix;
+    };
 
     return storageManager;
 })();
