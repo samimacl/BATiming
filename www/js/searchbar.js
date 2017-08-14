@@ -1,0 +1,1 @@
+var mySearchbar = $$('.searchbar')[0].f7Searchbar;
