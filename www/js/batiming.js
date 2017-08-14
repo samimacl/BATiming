@@ -9,11 +9,7 @@ var batiming = (function () {
     let isAndroid = false;
     let isIos = true;
 
-<<<<<<< HEAD
     let devMode = false;
-=======
-var devMode = false;
->>>>>>> WTF so schwer...
 
     Template7.global = {
         android: isAndroid,
