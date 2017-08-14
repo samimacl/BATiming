@@ -36,6 +36,7 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
+<<<<<<< HEAD
 var dozentView = myApp.addView('.view-dozent', {
     dynamicNavbar: true
 });
@@ -66,6 +67,9 @@ $$('#b_beacon').on('click', function () {
 });
 
 $$('.login-screen .list-button').on('click', function () {
+=======
+ $$('.login-screen .list-button').on('click', function () {
+>>>>>>> dd6a52e1436d02221f9d8b767cf7fed8cd07f568
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
