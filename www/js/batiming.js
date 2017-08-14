@@ -7,7 +7,7 @@ batiming.Core = function () {};
 var isAndroid = false;
 var isIos = true;
 
-var devMode = false;
+var devMode = true;
 
 Template7.global = {
     android: isAndroid,
@@ -36,7 +36,6 @@ var mainView = myApp.addView('.view-main', {
     dynamicNavbar: true
 });
 
-<<<<<<< HEAD
 var dozentView = myApp.addView('.view-dozent', {
     dynamicNavbar: true
 });
@@ -66,19 +65,18 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
-$$('.login-screen .list-button').on('click', function () {
-=======
- $$('.login-screen .list-button').on('click', function () {
->>>>>>> dd6a52e1436d02221f9d8b767cf7fed8cd07f568
+$$('.login-screen .login-login-screen').on('click', function () {
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
 });
 
 $$('.login-screen .register-login-screen').on('click', function () {
-    firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
-        myApp.alert(error.message);
-    });
+    // firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+    //     myApp.alert(error.message);
+    // });
+    myApp.closeModal('.login-screen');
+
 });
 
 $$('.login-screen .resetpw-login-screen').on('click', function () {
@@ -89,7 +87,7 @@ $$('.login-screen .resetpw-login-screen').on('click', function () {
     });
 });
 
-$$('.page .sign-out').on('click', function () {
+$$('.sign-out').on('click', function () {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
         myApp.loginScreen();
@@ -112,7 +110,7 @@ firebase.auth().onAuthStateChanged(function (user) {
         console.log(user);
     } else {
         if (devMode) {
-            // myApp.closeModal('.login-screen');
+            myApp.closeModal('.login-screen');
         }
         // No user is signed in.
     }
@@ -157,5 +155,12 @@ var storedData = myApp.formGetData('my-form');
 
  $$('.panel-close').on('click', function (e) {
         myApp.closePanel();
-    });
- 
+});
+
+$$('.login-screen input[name = "username"]').once('keyup keydown change', function (e) { 
+  console.log('input value changed');
+});
+
+$$('.login-screen input[name = "password"]').once('keyup keydown change', function (e) { 
+  console.log('input value changed'); 
+});
