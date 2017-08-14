@@ -98,7 +98,7 @@ var batiming = (function () {
     });
 
     $$('.panel-close').on('click', function (e) {
-            myApp.closePanel();
+        myApp.closePanel();
     });
 
     return batiming;
