@@ -65,7 +65,7 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
-$$('.login-screen .list-button').on('click', function () {
+$$('.login-screen .login-login-screen').on('click', function () {
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
