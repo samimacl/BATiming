@@ -74,7 +74,7 @@ var beacon = (function () {
             };
 
             locationManager.setDelegate(delegate);
-            let reg = beacon.RegionData;
+            let reg = regionData;
             let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
         }
 
