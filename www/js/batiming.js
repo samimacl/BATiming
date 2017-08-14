@@ -7,7 +7,7 @@ batiming.Core = function () {};
 var isAndroid = false;
 var isIos = true;
 
-var devMode = false;
+var devMode = true;
 
 Template7.global = {
     android: isAndroid,
@@ -65,16 +65,18 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
-$$('.login-screen .list-button').on('click', function () {
+$$('.login-screen .login-login-screen').on('click', function () {
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
 });
 
 $$('.login-screen .register-login-screen').on('click', function () {
-    firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
-        myApp.alert(error.message);
-    });
+    // firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+    //     myApp.alert(error.message);
+    // });
+    myApp.closeModal('.login-screen');
+
 });
 
 $$('.login-screen .resetpw-login-screen').on('click', function () {
@@ -85,7 +87,7 @@ $$('.login-screen .resetpw-login-screen').on('click', function () {
     });
 });
 
-$$('.page .sign-out').on('click', function () {
+$$('.sign-out').on('click', function () {
     firebase.auth().signOut().then(function () {
         // Sign-out successful.
         myApp.loginScreen();
@@ -115,7 +117,7 @@ firebase.auth().onAuthStateChanged(function (fbUser) {
     } else {
         storageManager.removeItem(true, 'userData');
         if (devMode) {
-            // myApp.closeModal('.login-screen');
+            myApp.closeModal('.login-screen');
         }
         // No user is signed in.
     }
