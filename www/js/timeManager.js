@@ -3,20 +3,26 @@ var timeManager = (function () {
 
     let state = 0;
 
+    function isDateInLecture(checkDate) {
+        let now = Date().now;
+        let date = Date(checkDate);
+        return date <= now;
+    };
+
     timeManager.startWorkflow = async function () {
         if (state > 0)
             throw Error('Workflow already started.');
         // check, whether localStorage for lesson is stored
         // if not, load data through database object
-        let id = 'BATimingTest';
-        let data = await storageManager.getItem(id);
-
-        /* 
-        if (data == null)
-            Database.load...
-        */
-        state++;
-        return data;
+        let currentLecture = storageManager.getItem(true, 'currentLecture');
+        if (currentLecture === null) {
+            let user = JSON.parse(storageManager.getItem(true, 'userData'));
+            database.getCurrentLectureKeyByStudyGroup(user.Studiengruppe, function (data) {
+                console.log(data);
+            });
+        } else {
+            // if (isDateInLecture(current))
+        }
     }
 
     timeManager.bookTimeEntry = async function (pluginResult) {
