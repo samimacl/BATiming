@@ -7,7 +7,7 @@ batiming.Core = function () {};
 var isAndroid = false;
 var isIos = true;
 
-var devMode = true;
+var devMode = false;
 
 Template7.global = {
     android: isAndroid,
@@ -40,8 +40,6 @@ var dozentView = myApp.addView('.view-dozent', {
     dynamicNavbar: true
 });
 
-var database = new Database();
-
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
@@ -67,60 +65,6 @@ $$('#b_beacon').on('click', function () {
         });
 });
 
-$$('.login-screen .login-login-screen').on('click', function () {
-    firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
-        myApp.alert(error.message);
-    });
-});
-
-$$('.login-screen .register-login-screen').on('click', function () {
-    // firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
-    //     myApp.alert(error.message);
-    // });
-    myApp.closeModal('.login-screen');
-
-});
-
-$$('.login-screen .resetpw-login-screen').on('click', function () {
-    firebase.auth().sendPasswordResetEmail($$('.login-screen input[name = "username"]').val()).then(function () {
-        myApp.alert("E-Mail versandt!");
-    }).catch(function (error) {
-        myApp.alert(error.message);
-    });
-});
-
-$$('.sign-out').on('click', function () {
-    firebase.auth().signOut().then(function () {
-        // Sign-out successful.
-        myApp.loginScreen();
-    }).catch(function (error) {
-        // An error happened.
-        myApp.alert(error.message);
-    });
-});
-
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
-        database.getCurrentPerson(function (data) {
-            console.log(data);
-            if (data.Rolle != null && data.Rolle == '1') {
-                $$('.view-main').hide();
-                $$('.view-dozent').show();
-            } else {
-                $$('.view-main').show();
-                $$('.view-dozent').hide();
-            }
-        });
-        myApp.closeModal('.login-screen');
-        console.log(user);
-    } else {
-        if (devMode) {
-            myApp.closeModal('.login-screen');
-        }
-        // No user is signed in.
-    }
-});
-
 // Handle Cordova Device Ready Event
 $$(document).on('deviceready', function () {
     console.log("Device is ready!");
@@ -130,7 +74,6 @@ $$(document).on('deviceready', function () {
     if (isAndroid)
         cordova.plugins.backgroundMode.overrideBackButton();
 });
-
 
 // https://framework7.io/docs/form-storage.html
 // https://framework7.io/docs/form-data.html
@@ -160,12 +103,4 @@ myApp.onPageBack('settings', function (page) {
 
  $$('.panel-close').on('click', function (e) {
         myApp.closePanel();
-});
-
-$$('.login-screen input[name = "username"]').once('keyup keydown change', function (e) { 
-  console.log('input value changed');
-});
-
-$$('.login-screen input[name = "password"]').once('keyup keydown change', function (e) { 
-  console.log('input value changed'); 
 });
