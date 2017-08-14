@@ -146,8 +146,8 @@ var database = (function () {
     database.getCurrentLectureKeyByStudyGroup = function (studyGroup, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (!studyGroup) {
-                var date = Date();
+            if (studyGroup != null) {
+                var date = new Date();
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                 var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                 var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
