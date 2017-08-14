@@ -40,6 +40,14 @@ var batiming = (function () {
         dynamicNavbar: true
     });
 
+    $$('.login-screen .register-login-screen').on('click', function () {
+        // firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+        //     myApp.alert(error.message);
+        // });
+        myApp.closeModal('.login-screen');
+
+    });
+
     // Handle Cordova Device Ready Event
     $$(document).on('deviceready', function () {
         console.log("Device is ready!");
@@ -62,6 +70,16 @@ var batiming = (function () {
             .catch(function (e) {
                 console.log(e)
             });
+    });
+
+    $$('.sign-out').on('click', function () {
+        firebase.auth().signOut().then(function () {
+            // Sign-out successful.
+            myApp.loginScreen();
+        }).catch(function (error) {
+            // An error happened.
+            myApp.alert(error.message);
+        });
     });
 
     $$('.login-screen .list-button').on('click', function () {
@@ -114,9 +132,8 @@ var batiming = (function () {
         } else {
             storageManager.removeItem(true, 'userData');
             if (devMode) {
-                // myApp.closeModal('.login-screen');
+                myApp.closeModal('.login-screen');
             }
-            // No user is signed in.
         }
     });
 
