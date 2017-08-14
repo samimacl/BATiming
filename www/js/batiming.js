@@ -58,7 +58,7 @@ $$('#b_beacon').on('click', function () {
             console.log("Workflow started" + "\n" + data);
         })
         .then(function () {
-            beacon.startMonitoringForRegion(beacon.beaconRegion);
+           // beacon.startMonitoringForRegion(beacon.beaconRegion);
         })
         .catch(function (e) {
             console.log(e)
@@ -95,10 +95,12 @@ $$('.page .sign-out').on('click', function () {
     });
 });
 
-firebase.auth().onAuthStateChanged(function (user) {
-    if (user) {
+firebase.auth().onAuthStateChanged(function (fbUser) {
+    if (fbUser) {
         database.getCurrentPerson(function (data) {
             console.log(data);
+            if (data == null)
+                return;
             if (data.Rolle != null && data.Rolle == '1') {
                 $$('.view-main').hide();
                 $$('.view-dozent').show();
@@ -106,27 +108,18 @@ firebase.auth().onAuthStateChanged(function (user) {
                 $$('.view-main').show();
                 $$('.view-dozent').hide();
             }
+            storageManager.addItem(true, 'userData', data);
+            myApp.closeModal('.login-screen');
         });
-        myApp.closeModal('.login-screen');
-        console.log(user);
+        console.log(fbUser);
     } else {
+        storageManager.removeItem(true, 'userData');
         if (devMode) {
             // myApp.closeModal('.login-screen');
         }
         // No user is signed in.
     }
 });
-
-// Handle Cordova Device Ready Event
-$$(document).on('deviceready', function () {
-    console.log("Device is ready!");
-    beacon.initialize();
-
-    cordova.plugins.backgroundMode.enable();
-    if (isAndroid)
-        cordova.plugins.backgroundMode.overrideBackButton();
-});
-
 
 // https://framework7.io/docs/form-storage.html
 // https://framework7.io/docs/form-data.html
@@ -154,7 +147,6 @@ myApp.onPageBack('settings', function (page) {
     }
 });
 
- $$('.panel-close').on('click', function (e) {
-        myApp.closePanel();
-    });
- 
+$$('.panel-close').on('click', function (e) {
+    myApp.closePanel();
+});
