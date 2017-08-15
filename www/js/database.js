@@ -170,6 +170,7 @@ var database = (function () {
                 var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                 var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
                 ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
+                    console.log("OnValue --> " + snap.val());
                     // callbackFunction(snap.val());
                     snap.forEach(function (childNode) {
                         childNode.forEach(function (childChildNode) {
