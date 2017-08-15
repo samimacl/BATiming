@@ -12,20 +12,19 @@ var myApp;
 var batiming = (function () {
     let batiming = {};
 
-    //var isAndroid = Framework7.prototype.device.android === true;
-    //var isIos = Framework7.prototype.device.isIos === true;
-    let isAndroid = false;
-    let isIos = true;
-
-    let devMode = false;
+    //let batiming.isAndroid = Framework7.prototype.device.android === true;
+    //let batiming.isIos = Framework7.prototype.device.batiming.isIos === true;
+    batiming.isAndroid = false;
+    batiming.isIos = true;
+    batiming.devMode = false;
 
     Template7.global = {
-        android: isAndroid,
-        ios: isIos
+        android: batiming.isAndroid,
+        ios: batiming.isIos
     }
 
     //add css styles
-    if (isAndroid) {
+    if (batiming.isAndroid) {
         $$('.view.navbar-through').removeClass('navbar-through').addClass('navbar-fixed');
         // Insert content/elements, to the beginning of element specified in parameter
         $$('.view .navbar').prependTo('.view .page');
@@ -33,7 +32,7 @@ var batiming = (function () {
 
     // Initialize app
     myApp = new Framework7({
-        material: isAndroid === true ? true : false,
+        material: batiming.isAndroid === true ? true : false,
         template7Pages: true,
         swipePanel: 'left',
     });
@@ -54,7 +53,7 @@ var batiming = (function () {
         beacon.initialize();
 
         cordova.plugins.backgroundMode.enable();
-        if (isAndroid)
+        if (batiming.isAndroid)
             cordova.plugins.backgroundMode.overrideBackButton();
     });
 

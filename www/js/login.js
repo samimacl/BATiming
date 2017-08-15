@@ -14,7 +14,6 @@ var login = (function () {
         firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
             myApp.alert(error.message);
         });
-        myApp.closeModal('.login-screen');
     });
 
     $$('.login-screen .list-button').on('click', function () {
@@ -76,7 +75,7 @@ var login = (function () {
             console.log(fbUser);
         } else {
             storageManager.removeItem(true, 'userData');
-            if (devMode) {
+            if (batiming.devMode) {
                 myApp.closeModal('.login-screen');
             }
         }
