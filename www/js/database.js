@@ -14,9 +14,9 @@ var database = (function () {
     let fbUserPassword = null;
     let dbUrl = null;
 
-    database.createFirebaseObject = function (configParams, userMail, userPassword) {
+    Database.initFirebase = function (configParams, userMail, userPassword) {
         fbInstance = firebase;
-        //  fbInstance.initializeApp(configParams); Ist bereits in Index, deshalb unnötig
+        fbInstance.initializeApp(configParams);
         this.setUserAuth(userMail, userPassword);
     }
 
@@ -24,8 +24,11 @@ var database = (function () {
         return fbInstance;
     }
 
-    database.setFirebaseObject = function (object) {
+    //(obsolete) --> Firebase-Object wird intern gesetzt, lediglich initFirebase(..) muss aufgerufen werden.
+    Database.setFirebaseObject = function (object, userMail, userPassword) {
         fbInstance = object;
+        fbUserMail = userMail;
+        fbUserPassword = userPassword;
         //fbInstance.initializeApp({databaseUrl : dbUrl}); Muss im Login passieren
     }
 
@@ -131,15 +134,30 @@ var database = (function () {
     };
 
     //Returns void
-    database.updatePerson = function (userID, name, vorname, studiengruppe, personalID) {
-        var ref = fbInstance.database().ref("Personen/Person_" + userID);
-        // var newRef = ref.push();
-        // newRef.set({
-        //     "Name" : name,
-        //     "Vorname" : vorname,
-        //     "Studiengruppe" : studiengruppe,
-        //     "PersonalID" : personalID,
-        // })
+    Database.updatePerson = function (userID, secondName, firstName, studyGroup, personalID) {
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("Personen/Person_" + userID);
+            ref.set({
+                "Name" : name,
+                "Vorname" : vorname,
+                "Studiengruppe" : studiengruppe,
+                "PersonalID" : personalID,
+            });
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("Personen/Person_" + userID);
+                    ref.set({
+                        "Name" : name,
+                        "Vorname" : vorname,
+                        "Studiengruppe" : studiengruppe,
+                        "PersonalID" : personalID,
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
     };
 
     //Returns String
@@ -268,13 +286,89 @@ var database = (function () {
             this.setUserAuth(this.userMail, this.userPassword);
         }
     }
-
-    database.bookTimeEntry = function (terminID, excusedFlag, remark) {
-        return null;
+    
+    //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
+    //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
+    //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
+    Database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
+            ref.set({
+                "Bemerkung" : remark,
+                "Entschuldigt" : excusedFlag,
+                "Kommt" : timestampString,
+                "Person" : personID
+            });
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
+                    ref.set({
+                        "Bemerkung" : remark,
+                        "Entschuldigt" : excusedFlag,
+                        "Kommt" : timestampString,
+                        "Person" : personID
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
     }
 
-    database.bookHistoryEntry = function (lectureDesc, terminID, roomDesc, bookingTime, remark) {
-        return null;
+    //Returns void --> Dozentenfreigabe eines Termins
+    //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
+    //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
+    Database.releaseLectureHistoryEntry = function (terminID, dozentID, timestampString) {
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("LectureHistory/" + terminID);
+            ref.update({
+                "ReleaseTime" : timestampString,
+                "ReleasePersonID" : dozentID
+            });
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("LectureHistory/" + terminID);
+                    ref.update({
+                        "ReleaseTime" : timestampString,
+                        "ReleasePersonID" : dozentID
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
+    //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
+    //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
+    Database.bookHistoryEntry = function (personID, lectureID, terminID, roomDesc, remark, excusedFlag, timestampString) {
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
+            ref.set({
+                "Bemerkung" : remark,
+                "Entschuldigt" : excusedFlag,
+                "Kommt" : timestampString,
+                "Raum" : roomDesc,
+                "VorlesungID" : lectureID
+            });
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
+                    ref.set({
+                        "Bemerkung" : remark,
+                        "Entschuldigt" : excusedFlag,
+                        "Kommt" : timestampString,
+                        "Raum" : roomDesc,
+                        "VorlesungID" : lectureID
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
     }
 
     return database;
