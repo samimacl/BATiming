@@ -1,3 +1,11 @@
+/* ----------------------------------------------------------------------------- 
+ *
+ *   batiming.js - Core-Klasse, initializiert App.
+ *
+ *   (c) 2017 WS14-II - Tobias Groß, Sascha Knöchel, Andreas Garben, Atiq Butt
+ *
+ *  ------------------------------------------------------------------------- */
+
 var $$ = Dom7;
 var myApp;
 

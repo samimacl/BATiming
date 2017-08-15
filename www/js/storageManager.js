@@ -1,3 +1,11 @@
+/* ----------------------------------------------------------------------------- 
+ *
+ *   storageManager.js - Util-Klasse für Zugriff auf localStorage.
+ *
+ *   (c) 2017 WS14-II - Tobias Groß, Sascha Knöchel, Andreas Garben, Atiq Butt
+ *
+ *  ------------------------------------------------------------------------- */
+
 var storageManager = (function () {
     let storageManager = {};
     let prefix = 'BATiming';

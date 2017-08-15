@@ -1,3 +1,11 @@
+/* ----------------------------------------------------------------------------- 
+ *
+ *   timeManager.js - Funktionen die zeitliche Erfassung.
+ *
+ *   (c) 2017 WS14-II - Tobias Groß, Sascha Knöchel, Andreas Garben, Atiq Butt
+ *
+ *  ------------------------------------------------------------------------- */
+
 var timeManager = (function () {
     let timeManager = {};
 

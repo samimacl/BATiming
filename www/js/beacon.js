@@ -1,3 +1,11 @@
+/* ----------------------------------------------------------------------------- 
+ *
+ *   beacon.js - Funktionen für die Kommunikation von iBeacons.
+ *
+ *   (c) 2017 WS14-II - Tobias Groß, Sascha Knöchel, Andreas Garben, Atiq Butt
+ *
+ *  ------------------------------------------------------------------------- */
+
 var beacon = (function () {
     let beacon = {};
 
