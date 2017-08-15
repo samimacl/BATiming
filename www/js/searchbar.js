@@ -9,7 +9,7 @@
 var searchBar = (function() {
     let searchbar = {};
 
-    searchbar.instance = $$('.searchbar')[0].f7Searchbar;
+    // searchbar.instance = $$('.searchbar')[0].f7Searchbar;
 
     return searchbar;
 })(); 
