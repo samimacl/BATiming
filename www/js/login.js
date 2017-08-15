@@ -16,11 +16,11 @@ var login = (function () {
         });
     });
 
-    $$('.login-screen .list-button').on('click', function () {
+   /* $$('.login-screen .list-button').on('click', function () {
         firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
             myApp.alert(error.message);
         });
-    });
+    }); */
 
     $$('.login-screen .register-login-screen').on('click', function () {
         firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
