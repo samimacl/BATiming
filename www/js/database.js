@@ -1,10 +1,10 @@
-/* ----------------------------------------------------------------------------- 
+/* ----------------------------------------------------------------------- 
  *
  *   database.js - Funktionen für den Zugriff auf die Firebase-Datenbank.
  *
  *   (c) 2017 WS14-II - Tobias Groß, Sascha Knöchel, Andreas Garben, Atiq Butt
  *
- *  ------------------------------------------------------------------------- */
+ *  ----------------------------------------------------------------------- */
 
 var database = (function () {
     let database = {};
@@ -14,7 +14,7 @@ var database = (function () {
     let fbUserPassword = null;
     let dbUrl = null;
 
-    Database.initFirebase = function (configParams, userMail, userPassword) {
+    database.initFirebase = function (configParams, userMail, userPassword) {
         fbInstance = firebase;
         fbInstance.initializeApp(configParams);
         this.setUserAuth(userMail, userPassword);
@@ -25,14 +25,14 @@ var database = (function () {
     }
 
     //(obsolete) --> Firebase-Object wird intern gesetzt, lediglich initFirebase(..) muss aufgerufen werden.
-    Database.setFirebaseObject = function (object, userMail, userPassword) {
+    database.setFirebaseObject = function (object, userMail, userPassword) {
         fbInstance = object;
         fbUserMail = userMail;
         fbUserPassword = userPassword;
         //fbInstance.initializeApp({databaseUrl : dbUrl}); Muss im Login passieren
     }
 
-    database.setdatabaseUrl = function (url) {
+    database.setDatabaseUrl = function (url) {
         dbUrl = url;
     }
 
@@ -107,11 +107,11 @@ var database = (function () {
             var ref = fbInstance.database().ref("Personen");
             var newRef = ref.child("Person_" + userID);
             newRef.set({
-                "Name": name,
-                "Vorname": vorname,
-                "Studiengruppe": studiengruppe,
-                "PersonalID": personalID,
-                "Rolle": rolle //0 = Student, 1 = Dozent
+                "Name" : name,
+                "Vorname" : vorname,
+                "Studiengruppe" : studiengruppe,
+                "PersonalID" : personalID,
+                "Rolle" : rolle //0 = Student, 1 = Dozent
             });
         } else {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
@@ -120,11 +120,11 @@ var database = (function () {
                     var ref = fbInstance.database().ref("Personen");
                     var newRef = ref.child("Person_" + userID);
                     newRef.set({
-                        "Name": name,
-                        "Vorname": vorname,
-                        "Studiengruppe": studiengruppe,
-                        "PersonalID": personalID,
-                        "Rolle": rolle //0 = Student, 1 = Dozent
+                        "Name" : name,
+                        "Vorname" : vorname,
+                        "Studiengruppe" : studiengruppe,
+                        "PersonalID" : personalID,
+                        "Rolle" : rolle //0 = Student, 1 = Dozent
                     });
                     unsuscribeAuthEvent();
                 }
@@ -134,13 +134,13 @@ var database = (function () {
     };
 
     //Returns void
-    Database.updatePerson = function (userID, secondName, firstName, studyGroup, personalID) {
+    database.updatePerson = function (userID, secondName, firstName, studyGroup, personalID) {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("Personen/Person_" + userID);
             ref.set({
-                "Name" : name,
-                "Vorname" : vorname,
-                "Studiengruppe" : studiengruppe,
+                "Name" : secondName,
+                "Vorname" : firstName,
+                "Studiengruppe" : studyGroup,
                 "PersonalID" : personalID,
             });
         } else {
@@ -148,9 +148,9 @@ var database = (function () {
                 if (!user) {
                     var ref = fbInstance.database().ref("Personen/Person_" + userID);
                     ref.set({
-                        "Name" : name,
-                        "Vorname" : vorname,
-                        "Studiengruppe" : studiengruppe,
+                        "Name" : secondName,
+                        "Vorname" : firstName,
+                        "Studiengruppe" : studyGroup,
                         "PersonalID" : personalID,
                     });
                     unsuscribeAuthEvent();
@@ -174,8 +174,8 @@ var database = (function () {
                     snap.forEach(function (childNode) {
                         childNode.forEach(function (childChildNode) {
                             var terminJSON = childChildNode.val();
-                            if (!terminJSON) {
-                                if (!terminJSON.Ende >= timeString) {
+                            if (terminJSON != null) {
+                                if (terminJSON.Ende >= timeString) {
                                     callbackFunction(terminJSON.Vorlesung_ID);
                                 }
                             }
@@ -189,8 +189,8 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (!studyGroup) {
-                        var date = Date();
+                    if (studyGroup != null) {
+                        var date = new Date();
                         var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                         var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                         var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
@@ -199,8 +199,8 @@ var database = (function () {
                             snap.forEach(function (childNode) {
                                 childNode.forEach(function (childChildNode) {
                                     var terminJSON = childChildNode.val();
-                                    if (!terminJSON) {
-                                        if (!terminJSON.Ende >= timeString) {
+                                    if (terminJSON != null) {
+                                        if (terminJSON.Ende >= timeString) {
                                             callbackFunction(terminJSON.Vorlesung_ID);
                                         }
                                     }
@@ -221,7 +221,7 @@ var database = (function () {
     database.getLectureKeysByStudyGroups = function (studyGroup, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (!studyGroup) {
+            if (studyGroup != null) {
                 var ref = fbInstance.database().ref("StudyGroups/" + studyGroup + "/Lectures");
                 ref.once("value").then(function (snap) {
                     var lectureKeys = [];
@@ -237,7 +237,7 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (!studyGroup) {
+                    if (studyGroup != null) {
                         var ref = fbInstance.database().ref("StudyGroups/" + studyGroup + "/Lectures");
                         ref.once("value").then(function (snap) {
                             var lectureKeys = [];
@@ -260,8 +260,8 @@ var database = (function () {
     database.getLectureByKey = function (lectureKey, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (!studyGroup) {
-                var ref = fbInstance.database().ref("Lectures/" + lectureID);
+            if (lectureKey != null) {
+                var ref = fbInstance.database().ref("Lectures/" + lectureKey);
                 ref.once("value").then(function (snap) {
                     callbackFunction(snap.val());
                 });
@@ -272,8 +272,8 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (!studyGroup) {
-                        var ref = fbInstance.database().ref("Lectures/" + lectureID);
+                    if (lectureKey != null) {
+                        var ref = fbInstance.database().ref("Lectures/" + lectureKey);
                         ref.once("value").then(function (snap) {
                             callbackFunction(snap.val());
                         });
@@ -290,7 +290,7 @@ var database = (function () {
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
-    Database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
+    database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
             ref.set({
@@ -319,7 +319,7 @@ var database = (function () {
     //Returns void --> Dozentenfreigabe eines Termins
     //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
-    Database.releaseLectureHistoryEntry = function (terminID, dozentID, timestampString) {
+    database.releaseLectureHistoryEntry = function (terminID, dozentID, timestampString) {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID);
             ref.update({
@@ -343,7 +343,7 @@ var database = (function () {
 
     //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
-    Database.bookHistoryEntry = function (personID, lectureID, terminID, roomDesc, remark, excusedFlag, timestampString) {
+    database.bookHistoryEntry = function (personID, lectureID, terminID, roomDesc, remark, excusedFlag, timestampString) {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
             ref.set({
