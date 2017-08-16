@@ -22,6 +22,34 @@ var login = (function () {
         });
     });
 
+    $$('.change-password').on('click', function () {
+        myApp.modalPassword('Enter your new password', function (password) {
+            var user = firebase.auth().currentUser;
+            var credential;
+            // Prompt the user to re-provide their sign-in credentials
+            user.reauthenticateWithCredential(credential).then(function () {
+                // User re-authenticated.
+                myApp.alert('User re-authenticated.');
+                user.updatePassword(password).then(function () {
+                    // Update successful.
+                    myApp.alert('Update successful.');
+                }).catch(function (error) {
+                    // An error happened.
+                    myApp.alert('An error happened.');
+                });
+            }).catch(function (error) {
+                // An error happened.
+                myApp.alert('An error happened.');
+            });
+        });
+    });
+
+    $$('.login-screen .login-login-screen').on('click', function () {
+        firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+            myApp.alert(error.message);
+        });
+    });
+
     $$('.login-screen .register-login-screen').on('click', function () {
         firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
             myApp.alert(error.message);
