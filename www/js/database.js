@@ -160,7 +160,7 @@ var database = (function () {
         }
     };
 
-    //Returns String
+    //Returns DataSnapshot
     database.getCurrentLectureKeyByStudyGroup = function (studyGroup, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
@@ -176,7 +176,7 @@ var database = (function () {
                             var terminJSON = childChildNode.val();
                             if (terminJSON != null) {
                                 if (terminJSON.Ende >= timeString) {
-                                    callbackFunction(terminJSON.Vorlesung_ID);
+                                    callbackFunction(childChildNode);
                                 }
                             }
                         });
@@ -201,7 +201,7 @@ var database = (function () {
                                     var terminJSON = childChildNode.val();
                                     if (terminJSON != null) {
                                         if (terminJSON.Ende >= timeString) {
-                                            callbackFunction(terminJSON.Vorlesung_ID);
+                                            callbackFunction(childChildNode);
                                         }
                                     }
                                 });
@@ -286,9 +286,9 @@ var database = (function () {
             this.setUserAuth(this.userMail, this.userPassword);
         }
     }
-    
+ 
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
-    //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
+    //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
     database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
         if (fbInstance.auth().currentUser) {
@@ -317,7 +317,7 @@ var database = (function () {
     }
 
     //Returns void --> Dozentenfreigabe eines Termins
-    //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
+    //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
     database.releaseLectureHistoryEntry = function (terminID, dozentID, timestampString) {
         if (fbInstance.auth().currentUser) {
@@ -341,7 +341,7 @@ var database = (function () {
         }
     }
 
-    //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
+    //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
     database.bookHistoryEntry = function (personID, lectureID, terminID, roomDesc, remark, excusedFlag, timestampString) {
         if (fbInstance.auth().currentUser) {
@@ -371,5 +371,41 @@ var database = (function () {
         }
     }
 
+    database.getStudyGroups = function(callbackFunction) {
+        //Check if logged in
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("StudyGroups");
+            ref.once("value").then(function (snap) {
+                var mapList = [];
+                snap.forEach(function (childNode) {
+                    mapList.push({key : childNode.key, value : childNode.val().Bezeichnung});
+                });
+                callbackFunction(mapList);
+            });
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("StudyGroups");
+                    ref.once("value").then(function (snap) {
+                        var mapList = [];
+                        snap.forEach(function (childNode) {
+                            mapList.push({key : childNode.key, value : childNode.val().Bezeichnung});
+                        });
+                        callbackFunction(mapList);
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
+    //Returns string
+    database.getUsersMailaddress = function() {
+        if (!fbInstance.auth().currentUser) {
+            return fbInstance.auth().currentUser.email;
+        }
+    }
     return database;
 })();
