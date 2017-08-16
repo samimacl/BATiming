@@ -168,16 +168,24 @@ var database = (function () {
                 var date = new Date();
                 var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                 var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                var beginTime;
                 var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
                 ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                     console.log("OnValue --> " + snap.val());
                     // callbackFunction(snap.val());
                     snap.forEach(function (childNode) {
+                        beginTime = childNode.key;
                         childNode.forEach(function (childChildNode) {
                             var terminJSON = childChildNode.val();
                             if (terminJSON != null) {
                                 if (terminJSON.Ende >= timeString) {
-                                    callbackFunction(childChildNode);
+                                    let result = {
+                                        "appointment": childChildNode.key,
+                                        "lecture": terminJSON.Vorlesung_ID,
+                                        "begin": beginTime,
+                                        "end": terminJSON.Ende
+                                    };
+                                    callbackFunction(result);
                                 }
                             }
                         });
@@ -194,15 +202,23 @@ var database = (function () {
                         var date = new Date();
                         var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                         var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        var beginTime;
                         var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
                         ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                             // callbackFunction(snap.val());
                             snap.forEach(function (childNode) {
+                                beginTime = childNode.key;
                                 childNode.forEach(function (childChildNode) {
                                     var terminJSON = childChildNode.val();
                                     if (terminJSON != null) {
                                         if (terminJSON.Ende >= timeString) {
-                                            callbackFunction(childChildNode);
+                                            let result = {
+                                                "appointment": childChildNode.key,
+                                                "lecture": terminJSON.Vorlesung_ID,
+                                                "begin": beginTime,
+                                                "end": terminJSON.Ende
+                                            };
+                                            callbackFunction(result);
                                         }
                                     }
                                 });

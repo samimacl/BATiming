@@ -11,44 +11,34 @@ var timeManager = (function () {
 
     let state = 0;
 
-    function isDateInLecture(lectureDate) {
+    function isDateInLecture(appointment) {
         let now = new Date(Date.now());
-        return lectureDate.from <= now && lectureDate.end >= now;
+        return appointment.end <= now && appointment.end >= now;
     };
 
     timeManager.startWorkflow = async function () {
-        if (state > 0) {
-            let message = 'Workflow already started.';
-            myApp.addNotification({
-                "title": 'Hint',
-                "message": message
-            });
-            throw Error(message);
-        }
+        if (state > 0)
+            showNotification('Hint', 'Workflow already started.', true);
 
+        let isCached = false;
         let currentLecture = JSON.parse(storageManager.getItem(true, 'currentLecture'));
-        if (currentLecture === null) {
+        if (currentLecture != null)
+            isCached = isDateInLecture(currentLecture);
+
+        if (!isCached) {
             let user = JSON.parse(storageManager.getItem(true, 'userData'));
             database.getCurrentLectureKeyByStudyGroup(user.Studiengruppe, function (data) {
-                if (data == null) {
-                    let message = 'No data found';
-                    myApp.addNotification({
-                        "title": 'Error',
-                        "message": message
-                    });
-                    throw new Error(message);
-                }
-                storageManager.setItem(true, 'currentLecture', data);
+                if (data == null)
+                    showNotification('Error', 'No data fonund.', true);
+
+                let appointment = data;
+                storageManager.changeItem(true, 'currentLecture', data);
             });
         }
 
-        if (isDateInLecture(currentLecture)) {
-            myApp.addNotification({
-                "title": 'error',
-                "message": 'Already signed in to lecture'
-            });
-            throw Error("Already signed in to lecture:" + "\n" + JSON.stringify(currentLecture));
-        }
+        if (isCached)
+            showNotification('Hint', 'Already signed in to lecture:' + '\n' + JSON.stringify(currentLecture), true);
+
         state++;
     }
 
