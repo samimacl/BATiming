@@ -6,20 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <script type="text/javascript" src="./lib/firebase/firebase.js"></script>
     <script type="text/javascript" src="cordova.js"></script>
-    <script>
-        // Initialize Firebase
-        var config = {
-            apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
-            authDomain: "ba-timing.firebaseapp.com",
-            databaseURL: "https://ba-timing.firebaseio.com",
-            storageBucket: "ba-timing.appspot.com",
-            messagingSenderId: "1050294194541"
-        };
-        firebase.initializeApp(config);
-    </script>
-
     <title>batiming</title>
 </head>
 
@@ -214,6 +201,20 @@
                 //}
             })();
         </script>
+
+        <script type="text/javascript" src="./lib/firebase/firebase.js"></script>
+        <script>
+            // Initialize Firebase
+            var config = {
+                apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
+                authDomain: "ba-timing.firebaseapp.com",
+                databaseURL: "https://ba-timing.firebaseio.com",
+                storageBucket: "ba-timing.appspot.com",
+                messagingSenderId: "1050294194541"
+            };
+            firebase.initializeApp(config);
+        </script>
+
         <script type="text/javascript" src="js/database.js"></script>
         <script type="text/javascript" src="js/storageManager.js"></script>
         <script type="text/javascript" src="js/timeManager.js"></script>
