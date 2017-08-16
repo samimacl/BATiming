@@ -71,6 +71,7 @@ var login = (function () {
                     $$('.view-dozent').hide();
                 }
                 storageManager.addItem(true, 'userData', data);
+                batiming.initMaps();
                 myApp.closeModal('.login-screen');
             });
             console.log(fbUser);

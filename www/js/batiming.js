@@ -18,6 +18,9 @@ var batiming = (function () {
     batiming.isIos = true;
     batiming.devMode = false;
 
+    //Maps
+    batiming.Map = null;
+
     Template7.global = {
         android: batiming.isAndroid,
         ios: batiming.isIos
@@ -75,9 +78,10 @@ var batiming = (function () {
     // https://framework7.io/docs/form-data.html
     myApp.onPageInit('settings', function (page) {
         // Get Studiengruppen
-        myApp.smartSelectAddOption('.smart-select select', '<option value = "Studiengruppe_5" selected>WS-14-II</option>');
-        myApp.smartSelectAddOption('.smart-select select', '<option value = "Studiengruppe_6">WS-15-II</option>');
-
+        for(var item in batiming.Map)
+            {
+                myApp.smartSelectAddOption('.smart-select select', '<option value = "'+batiming.Map[item].key+'">'+batiming.Map[item].value+'</option>');
+            }
         myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
     });
 
@@ -96,6 +100,14 @@ var batiming = (function () {
     $$('.panel-close').on('click', function (e) {
         myApp.closePanel();
     });
+
+    batiming.initMaps = function () {
+        if (batiming.Map === null) {
+              database.getStudyGroups(function (data) {
+                  batiming.Map = data;
+              })
+        }
+    }
 
     return batiming;
 })();
