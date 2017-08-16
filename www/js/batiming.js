@@ -61,27 +61,26 @@ var batiming = (function () {
     });
 
     $$('#b_beacon').on('click', function () {
-        timeManager.startWorkflow()
-            .then(function () {
-                console.log("Workflow started" + "\n");
-            })
-            .then(function () {
-                console.log('start Monitoring');
-                beacon.startMonitoringForRegion(beacon.beaconRegion);
-            })
-            .catch(function (e) {
-                console.log(e)
-            });
+        try {
+            timeManager.startWorkflow()
+                .then(() => console.log("Workflow started" + "\n"))
+                .then(() => console.log('start Monitoring'))
+                .then(() => beacon.startMonitoringForRegion(beacon.beaconRegion))
+                .catch(function (e) {
+                    console.log(e)
+                });
+        } finally {
+            beacon.stopScanForBeacon(beacon.beaconRegion);
+        }
     });
 
     // https://framework7.io/docs/form-storage.html
     // https://framework7.io/docs/form-data.html
     myApp.onPageInit('settings', function (page) {
         // Get Studiengruppen
-        for(var item in batiming.Map)
-            {
-                myApp.smartSelectAddOption('.smart-select select', '<option value = "'+batiming.Map[item].key+'">'+batiming.Map[item].value+'</option>');
-            }
+        for (var item in batiming.Map) {
+            myApp.smartSelectAddOption('.smart-select select', '<option value = "' + batiming.Map[item].key + '">' + batiming.Map[item].value + '</option>');
+        }
         myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
     });
 
@@ -103,9 +102,9 @@ var batiming = (function () {
 
     batiming.initMaps = function () {
         if (batiming.Map === null) {
-              database.getStudyGroups(function (data) {
-                  batiming.Map = data;
-              })
+            database.getStudyGroups(function (data) {
+                batiming.Map = data;
+            })
         }
     }
 
