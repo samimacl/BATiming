@@ -16,10 +16,11 @@ var beacon = (function () {
         minor: 18953
     };
 
+    beacon.beaconRegion = null;
+
     let delegate = null;
 
     let inBeaconRegion = false;
-    let beaconRegion = null;
     let checkAppStartInRegion = true;
     let stopRangingBeaconsUntilNewEntry = true;
     let beaconMinor = 'unbekannt';
@@ -35,12 +36,12 @@ var beacon = (function () {
         if (delegate) {
             delegate.didExitRegion = function (pluginResult) {
                 console.log("didExitRegion... EXIT DONE" + "<br>" + JSON.stringify(pluginResult));
-                beacon.stopScanForBeacon(beaconRegion);
+                beacon.stopScanForBeacon(beacon.beaconRegion);
             };
 
             delegate.didEnterRegion = function (pluginResult) {
                 console.log("didEnterRegion...ENTER DONE" + "<br>" + JSON.stringify(pluginResult));
-                beacon.startScanForBeacon(beaconRegion);
+                beacon.startScanForBeacon(beacon.beaconRegion);
             };
 
             delegate.didDetermineStateForRegion = function (pluginResult) {
@@ -49,7 +50,7 @@ var beacon = (function () {
                     JSON.stringify(pluginResult));
 
                 if (pluginResult.state == "CLRegionStateInside") {
-                   console.log("In Region");
+                    console.log("In Region");
                 } else if (pluginResult.state === "CLRegionStateOutside") {
                     console.log("Exit Region");
                 }
@@ -68,7 +69,7 @@ var beacon = (function () {
                     timeManager.bookTimeEntry(JSON.stringify(pluginResult));
 
                     if (stopRangingBeaconsUntilNewEntry) {
-                        locationManager.stopRangingBeaconsInRegion(beaconRegion)
+                        locationManager.stopRangingBeaconsInRegion(beacon.beaconRegion)
                             .fail(function (e) {
                                 console.error(e)
                             })
@@ -83,7 +84,7 @@ var beacon = (function () {
 
             locationManager.setDelegate(delegate);
             let reg = regionData;
-            let beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
+            beacon.beaconRegion = new locationManager.BeaconRegion(reg.id, reg.uuid, reg.major, reg.minor);
         }
 
     };
@@ -103,7 +104,7 @@ var beacon = (function () {
             .fail(function (e) {
                 console.error(e);
             })
-            .done( beacon.inBeaconRegion = true)
+            .done(beacon.inBeaconRegion = true)
     }
 
     beacon.stopScanForBeacon = function (beaconRegion) {
