@@ -74,15 +74,11 @@ var batiming = (function () {
     // https://framework7.io/docs/form-storage.html
     // https://framework7.io/docs/form-data.html
     myApp.onPageInit('settings', function (page) {
-        // Daten befüllen Example
-        var formData = {
-            'vorname': 'Andreas',
-            'nachname': 'Garben',
-            'email': 'john@doe.com',
-            'matrikelnummer': '12345',
-            'fachbereich': '2'
-        }
-        myApp.formFromData('#my-form', formData);
+        // Get Studiengruppen
+        myApp.smartSelectAddOption('.smart-select select', '<option value = "Studiengruppe_5" selected>WS-14-II</option>');
+        myApp.smartSelectAddOption('.smart-select select', '<option value = "Studiengruppe_6">WS-15-II</option>');
+
+        myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
     });
 
     myApp.onPageBack('settings', function (page) {
