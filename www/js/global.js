@@ -1,6 +1,6 @@
-function ShowNotification(title, message, doError) {
+function showNotification(title, message, doError) {
     myApp.addNotification({
-        "title": title,
+        "title": title != null || title != '' ? 'BATiming - ' + title : 'BATiming',
         "message": message
     });
     if (doError)
