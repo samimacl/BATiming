@@ -65,7 +65,7 @@ var login = (function () {
         }
     });
 
-    $$('.change-password').on('click', function () {
+    $$('.change-fbpassword').on('click', function () {
         myApp.modalPassword('Enter your new password', function (password) {
             var user = firebase.auth().currentUser;
             var credential;
