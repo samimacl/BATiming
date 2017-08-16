@@ -64,7 +64,7 @@ var batiming = (function () {
             })
             .then(function () {
                 console.log('start Monitoring');
-                // beacon.startMonitoringForRegion(beacon.beaconRegion);
+                beacon.startMonitoringForRegion(beacon.beaconRegion);
             })
             .catch(function (e) {
                 console.log(e)
