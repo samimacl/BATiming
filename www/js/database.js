@@ -174,8 +174,8 @@ var database = (function () {
                     snap.forEach(function (childNode) {
                         childNode.forEach(function (childChildNode) {
                             var terminJSON = childChildNode.val();
-                            if (!terminJSON) {
-                                if (!terminJSON.Ende >= timeString) {
+                            if (terminJSON != null) {
+                                if (terminJSON.Ende >= timeString) {
                                     callbackFunction(terminJSON.Vorlesung_ID);
                                 }
                             }
@@ -189,8 +189,8 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (!studyGroup) {
-                        var date = Date();
+                    if (studyGroup != null) {
+                        var date = new Date();
                         var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                         var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
                         var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
@@ -199,8 +199,8 @@ var database = (function () {
                             snap.forEach(function (childNode) {
                                 childNode.forEach(function (childChildNode) {
                                     var terminJSON = childChildNode.val();
-                                    if (!terminJSON) {
-                                        if (!terminJSON.Ende >= timeString) {
+                                    if (terminJSON != null) {
+                                        if (terminJSON.Ende >= timeString) {
                                             callbackFunction(terminJSON.Vorlesung_ID);
                                         }
                                     }
@@ -221,7 +221,7 @@ var database = (function () {
     database.getLectureKeysByStudyGroups = function (studyGroup, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (!studyGroup) {
+            if (studyGroup != null) {
                 var ref = fbInstance.database().ref("StudyGroups/" + studyGroup + "/Lectures");
                 ref.once("value").then(function (snap) {
                     var lectureKeys = [];
@@ -237,7 +237,7 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (!studyGroup) {
+                    if (studyGroup != null) {
                         var ref = fbInstance.database().ref("StudyGroups/" + studyGroup + "/Lectures");
                         ref.once("value").then(function (snap) {
                             var lectureKeys = [];
@@ -260,8 +260,8 @@ var database = (function () {
     database.getLectureByKey = function (lectureKey, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (!studyGroup) {
-                var ref = fbInstance.database().ref("Lectures/" + lectureID);
+            if (lectureKey != null) {
+                var ref = fbInstance.database().ref("Lectures/" + lectureKey);
                 ref.once("value").then(function (snap) {
                     callbackFunction(snap.val());
                 });
@@ -272,8 +272,8 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (!studyGroup) {
-                        var ref = fbInstance.database().ref("Lectures/" + lectureID);
+                    if (lectureKey != null) {
+                        var ref = fbInstance.database().ref("Lectures/" + lectureKey);
                         ref.once("value").then(function (snap) {
                             callbackFunction(snap.val());
                         });
