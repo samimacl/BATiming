@@ -21,6 +21,6 @@
         "cordova-plugin-console": "~1.0.1",
         "cordova-plugin-device": "^1.1.6",
         "cordova-plugin-statusbar": "~1.0.1",
-        "cordova-plugin-whitelist": "~1.2.0"
+        "cordova-plugin-whitelist": "^1.2.2"
     }
 }
