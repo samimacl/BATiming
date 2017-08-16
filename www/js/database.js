@@ -138,20 +138,20 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("Personen/Person_" + userID);
             ref.set({
-                "Name" : name,
-                "Vorname" : vorname,
-                "Studiengruppe" : studiengruppe,
-                "PersonalID" : personalID,
+                "Name": name,
+                "Vorname": vorname,
+                "Studiengruppe": studiengruppe,
+                "PersonalID": personalID,
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("Personen/Person_" + userID);
                     ref.set({
-                        "Name" : name,
-                        "Vorname" : vorname,
-                        "Studiengruppe" : studiengruppe,
-                        "PersonalID" : personalID,
+                        "Name": name,
+                        "Vorname": vorname,
+                        "Studiengruppe": studiengruppe,
+                        "PersonalID": personalID,
                     });
                     unsuscribeAuthEvent();
                 }
@@ -175,9 +175,11 @@ var database = (function () {
                     snap.forEach(function (childNode) {
                         childNode.forEach(function (childChildNode) {
                             var terminJSON = childChildNode.val();
-                            if (!terminJSON) {
-                                if (!terminJSON.Ende >= timeString) {
+                            if (terminJSON != null) {
+                                if (terminJSON.Ende >= timeString) {
                                     callbackFunction(terminJSON.Vorlesung_ID);
+                                } else {
+                                    callbackFunction(null);
                                 }
                             }
                         });
@@ -189,8 +191,8 @@ var database = (function () {
         } else {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
-                if (!user) {
-                    if (!studyGroup) {
+                if (user != null) {
+                    if (studyGroup != null) {
                         var date = Date();
                         var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
                         var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
@@ -200,8 +202,8 @@ var database = (function () {
                             snap.forEach(function (childNode) {
                                 childNode.forEach(function (childChildNode) {
                                     var terminJSON = childChildNode.val();
-                                    if (!terminJSON) {
-                                        if (!terminJSON.Ende >= timeString) {
+                                    if (terminJSON != null) {
+                                        if (terminJSON.Ende >= timeString) {
                                             callbackFunction(terminJSON.Vorlesung_ID);
                                         }
                                     }
@@ -287,7 +289,7 @@ var database = (function () {
             this.setUserAuth(this.userMail, this.userPassword);
         }
     }
-    
+
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
@@ -295,20 +297,20 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
             ref.set({
-                "Bemerkung" : remark,
-                "Entschuldigt" : excusedFlag,
-                "Kommt" : timestampString,
-                "Person" : personID
+                "Bemerkung": remark,
+                "Entschuldigt": excusedFlag,
+                "Kommt": timestampString,
+                "Person": personID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
                     ref.set({
-                        "Bemerkung" : remark,
-                        "Entschuldigt" : excusedFlag,
-                        "Kommt" : timestampString,
-                        "Person" : personID
+                        "Bemerkung": remark,
+                        "Entschuldigt": excusedFlag,
+                        "Kommt": timestampString,
+                        "Person": personID
                     });
                     unsuscribeAuthEvent();
                 }
@@ -324,16 +326,16 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID);
             ref.update({
-                "ReleaseTime" : timestampString,
-                "ReleasePersonID" : dozentID
+                "ReleaseTime": timestampString,
+                "ReleasePersonID": dozentID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("LectureHistory/" + terminID);
                     ref.update({
-                        "ReleaseTime" : timestampString,
-                        "ReleasePersonID" : dozentID
+                        "ReleaseTime": timestampString,
+                        "ReleasePersonID": dozentID
                     });
                     unsuscribeAuthEvent();
                 }
@@ -348,22 +350,22 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
             ref.set({
-                "Bemerkung" : remark,
-                "Entschuldigt" : excusedFlag,
-                "Kommt" : timestampString,
-                "Raum" : roomDesc,
-                "VorlesungID" : lectureID
+                "Bemerkung": remark,
+                "Entschuldigt": excusedFlag,
+                "Kommt": timestampString,
+                "Raum": roomDesc,
+                "VorlesungID": lectureID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
                     ref.set({
-                        "Bemerkung" : remark,
-                        "Entschuldigt" : excusedFlag,
-                        "Kommt" : timestampString,
-                        "Raum" : roomDesc,
-                        "VorlesungID" : lectureID
+                        "Bemerkung": remark,
+                        "Entschuldigt": excusedFlag,
+                        "Kommt": timestampString,
+                        "Raum": roomDesc,
+                        "VorlesungID": lectureID
                     });
                     unsuscribeAuthEvent();
                 }
