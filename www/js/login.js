@@ -10,7 +10,7 @@
 var login = (function () {
     let login = {};
 
-    $$('.login-screen .login-login-screen').on('click', function () {
+    $$('.login-screen .anmelden-login-screen').on('click', function () {
         firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
             myApp.alert(error.message);
         });
@@ -26,16 +26,6 @@ var login = (function () {
         firebase.auth().sendPasswordResetEmail($$('.login-screen input[name = "username"]').val()).then(function () {
             myApp.alert("E-Mail versandt!");
         }).catch(function (error) {
-            myApp.alert(error.message);
-        });
-    });
-
-    $$('.page .sign-out').on('click', function () {
-        firebase.auth().signOut().then(function () {
-            // Sign-out successful.
-            myApp.loginScreen();
-        }).catch(function (error) {
-            // An error happened.
             myApp.alert(error.message);
         });
     });
