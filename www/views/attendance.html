@@ -1,15 +1,21 @@
 <head>
   <script type="text/javascript" src="atiq_javascript.js">
+
   </script>
 </head>
 
 <div class="page" data-page="attendance">
   <!-- Search Bar -->
-  <form data-search-list=".list-block-search" data-search-in=".item-title" class="searchbar searchbar-init">
+  <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title" data-found=".searchbar-found"
+    data-not-found=".searchbar-not-found">
     <div class="searchbar-input">
-      <input type="search" placeholder="Search"><a href="#" class="searchbar-clear"></a>
-    </div><a href="#" class="searchbar-cancel">Cancel</a>
+      <input type="search" placeholder="Search">
+      <a href="#" class="searchbar-clear"></a>
+    </div>
+    <a href="#" class="searchbar-cancel">Cancel</a>
   </form>
+
+  <div class="searchbar-overlay"></div>
 
   <!-- Search Bar overlay -->
   <div class="searchbar-overlay"></div>
@@ -17,28 +23,35 @@
   <div class="page-content">
     <div class="content-block-title">Anwesenheitsliste</div>
     <!-- This block will be displayed if nothing found -->
+
     <div class="content-block searchbar-not-found">
-      <div class="content-block-inner">Kein Ergebnis gefunden.</div>
+      <div class="content-block-inner">Kein Ergebnis gefunden.2</div>
     </div>
     <!-- This block will be displayed if anything found, and this list block is used a searbar target -->
     <div class="list-block list-block-search searchbar-found">
       <ul>
-        <li class="item-content">
-          <div class="card">
-            <div id="title" class="card-header">Vorlesung: Test</div>
+        <div class="card">
+          <li class="item-content">
+            <div class="card-header">
+              <div class="item-title">
+                Vorlesung: Test
+              </div>
+            </div>
             <div class="card-content">
               <div class="card-content-inner">Anwesend gemeldet um: TEST</div>
             </div>
-          </div>
-        </li>
-        <li class="item-content">
-          <div class="card">
-            <div id="title" class="card-header">Vorlesung: Test2</div>
+          </li>
+          <li class="item-content">
+            <div class="card-header">
+              <div class="item-title">
+                Vorlesung: Test2
+              </div>
+            </div>
             <div class="card-content">
               <div class="card-content-inner">Anwesend gemeldet um: TEST2</div>
             </div>
-          </div>
-        </li>
+          </li>
+        </div>
       </ul>
     </div>
   </div>
