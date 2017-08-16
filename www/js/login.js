@@ -1,3 +1,25 @@
+$$('.change-password').on('click',function(){
+    myApp.modalPassword('Enter your new password',function(password){
+        var user = firebase.auth().currentUser;
+        var credential;
+        // Prompt the user to re-provide their sign-in credentials
+        user.reauthenticateWithCredential(credential).then(function() {
+        // User re-authenticated.
+            myApp.alert('User re-authenticated.');
+            user.updatePassword(password).then(function() {
+            // Update successful.
+            myApp.alert('Update successful.');
+            }).catch(function(error) {
+            // An error happened.
+            myApp.alert('An error happened.');
+            });
+        }).catch(function(error) {
+        // An error happened.
+            myApp.alert('An error happened.');
+        });
+    });
+});
+
 $$('.login-screen .login-login-screen').on('click', function () {
     firebase.auth().signInWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
@@ -8,8 +30,6 @@ $$('.login-screen .register-login-screen').on('click', function () {
     firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
         myApp.alert(error.message);
     });
-    myApp.closeModal('.login-screen');
-
 });
 
 $$('.login-screen .resetpw-login-screen').on('click', function () {
@@ -32,18 +52,18 @@ $$('.sign-out').on('click', function () {
 
 firebase.auth().onAuthStateChanged(function (user) {
     if (user) {
-        database.getCurrentPerson(function (data) {
-            console.log(data);
-            if (data.Rolle != null && data.Rolle == '1') {
-                $$('.view-main').hide();
-                $$('.view-dozent').show();
-            } else {
-                $$('.view-main').show();
-                $$('.view-dozent').hide();
-            }
-        });
+        // database.getCurrentPerson(function (data) {
+        //     console.log(data);
+        //     if (data.Rolle != null && data.Rolle == '1') {
+        //         $$('.view-main').hide();
+        //         $$('.view-dozent').show();
+        //     } else {
+        //         $$('.view-main').show();
+        //         $$('.view-dozent').hide();
+        //     }
+        // });
         myApp.closeModal('.login-screen');
-        console.log(user);
+        // console.log(user);
     } else {
         if (devMode) {
             myApp.closeModal('.login-screen');
