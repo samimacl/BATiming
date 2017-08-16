@@ -107,11 +107,11 @@ var database = (function () {
             var ref = fbInstance.database().ref("Personen");
             var newRef = ref.child("Person_" + userID);
             newRef.set({
-                "Name" : name,
-                "Vorname" : vorname,
-                "Studiengruppe" : studiengruppe,
-                "PersonalID" : personalID,
-                "Rolle" : rolle //0 = Student, 1 = Dozent
+                "Name": name,
+                "Vorname": vorname,
+                "Studiengruppe": studiengruppe,
+                "PersonalID": personalID,
+                "Rolle": rolle //0 = Student, 1 = Dozent
             });
         } else {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
@@ -120,11 +120,11 @@ var database = (function () {
                     var ref = fbInstance.database().ref("Personen");
                     var newRef = ref.child("Person_" + userID);
                     newRef.set({
-                        "Name" : name,
-                        "Vorname" : vorname,
-                        "Studiengruppe" : studiengruppe,
-                        "PersonalID" : personalID,
-                        "Rolle" : rolle //0 = Student, 1 = Dozent
+                        "Name": name,
+                        "Vorname": vorname,
+                        "Studiengruppe": studiengruppe,
+                        "PersonalID": personalID,
+                        "Rolle": rolle //0 = Student, 1 = Dozent
                     });
                     unsuscribeAuthEvent();
                 }
@@ -138,20 +138,20 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("Personen/Person_" + userID);
             ref.set({
-                "Name" : secondName,
-                "Vorname" : firstName,
-                "Studiengruppe" : studyGroup,
-                "PersonalID" : personalID,
+                "Name": secondName,
+                "Vorname": firstName,
+                "Studiengruppe": studyGroup,
+                "PersonalID": personalID,
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("Personen/Person_" + userID);
                     ref.set({
-                        "Name" : secondName,
-                        "Vorname" : firstName,
-                        "Studiengruppe" : studyGroup,
-                        "PersonalID" : personalID,
+                        "Name": secondName,
+                        "Vorname": firstName,
+                        "Studiengruppe": studyGroup,
+                        "PersonalID": personalID,
                     });
                     unsuscribeAuthEvent();
                 }
@@ -287,7 +287,7 @@ var database = (function () {
             this.setUserAuth(this.userMail, this.userPassword);
         }
     }
- 
+
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
@@ -295,20 +295,20 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
             ref.set({
-                "Bemerkung" : remark,
-                "Entschuldigt" : excusedFlag,
-                "Kommt" : timestampString,
-                "Person" : personID
+                "Bemerkung": remark,
+                "Entschuldigt": excusedFlag,
+                "Kommt": timestampString,
+                "Person": personID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
                     ref.set({
-                        "Bemerkung" : remark,
-                        "Entschuldigt" : excusedFlag,
-                        "Kommt" : timestampString,
-                        "Person" : personID
+                        "Bemerkung": remark,
+                        "Entschuldigt": excusedFlag,
+                        "Kommt": timestampString,
+                        "Person": personID
                     });
                     unsuscribeAuthEvent();
                 }
@@ -324,16 +324,16 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID);
             ref.update({
-                "ReleaseTime" : timestampString,
-                "ReleasePersonID" : dozentID
+                "ReleaseTime": timestampString,
+                "ReleasePersonID": dozentID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("LectureHistory/" + terminID);
                     ref.update({
-                        "ReleaseTime" : timestampString,
-                        "ReleasePersonID" : dozentID
+                        "ReleaseTime": timestampString,
+                        "ReleasePersonID": dozentID
                     });
                     unsuscribeAuthEvent();
                 }
@@ -348,22 +348,22 @@ var database = (function () {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
             ref.set({
-                "Bemerkung" : remark,
-                "Entschuldigt" : excusedFlag,
-                "Kommt" : timestampString,
-                "Raum" : roomDesc,
-                "VorlesungID" : lectureID
+                "Bemerkung": remark,
+                "Entschuldigt": excusedFlag,
+                "Kommt": timestampString,
+                "Raum": roomDesc,
+                "VorlesungID": lectureID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
                     ref.set({
-                        "Bemerkung" : remark,
-                        "Entschuldigt" : excusedFlag,
-                        "Kommt" : timestampString,
-                        "Raum" : roomDesc,
-                        "VorlesungID" : lectureID
+                        "Bemerkung": remark,
+                        "Entschuldigt": excusedFlag,
+                        "Kommt": timestampString,
+                        "Raum": roomDesc,
+                        "VorlesungID": lectureID
                     });
                     unsuscribeAuthEvent();
                 }
@@ -372,14 +372,17 @@ var database = (function () {
         }
     }
 
-    database.getStudyGroups = function(callbackFunction) {
+    database.getStudyGroups = function (callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("StudyGroups");
             ref.once("value").then(function (snap) {
                 var mapList = [];
                 snap.forEach(function (childNode) {
-                    mapList.push({key : childNode.key, value : childNode.val().Bezeichnung});
+                    mapList.push({
+                        key: childNode.key,
+                        value: childNode.val().Bezeichnung
+                    });
                 });
                 callbackFunction(mapList);
             });
@@ -391,7 +394,10 @@ var database = (function () {
                     ref.once("value").then(function (snap) {
                         var mapList = [];
                         snap.forEach(function (childNode) {
-                            mapList.push({key : childNode.key, value : childNode.val().Bezeichnung});
+                            mapList.push({
+                                key: childNode.key,
+                                value: childNode.val().Bezeichnung
+                            });
                         });
                         callbackFunction(mapList);
                     });
@@ -403,7 +409,7 @@ var database = (function () {
     }
 
     //Returns string
-    database.getUsersMailaddress = function() {
+    database.getUsersMailaddress = function () {
         if (!fbInstance.auth().currentUser) {
             return fbInstance.auth().currentUser.email;
         }
