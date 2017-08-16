@@ -30,15 +30,32 @@ var login = (function () {
         });
     });
 
-    $$('.sign-out').on('click', function () {
-        firebase.auth().signOut().then(function () {
-            // Sign-out successful.
-            myApp.loginScreen();
-        }).catch(function (error) {
-            // An error happened.
-            myApp.alert(error.message);
+    myApp.onPageInit('settings', function (page) {
+        $$('.sign-out').on('click', function () {
+            firebase.auth().signOut().then(function () {
+                // Sign-out successful.
+                myApp.loginScreen();
+            }).catch(function (error) {
+                // An error happened.
+                myApp.alert(error.message);
+            });
+        });
+
+        $$('.change-fbpassword').on('click', function () {
+            myApp.modalPassword('Enter your new password', function (password) {
+                var user = firebase.auth().currentUser;
+               
+                user.updatePassword(password).then(function () {
+                    // Update successful.
+                    myApp.alert('Update successful.');
+                }).catch(function (error) {
+                    // An error happened.
+                    myApp.alert('An error happened.');
+                });
+            });
         });
     });
+
 
     firebase.auth().onAuthStateChanged(function (fbUser) {
         if (fbUser) {
@@ -63,28 +80,6 @@ var login = (function () {
                 myApp.closeModal('.login-screen');
             }
         }
-    });
-
-    $$('.change-password').on('click', function () {
-        myApp.modalPassword('Enter your new password', function (password) {
-            var user = firebase.auth().currentUser;
-            var credential;
-            // Prompt the user to re-provide their sign-in credentials
-            user.reauthenticateWithCredential(credential).then(function () {
-                // User re-authenticated.
-                myApp.alert('User re-authenticated.');
-                user.updatePassword(password).then(function () {
-                    // Update successful.
-                    myApp.alert('Update successful.');
-                }).catch(function (error) {
-                    // An error happened.
-                    myApp.alert('An error happened.');
-                });
-            }).catch(function (error) {
-                // An error happened.
-                myApp.alert('An error happened.');
-            });
-        });
     });
 
     return login;
