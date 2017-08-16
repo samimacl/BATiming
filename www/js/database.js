@@ -134,15 +134,7 @@ var database = (function () {
     };
 
     //Returns void
-<<<<<<< HEAD
-<<<<<<< HEAD
     database.updatePerson = function (userID, secondName, firstName, studyGroup, personalID) {
-=======
-    Database.updatePerson = function (userID, secondName, firstName, studyGroup, personalID) {
->>>>>>> Rebase master branch
-=======
-    Database.updatePerson = function (userID, secondName, firstName, studyGroup, personalID) {
->>>>>>> 4af2edc7ab514fb07518f591cc17c9eb97804cf1
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("Personen/Person_" + userID);
             ref.set({
@@ -298,15 +290,7 @@ var database = (function () {
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStakpString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
-<<<<<<< HEAD
-<<<<<<< HEAD
     database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
-=======
-    Database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
->>>>>>> Rebase master branch
-=======
-    Database.bookLectureHistoryPersonEntry = function (terminID, personID, excusedFlag, remark, timestampString) {
->>>>>>> 4af2edc7ab514fb07518f591cc17c9eb97804cf1
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("LectureHistory/" + terminID + "/Teilnehmer").push();
             ref.set({
