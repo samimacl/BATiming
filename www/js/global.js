@@ -1,8 +1,11 @@
-function AppError(message) {
-    this.message = message;
+function ShowNotification(title, message, doError) {
+    myApp.addNotification({
+        "title": title,
+        "message": message
+    });
+    if (doError)
+        throw new Error(message);
 };
-
-AppError.prototype = new Error;
 
 var window_onerror = window.onerror || function () {
     return false;
