@@ -66,6 +66,12 @@ var batiming = (function () {
                 .then(() => console.log("Workflow started" + "\n"))
                 .then(() => console.log('start Monitoring'))
                 .then(() => beacon.startMonitoringForRegion(beacon.beaconRegion))
+                .then(() => setTimeout(function () {
+                    if (timeManager.state > 0) {
+                        timeManager.stopWorkflow();
+                        showNotification('Timeout', 'A timeout occured while scanning for iBeacon', true);
+                    }
+                }, 5000))
                 .catch(function (e) {
                     console.log(e)
                 });

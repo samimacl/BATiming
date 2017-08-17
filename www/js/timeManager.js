@@ -9,7 +9,7 @@
 var timeManager = (function () {
     let timeManager = {};
 
-    let state = 0;
+    timeManager.state = 0;
     let bookingData = null;
 
     function isDateInLecture(appointment) {
@@ -25,7 +25,8 @@ var timeManager = (function () {
     };
 
     timeManager.startWorkflow = async function () {
-        if (state > 0)
+        console.log('Init state: ' + this.state);
+        if (this.state > 0)
             showNotification('Hint', 'Workflow already started.', true);
 
         bookingData = null;
@@ -42,41 +43,44 @@ var timeManager = (function () {
 
                 bookingData = data;
                 console.log(bookingData);
-                storageManager.changeItem(true, 'currentLecture', data);
             });
         }
 
         if (isCached)
             showNotification('Hint', 'Already signed in to lecture:' + '\n' + JSON.stringify(currentLecture), true);
 
-        state++;
+        this.state++;
+        console.log('State is: ' + this.state);
     }
 
     timeManager.bookTimeEntry = async function (pluginResult) {
-        if (state = 1) {
+        console.log('State bookTimeEntry: ' + this.state);
+        if (this.state = 1) {
             console.log("Begin saving time entry");
             if (bookingData == null)
                 showNotification('Error', 'No booking data found', true);
 
+            storageManager.changeItem(true, 'currentLecture', data);
             let excusedFlag = '0';
             let remark = 'Test';
             let timestamp = getTimestamp();
             let roomDesc = '203';
             try {
                 await database.bookLectureHistoryPersonEntry(bookingData.appointment, database.getCurrentUserID(), '0', remark, timestamp);
-                state++;
+                this.state++;
                 await database.bookHistoryEntry(database.getCurrentUserID(), bookingData.lecture, bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
             } catch (e) {
                 showNotification('Error', e.message, true);
             }
 
-            state++;
+            this.state++;
+            console.log('State end of booking: ' + this.state);
             this.stopWorkflow();
         }
     }
 
     timeManager.stopWorkflow = function () {
-        state = 0;
+        this.state = 0;
         bookingData = null;
         console.log('Workflow stopped...');
     }
