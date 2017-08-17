@@ -10,11 +10,12 @@ var timeManager = (function () {
     let timeManager = {};
 
     let state = 0;
-    let bookingData = {};
+    let bookingData = null;
 
     function isDateInLecture(appointment) {
         let now = new Date(Date.now());
-        return appointment.end <= now && appointment.end >= now;
+        let nowTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(); 
+        return appointment.end >= nowTime && appointment.begin <= nowTime;
     };
 
     function getTimestamp() {
@@ -27,6 +28,7 @@ var timeManager = (function () {
         if (state > 0)
             showNotification('Hint', 'Workflow already started.', true);
 
+        bookingData = null;
         let isCached = false;
         let currentLecture = JSON.parse(storageManager.getItem(true, 'currentLecture'));
         if (currentLecture != null)
@@ -69,13 +71,13 @@ var timeManager = (function () {
             }
 
             state++;
-            timeManager.stopWorkflow();
+            this.stopWorkflow();
         }
     }
 
     timeManager.stopWorkflow = function () {
         state = 0;
-        bookingData = {};
+        bookingData = null;
         console.log('Workflow stopped...');
     }
 

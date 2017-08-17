@@ -71,6 +71,7 @@ var batiming = (function () {
                 });
         } finally {
             beacon.stopScanForBeacon(beacon.beaconRegion);
+            timeManager.stopWorkflow();
         }
     });
 

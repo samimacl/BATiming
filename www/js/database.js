@@ -362,7 +362,7 @@ var database = (function () {
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
     database.bookHistoryEntry = function (personID, lectureID, terminID, roomDesc, remark, excusedFlag, timestampString) {
         if (fbInstance.auth().currentUser) {
-            var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + terminID);
+            var ref = fbInstance.database().ref("PersonHistory/" + 'Person_' + personID + "/" + terminID).push();
             ref.set({
                 "Bemerkung": remark,
                 "Entschuldigt": excusedFlag,
