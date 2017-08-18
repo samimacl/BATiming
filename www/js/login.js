@@ -17,9 +17,13 @@ var login = (function () {
     });
 
     $$('.login-screen .register-login-screen').on('click', function () {
-        firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
+        firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val())
+        .then(function(){
+            myApp.mainView.router.loadPage('./views/settings.html');
+        }).catch(function (error) {
             myApp.alert(error.message);
         });
+
     });
 
     $$('.login-screen .resetpw-login-screen').on('click', function () {
@@ -61,8 +65,10 @@ var login = (function () {
         if (fbUser) {
             database.getCurrentPerson(function (data) {
                 console.log(data);
-                if (data == null)
-                    return;
+                if (data == null) {
+                    //database.createPerson(...)
+                    //show stammdaten view
+                }
                 if (data.Rolle != null && data.Rolle == '1') {
                     $$('.view-main').hide();
                     $$('.view-dozent').show();
