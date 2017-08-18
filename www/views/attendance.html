@@ -16,6 +16,12 @@
   </form>
 
   <div class="searchbar-overlay"></div>
+<script>
+	altert("Hallo Welt!");
+</script>
+<noscript>
+  Sie haben JavaScript deaktiviert.
+</noscript>
 
   <!-- Search Bar overlay -->
   <div class="searchbar-overlay"></div>
@@ -25,34 +31,55 @@
     <!-- This block will be displayed if nothing found -->
 
     <div class="content-block searchbar-not-found">
-      <div class="content-block-inner">Kein Ergebnis gefunden.2</div>
+      <div class="content-block-inner">Kein Ergebnis gefunden.</div>
     </div>
     <!-- This block will be displayed if anything found, and this list block is used a searbar target -->
     <div class="list-block list-block-search searchbar-found">
-      <ul>
-        <div class="card">
-          <li class="item-content">
-            <div class="card-header">
-              <div class="item-title">
-                Vorlesung: Test
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="card-content-inner">Anwesend gemeldet um: TEST</div>
-            </div>
-          </li>
-          <li class="item-content">
-            <div class="card-header">
-              <div class="item-title">
-                Vorlesung: Test2
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="card-content-inner">Anwesend gemeldet um: TEST2</div>
-            </div>
-          </li>
-        </div>
-      </ul>
+	<!-- template7 templates -->
+	
+	
+	
+	<div class="page-content">
+        <p>You can contact me:</p>
+        <p>By phone: {{Dozent}}</p>
+        <p>By email: {{Zeit}}</p>
+		<p>By: {{Vorlesung}}</p>
+    </div>
+	
+	
+	<script type="text/template7" id="t7">
+		<ul>
+				<li class="item-content">
+					<div class="item-inner">
+						<div class="item-title-row">
+							<div class="item-title">{{Dozent}}</div>
+						</div>
+						<div class="item-subtitle">{{Zeit}}</div>
+						<div class="item-text">{{Vorlesung}} </div>
+					</div>
+				</li>
+		</ul>
+	</script>
+	
+	
+	<script type="text/template7" id="t7_2">
+		<ul>		
+				<li class="item-content">
+					<div class="item-inner">
+						<div class="item-title-row">	
+							<div class="card-header">
+								<div class="item-title">
+									Vorlesung: {{Vorlesung}}
+								</div>
+							</div>
+								<div class="card-inner">Anwesend gemeldet um {{Zeit}}</div>
+								<div class="card-footer">Dozent: {{Dozent}}</div>
+						</div>
+					</div>
+				</li>
+		</ul>
+	</script>  
+	
     </div>
   </div>
 </div>

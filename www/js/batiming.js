@@ -35,8 +35,17 @@ var batiming = (function () {
         material: batiming.isAndroid === true ? true : false,
         template7Pages: true,
         swipePanel: 'left',
+		precompileTemplates: true,
+		
+	template7Data: {
+		'page:attendance': {
+            Dozent: '(999)-111-22-33',
+            Zeit: 'contact@john.doe',
+			Vorlesung: 'hallo'
+			}
+		}
     });
-
+	
     // Add view
     var mainView = myApp.addView('.view-main', {
         // Because we want to use dynamic navbar, material design doesn't support it.
@@ -103,3 +112,7 @@ var batiming = (function () {
 
     return batiming;
 })();
+
+
+
+
