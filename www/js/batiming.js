@@ -62,6 +62,7 @@ var batiming = (function () {
 
     $$('#b_beacon').on('click', function () {
         try {
+            myApp.showPreloader('Custom Title');
             timeManager.startWorkflow()
                 .then(() => console.log("Workflow started" + "\n"))
                 .then(() => console.log('start Monitoring'))
@@ -78,6 +79,7 @@ var batiming = (function () {
         } finally {
             beacon.stopScanForBeacon(beacon.beaconRegion);
             timeManager.stopWorkflow();
+            myApp.hidePreloader();
         }
     });
 
