@@ -78,14 +78,16 @@
                 </div>
             </div>
             <div class="pages">
-                <div data-page="index" class="page">
-                    <div class="page-content">
-                        <div class="content-block">
-                            <p><a href="#" class="sign-out">Click here to Sign-Out</a></p>
+                <div class="page" data-page="index">
+                    <div class="page-content pull-to-refresh-content">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
                         </div>
-                        <p id="beacon">Beacon Test</p>
-                        <button id="b_beacon" class="button button-big">Start Ranging</button>
+
+                        <div class="list-block media-list stories-list"></div>
                     </div>
+                    <!-- <button id="b_beacon" class="button button-fill button-raised">Start Ranging</button> -->
                 </div>
             </div>
         </div>
@@ -95,21 +97,18 @@
                 <div class="navbar-inner">
                     <div class="left">
                         <a id="menuicon" href="#" class="open-panel link icon-only">
-                                        <i class="icon icon-bars"></i>
-                            </a>
+                            <i class="icon icon-bars"></i>
+                        </a>
                     </div>
                     <div class="center sliding">Awesome App</div>
                     <div class="right"></div>
                 </div>
             </div>
             <div class="pages">
-                <div data-page="index" class="page">
+                <div class="page" data-page="index">
                     <div class="page-content">
-                        <div class="content-block">
-                            <p><a href="#" class="sign-out">Click here to Sign-Out</a></p>
-                        </div>
-                        <p id="beacon">Beacon Test || I'm a teacher!</p>
-                        <button id="b_beacon" class="button button-big active">Start Ranging</button>
+
+                        <!-- <button id="b_beacon" class="button button-big active">Start Ranging</button> -->
                     </div>
                 </div>
             </div>
@@ -181,6 +180,24 @@
                 </div>
             </div>
         </div>
+
+        <!-- template7 templates -->
+        <script type="text/template7" id="storiesTemplate">
+            <ul>
+                {{#each this}}
+                <li>
+                    <a href="item.html?id={{id}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{title}}</div>
+                            </div>
+                            <div class="item-subtitle">{{subtitle}}</div>
+                        </div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </script>
 
         <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
         <script>

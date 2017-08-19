@@ -36,8 +36,10 @@ var batiming = (function () {
     // Initialize app
     myApp = new Framework7({
         material: batiming.isAndroid === true ? true : false,
-        template7Pages: true,
         swipePanel: 'left',
+        precompileTemplates: true,
+        template7Pages: true,
+
     });
 
     // Add view
@@ -116,6 +118,44 @@ var batiming = (function () {
             })
         }
     }
+    
+    // Update data
+    function updateStories(stories) {
+        myApp.template7Data.stories = stories;
+        $$('.page[data-page="index"] .page-content .list-block').html(Template7.templates.storiesTemplate(stories));
+    }
+    // Fetch Stories
+    function getStories(refresh) {
+        var obj = JSON.parse('{ "title":"Test1", "id":1, "subtitle":"Untertitel1"}');
+
+        //localStorage.getItem('stories')
+        var results = refresh ? [] : obj || [],
+            storiesCount = 0;
+        if (results.length === 0) {
+            // Neu Laden
+            if (!refresh) { }
+            //https://github.com/GuillaumeBiton/HackerNews7/blob/master/src/js/hn7.js
+            // for (var i = 1; i <= 1; i++) {
+                results[0] = obj;
+            // }
+
+            // Clear Empty Object in list
+            results = results.filter(function (n) {
+                return n !== null;
+            });
+        }
+
+        myApp.pullToRefreshDone();
+        // Update T7 data and render home page stories
+        updateStories(results);
+
+        return results;
+    }
+
+    // Update stories on PTR
+    $$('.pull-to-refresh-content').on('refresh', function () {
+        getStories(true);
+    });
 
     return batiming;
-})();
+}());
