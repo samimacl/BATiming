@@ -118,11 +118,14 @@ var batiming = (function () {
             })
         }
     }
-    
+
     // Update data
-    function updateStories(stories) {
+    function updateStories(stories,storiess) {
+        //Main 
         myApp.template7Data.stories = stories;
-        $$('.page[data-page="index"] .page-content .list-block').html(Template7.templates.storiesTemplate(stories));
+        // Secound Data
+        myApp.template7Data.stories.storiess = storiess;
+        $$('.page[data-page="index"] .page-content .myPageContent').html(Template7.templates.storiesTemplate(stories));
     }
     // Fetch Stories
     function getStories(refresh) {
@@ -131,13 +134,21 @@ var batiming = (function () {
         //localStorage.getItem('stories')
         var results = refresh ? [] : obj || [],
             storiesCount = 0;
+
         if (results.length === 0) {
             // Neu Laden
             if (!refresh) { }
             //https://github.com/GuillaumeBiton/HackerNews7/blob/master/src/js/hn7.js
-            // for (var i = 1; i <= 1; i++) {
-                results[0] = obj;
-            // }
+            for (var i = 1; i <= 3; i++) {
+                results[i] = obj;
+            }
+
+            // Test für 2 Liste
+            var result = refresh ? [] : obj || [];
+            result[0] = obj;
+            result = result.filter(function (n) {
+                return n !== null;
+            });
 
             // Clear Empty Object in list
             results = results.filter(function (n) {
@@ -147,7 +158,7 @@ var batiming = (function () {
 
         myApp.pullToRefreshDone();
         // Update T7 data and render home page stories
-        updateStories(results);
+        updateStories(results, result);
 
         return results;
     }
