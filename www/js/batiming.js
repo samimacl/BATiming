@@ -100,7 +100,7 @@ var batiming = (function () {
         var storedData = myApp.formGetData('my-form');
         if (storedData) {
             // Speeichern
-            myApp.alert(JSON.stringify(storedData));
+            database.updatePerson(database.getCurrentUserID(),storedData.Name,storedData.Vorname,storedData.Studiengruppe,storedData.PersonalID);
         } else {
             // keine Änderungen
             alert('Yet there is no stored data for this form. Please try to change any field')
