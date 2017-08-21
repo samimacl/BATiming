@@ -17,13 +17,9 @@ var login = (function () {
     });
 
     $$('.login-screen .register-login-screen').on('click', function () {
-        firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val())
-        .then(function(){
-            myApp.mainView.router.loadPage('./views/settings.html');
-        }).catch(function (error) {
+        firebase.auth().createUserWithEmailAndPassword($$('.login-screen input[name = "username"]').val(), $$('.login-screen input[name = "password"]').val()).catch(function (error) {
             myApp.alert(error.message);
         });
-
     });
 
     $$('.login-screen .resetpw-login-screen').on('click', function () {
@@ -48,7 +44,7 @@ var login = (function () {
         $$('.change-fbpassword').on('click', function () {
             myApp.modalPassword('Enter your new password', function (password) {
                 var user = firebase.auth().currentUser;
-               
+
                 user.updatePassword(password).then(function () {
                     // Update successful.
                     myApp.alert('Update successful.');
@@ -66,19 +62,29 @@ var login = (function () {
             database.getCurrentPerson(function (data) {
                 console.log(data);
                 if (data == null) {
-                    //database.createPerson(...)
-                    //show stammdaten view
-                }
-                if (data.Rolle != null && data.Rolle == '1') {
-                    $$('.view-main').hide();
-                    $$('.view-dozent').show();
+                    database.createPerson(firebase.auth().currentUser.uid, "", "", "", "", 0);
+                    database.getCurrentPerson(function (data) {
+                        $$('.view-main').hide();
+                        $$('.view-dozent').show();
+                        storageManager.addItem(true, 'userData', data);
+                        batiming.initMaps();
+                        batiming.getTemplateData(true);
+                        myApp.closeModal('.login-screen');
+                        myApp.mainView.router.loadPage('./views/settings.html');
+                    });
                 } else {
-                    $$('.view-main').show();
-                    $$('.view-dozent').hide();
+                    if (data.Rolle != null && data.Rolle == '1') {
+                        $$('.view-main').hide();
+                        $$('.view-dozent').show();
+                    } else {
+                        $$('.view-main').show();
+                        $$('.view-dozent').hide();
+                    }
+                    storageManager.addItem(true, 'userData', data);
+                    batiming.initMaps();
+                    batiming.getTemplateData(true);
+                    myApp.closeModal('.login-screen');
                 }
-                storageManager.addItem(true, 'userData', data);
-                batiming.initMaps();
-                myApp.closeModal('.login-screen');
             });
             console.log(fbUser);
         } else {

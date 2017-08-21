@@ -135,7 +135,7 @@ var batiming = (function () {
         }
     }
 
-    function getTemplateData(refresh) {
+    batiming.getTemplateData = function (refresh) {
         var obj = JSON.parse('{ "title":"Test1", "id":1, "subtitle":"Untertitel1", "Name":"NameVorlesung"}');
 
         //localStorage.getItem('stories')
@@ -168,7 +168,7 @@ var batiming = (function () {
     }
 
     $$('.pull-to-refresh-content').on('refresh', function () {
-        getTemplateData(true);
+        batiming.getTemplateData(true);
     });
 
     return batiming;
