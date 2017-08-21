@@ -84,7 +84,7 @@
                             <div class="preloader"></div>
                             <div class="pull-to-refresh-arrow"></div>
                         </div>
-                        <div class="myPageContent"></div>
+                        <div class="myPageContentStudenten"></div>
                     </div>
                     <!-- <button id="b_beacon" class="button button-fill button-raised">Start Ranging</button> -->
                 </div>
@@ -184,8 +184,8 @@
         </div>
 
         <!-- template7 templates -->
-        <script type="text/template7" id="storiesTemplate">
-            <div class="content-block-title">Anwesenheitsliste1</div>
+        <script type="text/template7" id="studentenTemplate">
+            <div class="content-block-title">Letzte Einträge :</div>
             <div class="list-block media-list">
                 <ul>
                     {{#each this}}
@@ -202,10 +202,10 @@
                     {{/each}}
                 </ul>
             </div>
-            <div class="content-block-title">Anwesenheitsliste2</div>
+            <div class="content-block-title">Zukünftige Termine :</div>
             <div class="list-block media-list">
                 <ul>
-                    {{#each this.storiess}}
+                    {{#each this.studentNextEntry}}
                     <li>
                         <a href="item.html?id={{id}}" data-context-name="stories.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
@@ -215,6 +215,30 @@
                                 <div class="item-subtitle">{{subtitle}}</div>
                             </div>
                         </a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+        </script>
+
+        <script type="text/template7" id="dozentenTemplate">
+            {{#each this}}
+                <div class="content-block-title">Vorlesung {{Name}}</div>
+            {{/each}}
+
+            <div class="content-block-title">Anwesende Studenten</div>
+            <div class="list-block media-list">
+                <ul>
+                    {{#each this.students}}
+                    <li>
+                        <div data-context-name="students.{{@index}}" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">{{title}}</div>
+                                </div>
+                                <div class="item-subtitle">{{subtitle}}</div>
+                            </div>
+                        </div>
                     </li>
                     {{/each}}
                 </ul>

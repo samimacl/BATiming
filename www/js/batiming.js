@@ -120,52 +120,55 @@ var batiming = (function () {
     }
 
     // Update data
-    function updateStories(stories,storiess) {
-        //Main 
-        myApp.template7Data.stories = stories;
-        // Secound Data
-        myApp.template7Data.stories.storiess = storiess;
-        $$('.page[data-page="index"] .page-content .myPageContent').html(Template7.templates.storiesTemplate(stories));
+    function updateTemplate(mainData, secData) {
+        if (true) {
+            //myPageContentStudenten
+            myApp.template7Data.student = mainData;
+            myApp.template7Data.student.studentNextEntry = secData;
+            $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(mainData));
+        }
+        else {
+            // myPageContentDozent
+            myApp.template7Data.dozent = mainData;
+            myApp.template7Data.dozent.students = secData;
+            $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(mainData));
+        }
     }
-    // Fetch Stories
-    function getStories(refresh) {
-        var obj = JSON.parse('{ "title":"Test1", "id":1, "subtitle":"Untertitel1"}');
+
+    function getTemplateData(refresh) {
+        var obj = JSON.parse('{ "title":"Test1", "id":1, "subtitle":"Untertitel1", "Name":"NameVorlesung"}');
 
         //localStorage.getItem('stories')
-        var results = refresh ? [] : obj || [],
-            storiesCount = 0;
+        var resultsMainData = refresh ? [] : obj || [];
+        var resultsSecData = refresh ? [] : obj || [];
 
-        if (results.length === 0) {
-            // Neu Laden
-            if (!refresh) { }
+        if (resultsMainData.length === 0) {
             //https://github.com/GuillaumeBiton/HackerNews7/blob/master/src/js/hn7.js
             for (var i = 1; i <= 3; i++) {
-                results[i] = obj;
+                resultsMainData[i] = obj;
             }
-
-            // Test für 2 Liste
-            var result = refresh ? [] : obj || [];
-            result[0] = obj;
-            result = result.filter(function (n) {
+            // Clear Empty Object in list
+            resultsMainData = resultsMainData.filter(function (n) {
                 return n !== null;
             });
+        }
 
-            // Clear Empty Object in list
-            results = results.filter(function (n) {
+        if (resultsSecData.length === 0) {
+            resultsSecData[0] = obj;
+
+            resultsSecData = resultsSecData.filter(function (n) {
                 return n !== null;
             });
         }
 
         myApp.pullToRefreshDone();
-        // Update T7 data and render home page stories
-        updateStories(results, result);
+        updateTemplate(resultsMainData, resultsSecData);
 
-        return results;
+        return resultsMainData;
     }
 
-    // Update stories on PTR
     $$('.pull-to-refresh-content').on('refresh', function () {
-        getStories(true);
+        getTemplateData(true);
     });
 
     return batiming;
