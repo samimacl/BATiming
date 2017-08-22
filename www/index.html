@@ -185,27 +185,45 @@
 
         <!-- template7 templates -->
         <script type="text/template7" id="studentenTemplate">
-            <div class="content-block-title">Letzte Einträge :</div>
+            <div class="content-block-title">Aktuelle Vorlesung</div>
             <div class="list-block media-list">
                 <ul>
                     {{#each this}}
                     <li>
-                        <a href="item.html?id={{this.id}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="stories.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{this.title}}</div>
+                                    <div class="item-title">{{this.lecture}}</div>
                                 </div>
-                                <div class="item-subtitle">{{this.subtitle}}</div>
+                                <div class="item-subtitle">{{this.begin}}</div>
                             </div>
                         </a>
                     </li>
                     {{/each}}
                 </ul>
             </div>
+
             <div class="content-block-title">Zukünftige Termine :</div>
             <div class="list-block media-list">
                 <ul>
                     {{#each this.studentNextEntry}}
+                    <li>
+                        <a href="item.html?id={{this.appointment}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">{{this.lecture}}</div>
+                                </div>
+                                <div class="item-subtitle">{{this.begin}}</div>
+                            </div>
+                        </a>
+                    </li>
+                    {{/each}}
+                </ul>
+            </div>
+            <div class="content-block-title">Letzte Einträge :</div>
+            <div class="list-block media-list">
+                <ul>
+                    {{#each this.studentLastEntry}}
                     <li>
                         <a href="item.html?id={{id}}" data-context-name="stories.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
@@ -223,7 +241,7 @@
 
         <script type="text/template7" id="dozentenTemplate">
             {{#each this}}
-                <div class="content-block-title">Vorlesung {{Name}}</div>
+            <div class="content-block-title">Vorlesung {{Name}}</div>
             {{/each}}
 
             <div class="content-block-title">Anwesende Studenten</div>

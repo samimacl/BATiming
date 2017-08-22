@@ -100,7 +100,7 @@ var batiming = (function () {
         var storedData = myApp.formGetData('my-form');
         if (storedData) {
             // Speeichern
-            database.updatePerson(database.getCurrentUserID(),storedData.Name,storedData.Vorname,storedData.Studiengruppe,storedData.PersonalID);
+            database.updatePerson(database.getCurrentUserID(), storedData.Name, storedData.Vorname, storedData.Studiengruppe, storedData.PersonalID);
         } else {
             // keine Änderungen
             alert('Yet there is no stored data for this form. Please try to change any field')
@@ -119,56 +119,83 @@ var batiming = (function () {
         }
     }
 
-    // Update data
-    function updateTemplate(mainData, secData) {
-        if (true) {
-            //myPageContentStudenten
-            myApp.template7Data.student = mainData;
-            myApp.template7Data.student.studentNextEntry = secData;
-            $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(mainData));
-        }
-        else {
-            // myPageContentDozent
-            myApp.template7Data.dozent = mainData;
-            myApp.template7Data.dozent.students = secData;
-            $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(mainData));
-        }
-    }
+    batiming.getTemplateData = function () {
+        // Aktueller Termin
+        if (storageManager.getItem(true, 'userData').Rolle = 0) {
+            // Aktuelle Vorlesung
+            database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data1) {
+                // Zukünftige Vorlesungen
+                database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data2) {
+                    // Letzte Einträge
+                    database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data3) {
+                        var results1 = [];
+                        var results2 = [];
+                        var results3 = [];
 
-    batiming.getTemplateData = function (refresh) {
-        var obj = JSON.parse('{ "title":"Test1", "id":1, "subtitle":"Untertitel1", "Name":"NameVorlesung"}');
+                        for (var i = 0; i <= data1.length; i++) {
+                            results1[i] = JSON.Parse(data1[i]);
+                        }
+                        for (var i = 0; i <= data2.length; i++) {
+                            results2[i] = JSON.Parse(data2[i]);
+                        }
+                        for (var i = 0; i <= data3.length; i++) {
+                            results3[i] = JSON.Parse(data3[i]);
+                        }
+                        // Clear Empty Object in list
+                        results1 = results1.filter(function (n) {
+                            return n !== null;
+                        });
+                        results2 = results2.filter(function (n) {
+                            return n !== null;
+                        });
 
-        //localStorage.getItem('stories')
-        var resultsMainData = refresh ? [] : obj || [];
-        var resultsSecData = refresh ? [] : obj || [];
+                        results3 = results3.filter(function (n) {
+                            return n !== null;
+                        });
 
-        if (resultsMainData.length === 0) {
-            //https://github.com/GuillaumeBiton/HackerNews7/blob/master/src/js/hn7.js
-            for (var i = 1; i <= 3; i++) {
-                resultsMainData[i] = obj;
-            }
-            // Clear Empty Object in list
-            resultsMainData = resultsMainData.filter(function (n) {
-                return n !== null;
+                        // CurrentLecture
+                        myApp.template7Data.student = results1;
+                        myApp.template7Data.student.studentNextEntry = results2;
+                        myApp.template7Data.student.studentLastEntry = results3;
+                        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(mainData));
+                    });
+                });
+            });
+        } else {
+            // Vorlesung Akttuell
+            database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data1) {
+                // Anwesende Studenten
+                database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data2) {
+                    var results1 = [];
+                    var results2 = [];
+
+                    for (var i = 0; i <= data1.length; i++) {
+                        results1[i] = JSON.Parse(data1[i]);
+                    }
+                    for (var i = 0; i <= data2.length; i++) {
+                        results2[i] = JSON.Parse(data2[i]);
+                    }
+
+                    // Clear Empty Object in list
+                    results1 = results1.filter(function (n) {
+                        return n !== null;
+                    });
+                    results2 = results2.filter(function (n) {
+                        return n !== null;
+                    });
+
+                    // myPageContentDozent
+                    myApp.template7Data.dozent = results1;
+                    myApp.template7Data.dozent.students = results2;
+                    $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
+                });
             });
         }
-
-        if (resultsSecData.length === 0) {
-            resultsSecData[0] = obj;
-
-            resultsSecData = resultsSecData.filter(function (n) {
-                return n !== null;
-            });
-        }
-
         myApp.pullToRefreshDone();
-        updateTemplate(resultsMainData, resultsSecData);
-
-        return resultsMainData;
     }
 
     $$('.pull-to-refresh-content').on('refresh', function () {
-        batiming.getTemplateData(true);
+        batiming.getTemplateData();
     });
 
     return batiming;
