@@ -93,6 +93,11 @@ var batiming = (function () {
         }
         myApp.formFromData('#my-form', formData);
     });
+	
+	myApp.onPageInit('attendance', function (page) {
+        // Daten befüllen Example
+       batiming.getTemplateDataAttendance();
+    });
 
     myApp.onPageBack('settings', function (page) {
         // Daten Speichern beim Seite verlassen Example
@@ -106,6 +111,27 @@ var batiming = (function () {
         }
     });
 
+	batiming.getTemplateDataAttendance = function () {
+		database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data) {
+			var results1 = [];
+
+
+				for (var i = 0; i <= data1.length; i++) {
+					results1[i] = JSON.Parse(data1[i]);
+				}
+
+				}
+				// Clear Empty Object in list
+				results1 = results1.filter(function (n) {
+					return n !== null;
+				});
+
+				// CurrentLecture
+				myApp.template7Data.student = results1;
+				$$('.page[data-page="attendance"] .page-content .myPageContentStudentenAttendance').html(Template7.templates.studentenTemplate(attendance_s));
+		}
+	}
+	
     $$('.panel-close').on('click', function (e) {
         myApp.closePanel();
     });
