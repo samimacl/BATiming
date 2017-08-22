@@ -161,7 +161,7 @@ var database = (function () {
     };
 
     //Returns DataSnapshot
-    database.getCurrentLectureKeyByStudyGroup = function (studyGroup, callbackFunction) {
+    database.getCurrentAppointmentByStudyGroup = function (studyGroup, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             if (studyGroup != null) {
