@@ -187,6 +187,8 @@ var database = (function () {
                                     };
                                     callbackFunction(result);
                                 }
+                            } else {
+                                callbackFunction(null);
                             }
                         });
                     });
@@ -220,6 +222,8 @@ var database = (function () {
                                             };
                                             callbackFunction(result);
                                         }
+                                    } else {
+                                        callbackFunction(null);
                                     }
                                 });
                             });
@@ -430,13 +434,20 @@ var database = (function () {
         }
     }
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> Bugfix UpatePerson(..)
     // database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
     //      //Check if logged in
     //      if (fbInstance.auth().currentUser) {
     //         if (appointmentKey != null) {
     //             var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
     //             ref.once("value").then(function (snap) {
-    //                 //
+    //                 var teilnehmerJSON = [];
+    //                 snap.forEach(function (childNode) {
+
+    //                 });
     //             });
     //         } else {
     //             callbackFunction(null);
@@ -456,6 +467,11 @@ var database = (function () {
     //     }
     // }
 
+<<<<<<< HEAD
+=======
+>>>>>>> Added function "getAppointmentList(..)" which returns a list of Appointments by StudyGroup and a given Date-Range.
+=======
+>>>>>>> Bugfix UpatePerson(..)
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
