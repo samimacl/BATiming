@@ -181,7 +181,7 @@ var batiming = (function () {
                         myApp.template7Data.student = results1;
                         myApp.template7Data.student.studentNextEntry = results2;
                         myApp.template7Data.student.studentLastEntry = results3;
-                        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(mainData));
+                        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
                     });
                 });
             });
