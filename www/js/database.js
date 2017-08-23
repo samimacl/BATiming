@@ -74,7 +74,7 @@ var database = (function () {
     database.getPersonByID = function (userID, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (!userID) {
+            if (userID != null) {
                 var ref = fbInstance.database().ref("Personen/Person_" + userID);
                 ref.once("value").then(function (snap) {
                     callbackFunction(snap.val());
@@ -173,25 +173,27 @@ var database = (function () {
                 ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                     console.log("OnValue --> " + snap.val());
                     // callbackFunction(snap.val());
+                    var result = null;
+
                     snap.forEach(function (childNode) {
                         beginTime = childNode.key;
                         childNode.forEach(function (childChildNode) {
                             var terminJSON = childChildNode.val();
                             if (terminJSON != null) {
                                 if (terminJSON.Ende >= timeString) {
-                                    let result = {
+                                    let resultJSON = {
                                         "appointment": childChildNode.key,
                                         "lecture": terminJSON.Vorlesung_ID,
                                         "begin": beginTime,
                                         "end": terminJSON.Ende
                                     };
-                                    callbackFunction(result);
+                                    //callbackFunction(result);
+                                    result = resultJSON; 
                                 }
-                            } else {
-                                callbackFunction(null);
                             }
                         });
                     });
+                    callbackFunction(result);
                 });
             } else {
                 callbackFunction(null);
@@ -207,26 +209,29 @@ var database = (function () {
                         var beginTime;
                         var ref = fbInstance.database().ref("StudyGroupCalendar/" + studyGroup + "/" + dateString);
                         ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
+                            console.log("OnValue --> " + snap.val());
                             // callbackFunction(snap.val());
+                            var result = null;
+        
                             snap.forEach(function (childNode) {
                                 beginTime = childNode.key;
                                 childNode.forEach(function (childChildNode) {
                                     var terminJSON = childChildNode.val();
                                     if (terminJSON != null) {
                                         if (terminJSON.Ende >= timeString) {
-                                            let result = {
+                                            let resultJSON = {
                                                 "appointment": childChildNode.key,
                                                 "lecture": terminJSON.Vorlesung_ID,
                                                 "begin": beginTime,
                                                 "end": terminJSON.Ende
                                             };
-                                            callbackFunction(result);
+                                            //callbackFunction(result);
+                                            result = resultJSON; 
                                         }
-                                    } else {
-                                        callbackFunction(null);
                                     }
                                 });
                             });
+                            callbackFunction(result);
                         });
                     } else {
                         callbackFunction(null);
