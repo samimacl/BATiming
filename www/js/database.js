@@ -434,10 +434,6 @@ var database = (function () {
         }
     }
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> Bugfix UpatePerson(..)
     // database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
     //      //Check if logged in
     //      if (fbInstance.auth().currentUser) {
@@ -465,13 +461,8 @@ var database = (function () {
     //         });
     //         this.setUserAuth(this.userMail, this.userPassword);
     //     }
-    // }
+// }
 
-<<<<<<< HEAD
-=======
->>>>>>> Added function "getAppointmentList(..)" which returns a list of Appointments by StudyGroup and a given Date-Range.
-=======
->>>>>>> Bugfix UpatePerson(..)
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
