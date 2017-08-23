@@ -68,7 +68,6 @@ var login = (function () {
                         $$('.view-dozent').hide();
                         storageManager.addItem(true, 'userData', data);
                         batiming.initMaps();
-                        // batiming.getTemplateData(true);
                         myApp.closeModal('.login-screen');
                     });
                      myApp.mainView.router.loadPage('./views/settings.html');
@@ -80,9 +79,9 @@ var login = (function () {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();
                     }
-                    storageManager.addItem(true, 'userData', data);
+                    storageManager.changeItem(true, 'userData', data);
                     batiming.initMaps();
-                    // batiming.getTemplateData(true);
+                    batiming.getTemplateData();
                     myApp.closeModal('.login-screen');
                 }
             });

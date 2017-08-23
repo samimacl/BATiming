@@ -117,7 +117,7 @@ var batiming = (function () {
             var results1 = [];
 
             for (var i = 0; i <= data.length; i++) {
-                results1[i] = JSON.Parse(data[i]);
+                results1[i] = JSON.parse(data[i]);
             };
 
             // Clear Empty Object in list
@@ -145,25 +145,25 @@ var batiming = (function () {
 
     batiming.getTemplateData = function () {
         // Aktueller Termin
-        if (storageManager.getItem(true, 'userData').Rolle = 0) {
+        if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
             // Aktuelle Vorlesung
-            database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data1) {
+            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Zukünftige Vorlesungen
-                database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data2) {
+                database.getAppointmentList(4, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
-                    database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data3) {
+                    database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
                         var results1 = [];
                         var results2 = [];
                         var results3 = [];
 
                         for (var i = 0; i <= data1.length; i++) {
-                            results1[i] = JSON.Parse(data1[i]);
+                            results1[i] = JSON.parse(data1[i]);
                         }
                         for (var i = 0; i <= data2.length; i++) {
-                            results2[i] = JSON.Parse(data2[i]);
+                            results2[i] = JSON.parse(data2[i]);
                         }
                         for (var i = 0; i <= data3.length; i++) {
-                            results3[i] = JSON.Parse(data3[i]);
+                            results3[i] = JSON.parse(data3[i]);
                         }
                         // Clear Empty Object in list
                         results1 = results1.filter(function (n) {
@@ -187,17 +187,17 @@ var batiming = (function () {
             });
         } else {
             // Vorlesung Akttuell
-            database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data1) {
+            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Anwesende Studenten
-                database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data2) {
+                database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     var results1 = [];
                     var results2 = [];
 
                     for (var i = 0; i <= data1.length; i++) {
-                        results1[i] = JSON.Parse(data1[i]);
+                        results1[i] = JSON.parse(data1[i]);
                     }
                     for (var i = 0; i <= data2.length; i++) {
-                        results2[i] = JSON.Parse(data2[i]);
+                        results2[i] = JSON.parse(data2[i]);
                     }
 
                     // Clear Empty Object in list
