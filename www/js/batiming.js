@@ -97,7 +97,7 @@ var batiming = (function () {
 
     myApp.onPageInit('attendance', function (page) {
         // Daten befüllen Example
-        batiming.getTemplateDataAttendance();
+        // batiming.getTemplateDataAttendance();
     });
 
     myApp.onPageBack('settings', function (page) {
