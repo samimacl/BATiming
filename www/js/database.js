@@ -434,6 +434,7 @@ var database = (function () {
         }
     }
 
+<<<<<<< HEAD
     database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
          //Check if logged in
          if (fbInstance.auth().currentUser) {
@@ -466,6 +467,36 @@ var database = (function () {
     database.getLectureAttendanceListByPersonKey = function(personKey, callbackFunction) {
         
     }
+=======
+    // database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
+    //      //Check if logged in
+    //      if (fbInstance.auth().currentUser) {
+    //         if (appointmentKey != null) {
+    //             var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+    //             ref.once("value").then(function (snap) {
+    //                 var teilnehmerJSON = [];
+    //                 snap.forEach(function (childNode) {
+
+    //                 });
+    //             });
+    //         } else {
+    //             callbackFunction(null);
+    //         }
+    //     } else {
+    //         //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+    //         var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+    //             if (!user) {
+    //                 if (appointmentKey != null) {
+    //                 } else {
+    //                     callbackFunction(null);
+    //                 }
+    //                 unsuscribeAuthEvent();
+    //             }
+    //         });
+    //         this.setUserAuth(this.userMail, this.userPassword);
+    //     }
+// }
+>>>>>>> cf285a72fcb459db7b6742dee1ed40da3250e8f0
 
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
