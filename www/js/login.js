@@ -81,8 +81,8 @@ var login = (function () {
                         $$('.view-dozent').hide();
                     }
                     storageManager.addItem(true, 'userData', data);
-                    batiming.initMaps();
-                    batiming.getTemplateData(true);
+                    // batiming.initMaps();
+                    // batiming.getTemplateData(true);
                     myApp.closeModal('.login-screen');
                 }
             });
