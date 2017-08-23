@@ -107,7 +107,7 @@ var batiming = (function () {
             // Speeichern
             database.updatePerson(database.getCurrentUserID(), storedData.Name, storedData.Vorname, storedData.Studiengruppe, storedData.PersonalID);
             database.getCurrentPerson(function (data) {
-                 storageManager.changeItem(true, 'userData', data);
+                storageManager.changeItem(true, 'userData', data);
             });
 
         } else {
@@ -147,38 +147,61 @@ var batiming = (function () {
         }
     }
 
-    batiming.getTemplateData = function () {
+    function fillTemplateData(results1, results2, results3) {
+        if (results1 !== null)
+            results1 = results1.filter(function (n) {
+                return n !== null;
+            });
+
+        if (results2 !== null)
+            results2 = results2.filter(function (n) {
+                return n !== null;
+            });
+
+        if (results3 !== null)
+            results3 = results3.filter(function (n) {
+                return n !== null;
+            });
+
+        // CurrentLecture
+        // myApp.template7Data.student = results1;
+        // myApp.template7Data.student.studentNextEntry = results2;
+        // myApp.template7Data.student.studentLastEntry = results3;
+        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
+    };
+
+    batiming.getTemplateData = async function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
             // Aktuelle Vorlesung
-            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
-                // Zukünftige Vorlesungen
-                database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
-                    // Letzte Einträge
-                    database.getAppointmentList(-5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
-                        var results1 = [];
-                        var results2 = data2;
-                        var results3 = data3;
-                       
-                        results1 = results1.filter(function (n) {
-                            return n !== null;
-                        });
-                        results2 = results2.filter(function (n) {
-                            return n !== null;
-                        });
-
-                        results3 = results3.filter(function (n) {
-                            return n !== null;
-                        });
-
-                        // CurrentLecture
-                        myApp.template7Data.student = results1;
-                        myApp.template7Data.student.studentNextEntry = results2;
-                        myApp.template7Data.student.studentLastEntry = results3;
-                        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
-                    });
+            let current = [];
+            myApp.template7Data.student = current;
+            let next = [];
+            let last = [];
+            await database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe,
+                function (data1) {
+                    if (data1 != null)
+                        current = data1;
                 });
-            });
+            await database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe,
+                function (data2) {
+                    myApp.template7Data.student.studentNextEntry = data2;
+                });
+            await database.getAppointmentList(-5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe,
+                function (data3) {
+                    myApp.template7Data.student.studentLastEntry = data3;
+                });
+            await fillTemplateData(current, next, last);
+            // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
+            // Zukünftige Vorlesungen
+            //     database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
+            // Letzte Einträge
+            //       database.getAppointmentList(-5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
+
+
+            //   });
+            // });
+            // });
         } else {
             // Vorlesung Akttuell
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
@@ -211,11 +234,11 @@ var batiming = (function () {
         }
         myApp.pullToRefreshDone();
     }
-	
-	function updateStories(results1) {
+
+    function updateStories(results1) {
         myApp.template7Data.results1 = results1;
         $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(results1));
-	}
+    }
 
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
