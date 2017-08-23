@@ -68,7 +68,7 @@ var login = (function () {
                         $$('.view-dozent').show();
                         storageManager.addItem(true, 'userData', data);
                         batiming.initMaps();
-                        batiming.getTemplateData(true);
+                        // batiming.getTemplateData(true);
                         myApp.closeModal('.login-screen');
                         myApp.mainView.router.loadPage('./views/settings.html');
                     });
@@ -82,7 +82,7 @@ var login = (function () {
                     }
                     storageManager.addItem(true, 'userData', data);
                     batiming.initMaps();
-                    batiming.getTemplateData(true);
+                    // batiming.getTemplateData(true);
                     myApp.closeModal('.login-screen');
                 }
             });

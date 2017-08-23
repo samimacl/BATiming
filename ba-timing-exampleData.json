@@ -1,0 +1,289 @@
+{
+  "LectureHistory" : {
+    "Termin_13" : {
+      "Teilnehmer" : {
+        "-Krjy7dd0okse6Ph_vUe" : {
+          "Bemerkung" : "Test",
+          "Entschuldigt" : "0",
+          "Kommt" : "2017-7-17T13:33:53",
+          "Person" : "8lOscjdhxic9Ac44YqDlpR3fK7D3"
+        }
+      }
+    },
+    "Termin_6" : {
+      "DozentenFreigabe" : "2017-03-16T16:45:00",
+      "Teilnehmer" : [ {
+        "Bemerkung" : "",
+        "Entschuldigt" : "0",
+        "Kommt" : "2017-03-15T13:27:00",
+        "Person" : "Person_2"
+      }, {
+        "Bemerkung" : "Beurlaubt wegen Firmenveranstaltung",
+        "Entschuldigt" : "1",
+        "Person" : "Person_3",
+        "Rolle" : "0"
+      } ],
+      "Vorlesung_ID" : "Vorlesung_1"
+    }
+  },
+  "Lectures" : {
+    "Vorlesung_1" : {
+      "Dozent_ID" : "Person_4",
+      "Studiengruppe_ID" : "Studiengruppe_5",
+      "Termine" : {
+        "Termin_6" : {
+          "Beginn" : "2017-03-15T13:30:00",
+          "Ende" : "2017-03-15T16:45:00",
+          "Raum" : "203"
+        },
+        "Termin_7" : {
+          "Beginn" : "2017-03-16T13:30:00",
+          "Ende" : "2017-03-16T16:45:00",
+          "Raum" : "203"
+        }
+      },
+      "Titel" : "Testvorlesung"
+    }
+  },
+  "PersonHistory" : {
+    "8lOscjdhxic9Ac44YqDlpR3fK7D3" : {
+      "Termin_13" : {
+        "Bemerkung" : "Test",
+        "Entschuldigt" : "0",
+        "Kommt" : "2017-08-16T20:36:00",
+        "Raum" : "203",
+        "VorlesungID" : "Vorlesung_1"
+      }
+    },
+    "Person_1" : {
+      "Termin_13" : {
+        "Bemerkung" : "",
+        "Entschuldigt" : "0",
+        "Kommt" : "2017-8-16T13:03:00",
+        "Raum" : "203",
+        "VorlesungID" : "Vorlesung_1"
+      }
+    },
+    "Person_2" : [ {
+      "Kommt" : "2017-03-15T13:27:00",
+      "Raum" : "203",
+      "Termin_ID" : "Termin_6",
+      "VorlesungID" : "Vorlesung_1"
+    } ],
+    "Person_8lOscjdhxic9Ac44YqDlpR3fK7D3" : {
+      "Termin_13" : {
+        "-Krjy7dwy4L9UcIR1Nxp" : {
+          "Bemerkung" : "Test",
+          "Entschuldigt" : "0",
+          "Kommt" : "2017-7-17T13:33:53",
+          "Raum" : "203",
+          "VorlesungID" : "Vorlesung_1"
+        }
+      }
+    }
+  },
+  "Personen" : {
+    "Person_3" : {
+      "Name" : "Gross",
+      "PersonalID" : "12346",
+      "Rolle" : "0",
+      "Studiengruppe" : "Studiengruppe_5",
+      "Vorname" : "Tobias"
+    },
+    "Person_4" : {
+      "Name" : "Kreinbihl",
+      "PersonalID" : "12347",
+      "Rolle" : "1",
+      "Studiengruppe" : "",
+      "Vorname" : "Michael"
+    },
+    "Person_8lOscjdhxic9Ac44YqDlpR3fK7D3" : {
+      "Name" : "Knöchel",
+      "PersonalID" : "1154484641541",
+      "Rolle" : "0",
+      "Studiengruppe" : "Studiengruppe_5",
+      "Vorname" : "Sascha"
+    },
+    "Person_Eu6FuHmhPGhzOaGpn7KBkkD51Lg1" : {
+      "Name" : "Garben",
+      "PersonalID" : "222",
+      "Rolle" : "0",
+      "Studiengruppe" : "Studiengruppe_5",
+      "Vorname" : "Andreas"
+    },
+    "Person_OJTIJb6qKqR4nBXghGt1mgoCVZP2" : {
+      "Name" : "TEST 1",
+      "PersonalID" : "12347",
+      "Rolle" : "0",
+      "Studiengruppe" : "",
+      "Vorname" : "TEST"
+    },
+    "Person_QPCZ1x13TIaxc6ruZB7GCvOOoFQ2" : {
+      "Name" : "",
+      "PersonalID" : "",
+      "Rolle" : 0,
+      "Studiengruppe" : "",
+      "Vorname" : ""
+    },
+    "Person_b2z6gjCDZDTtHDHwYnISjy7dTJD3" : {
+      "Name" : "Gamer",
+      "PersonalID" : "2012",
+      "Rolle" : "1",
+      "Studiengruppe" : "Studiengruppe_5",
+      "Vorname" : "Michael"
+    },
+    "Person_hU6uRXRVjPSbVyUtibuOYS4dsw32" : {
+      "Name" : "",
+      "PersonalID" : "",
+      "Rolle" : 0,
+      "Studiengruppe" : "",
+      "Vorname" : ""
+    },
+    "Person_nmpWzb6WpCMZNvEvtkQQNZoMlQ12" : {
+      "Name" : "Butt",
+      "PersonalID" : "12345",
+      "Rolle" : "0",
+      "Studiengruppe" : "Studiengruppe_5",
+      "Vorname" : "Atiq"
+    },
+    "Person_qz7z2iUzb6h0FiqmKKy1AoOq9m63" : {
+      "Name" : "",
+      "PersonalID" : "",
+      "Rolle" : 0,
+      "Studiengruppe" : "",
+      "Vorname" : ""
+    },
+    "Person_sSugr7lc5mOtpJ3byCzFZhibGY12" : {
+      "Name" : "Garben",
+      "PersonalID" : "222",
+      "Studiengruppe" : "Studiengruppe_5",
+      "Vorname" : "Andreas"
+    }
+  },
+  "StudyGroupCalendar" : {
+    "2017-8-12" : {
+      "Studiengruppe_5" : {
+        "08:30:00" : {
+          "Termin_11" : {
+            "Ende" : "11:45:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "12:45:00" : {
+          "Termin_13" : {
+            "Ende" : "16:00:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      },
+      "Studiengruppe_555" : {
+        "08:30:00" : {
+          "Termin_12" : {
+            "Ende" : "11:45:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      }
+    },
+    "2017-8-14" : {
+      "Studiengruppe_5" : {
+        "08:30:00" : {
+          "Termin_11" : {
+            "Ende" : "11:45:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "12:45:00" : {
+          "Termin_13" : {
+            "Ende" : "16:00:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      }
+    },
+    "2017-8-15" : {
+      "Studiengruppe_5" : {
+        "08:30:00" : {
+          "Termin_11" : {
+            "Ende" : "11:45:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "12:45:00" : {
+          "Termin_13" : {
+            "Ende" : "16:00:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "23:55:00" : {
+          "Termin_2012" : {
+            "Ende" : "00:50:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      }
+    },
+    "2017-8-16" : {
+      "Studiengruppe_5" : {
+        "08:30:00" : {
+          "Termin_11" : {
+            "Ende" : "12:30:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "12:45:00" : {
+          "Termin_13" : {
+            "Ende" : "18:00:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      }
+    },
+    "2017-8-17" : {
+      "Studiengruppe_5" : {
+        "08:30:00" : {
+          "Termin_11" : {
+            "Ende" : "11:45:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "12:00:00" : {
+          "Termin_13" : {
+            "Ende" : "16:00:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      }
+    },
+    "2017-8-18" : {
+      "Studiengruppe_5" : {
+        "11:00:00" : {
+          "Termin_13" : {
+            "Ende" : "12:30:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        },
+        "12:00:00" : {
+          "Termin_13" : {
+            "Ende" : "16:00:00",
+            "Vorlesung_ID" : "Vorlesung_1"
+          }
+        }
+      }
+    }
+  },
+  "StudyGroups" : {
+    "Studiengruppe_5" : {
+      "Bezeichnung" : "WS-14-II",
+      "Fachbereich" : "Wirtschaftsinformatik",
+      "Lectures" : [ "Vorlesung_1" ],
+      "Studenten" : [ "Person_2", "Person_3" ]
+    },
+    "Studiengruppe_55" : {
+      "Bezeichnung" : "WS-16-IV",
+      "Fachbereich" : "Betriebswirtschaftslehre Handel&Dienstleistung (BWL-HD)",
+      "Lectures" : [ "Vorlesung_2" ],
+      "Studenten" : [ "Person_2", "Person_3" ]
+    }
+  }
+}
