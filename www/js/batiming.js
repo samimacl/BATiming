@@ -106,6 +106,10 @@ var batiming = (function () {
         if (storedData) {
             // Speeichern
             database.updatePerson(database.getCurrentUserID(), storedData.Name, storedData.Vorname, storedData.Studiengruppe, storedData.PersonalID);
+            database.getCurrentPerson(function (data) {
+                 storageManager.changeItem(true, 'userData', data);
+            });
+
         } else {
             // keine Änderungen
             alert('Yet there is no stored data for this form. Please try to change any field')
@@ -147,25 +151,15 @@ var batiming = (function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
             // Aktuelle Vorlesung
-            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
+            // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Zukünftige Vorlesungen
                 database.getAppointmentList(4, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
                     database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
                         var results1 = [];
-                        var results2 = [];
-                        var results3 = [];
-
-                        for (var i = 0; i <= data1.length; i++) {
-                            results1[i] = JSON.parse(data1[i]);
-                        }
-                        for (var i = 0; i <= data2.length; i++) {
-                            results2[i] = JSON.parse(data2[i]);
-                        }
-                        for (var i = 0; i <= data3.length; i++) {
-                            results3[i] = JSON.parse(data3[i]);
-                        }
-                        // Clear Empty Object in list
+                        var results2 = data2;
+                        var results3 = data3;
+                       
                         results1 = results1.filter(function (n) {
                             return n !== null;
                         });
@@ -184,7 +178,7 @@ var batiming = (function () {
                         $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
                     });
                 });
-            });
+            // });
         } else {
             // Vorlesung Akttuell
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {

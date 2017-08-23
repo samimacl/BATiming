@@ -228,12 +228,12 @@
                 <ul>
                     {{#each this.studentLastEntry}}
                     <li>
-                        <a href="item.html?id={{id}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{title}}</div>
+                                    <div class="item-title">{{this.lecture}}</div>
                                 </div>
-                                <div class="item-subtitle">{{subtitle}}</div>
+                                <div class="item-subtitle">{{this.begin}}</div>
                             </div>
                         </a>
                     </li>
