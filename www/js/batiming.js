@@ -129,7 +129,7 @@ var batiming = (function () {
             myApp.template7Data.attendance = results1;
             $$('.page[data-page="attendance"] .page-content .myPageContentStudentenAttendance').html(Template7.templates.attendanceTemplate(results1));
         });
-	}
+    }
 
     $$('.panel-close').on('click', function (e) {
         myApp.closePanel();
@@ -220,6 +220,11 @@ var batiming = (function () {
 
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
+    });
+
+    $$('a#homee').on('click', function (e) {
+        console.log('clicked');
+        // Eventuell Refresh Template 7 
     });
 
     return batiming;

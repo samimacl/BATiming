@@ -19,8 +19,8 @@
     <div class="panel panel-left panel-cover">
         <div class="list-block">
             <ul>
-                <li id="home">
-                    <a href="./index.html" class="item-link panel-close">
+                <li>
+                    <a id="home" href="./index.html" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-home"></i><i class="icon f7-icons">home</i></div>
                             <div class="item-inner">
@@ -29,8 +29,8 @@
                         </div>
                     </a>
                 </li>
-                <li id="attendance">
-                    <a href="./views/attendance.html" class="item-link panel-close">
+                <li>
+                    <a id="attendance" href="./views/attendance.html" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-info-circle"></i><i class="icon f7-icons">time</i></div>
                             <div class="item-inner">
@@ -39,8 +39,8 @@
                         </div>
                     </a>
                 </li>
-                <li id="about">
-                    <a href="./views/about.html" class="item-link panel-close">
+                <li>
+                    <a id="about" href="./views/about.html" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-info-circle"></i><i class="icon f7-icons">info</i></div>
                             <div class="item-inner">
@@ -49,8 +49,8 @@
                         </div>
                     </a>
                 </li>
-                <li id="settings">
-                    <a href="./views/settings.html" class="item-link panel-close">
+                <li>
+                    <a id="settings" href="./views/settings.html" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-cog"></i><i class="icon f7-icons">settings</i></div>
                             <div class="item-inner">
@@ -77,6 +77,9 @@
                     <div class="right"></div>
                 </div>
             </div>
+            <a href="#" class="floating-button color-pink">
+                <i class="icon f7-icons">add</i>
+            </a>
             <div class="pages">
                 <div class="page" data-page="index">
                     <div class="page-content pull-to-refresh-content">
@@ -90,6 +93,7 @@
                 </div>
             </div>
         </div>
+
         <!-- Dozent View -->
         <div class="view view-dozent navbar-through">
             <div class="navbar">
@@ -190,7 +194,7 @@
                 <ul>
                     {{#each this}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
                                 <div class="item-title-row">
                                     <div class="item-title">{{this.lecture}}</div>
@@ -208,7 +212,7 @@
                 <ul>
                     {{#each this.studentNextEntry}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
                                 <div class="item-title-row">
                                     <div class="item-title">{{this.lecture}}</div>
@@ -225,7 +229,7 @@
                 <ul>
                     {{#each this.studentLastEntry}}
                     <li>
-                        <a href="item.html?id={{id}}" data-context-name="stories.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{id}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
                             <div class="item-inner">
                                 <div class="item-title-row">
                                     <div class="item-title">{{title}}</div>
