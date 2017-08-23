@@ -434,34 +434,38 @@ var database = (function () {
         }
     }
 
-    // database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
-    //      //Check if logged in
-    //      if (fbInstance.auth().currentUser) {
-    //         if (appointmentKey != null) {
-    //             var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
-    //             ref.once("value").then(function (snap) {
-    //                 var teilnehmerJSON = [];
-    //                 snap.forEach(function (childNode) {
+    database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
+         //Check if logged in
+         if (fbInstance.auth().currentUser) {
+            if (appointmentKey != null) {
+                var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                ref.once("value").then(function (snap) {
+                    var teilnehmerJSON = [];
+                    snap.forEach(function (childNode) {
 
-    //                 });
-    //             });
-    //         } else {
-    //             callbackFunction(null);
-    //         }
-    //     } else {
-    //         //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
-    //         var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
-    //             if (!user) {
-    //                 if (appointmentKey != null) {
-    //                 } else {
-    //                     callbackFunction(null);
-    //                 }
-    //                 unsuscribeAuthEvent();
-    //             }
-    //         });
-    //         this.setUserAuth(this.userMail, this.userPassword);
-    //     }
-// }
+                    });
+                });
+            } else {
+                callbackFunction(null);
+            }
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    if (appointmentKey != null) {
+                    } else {
+                        callbackFunction(null);
+                    }
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
+    database.getLectureAttendanceListByPersonKey = function(personKey, callbackFunction) {
+        
+    }
 
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
@@ -582,6 +586,14 @@ var database = (function () {
             });
             this.setUserAuth(this.userMail, this.userPassword);
         }
+    }
+
+    database.getLectureTitles = function(callbackFunction) {
+
+    }
+
+    database.getDozentenNames = function(callbackFunction) {
+
     }
 
     //Returns string
