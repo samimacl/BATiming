@@ -64,7 +64,7 @@ var batiming = (function () {
 
     $$('#b_beacon').on('click', function () {
         try {
-            myApp.showPreloader('Custom Title');
+            myApp.showPreloader('Eintragung läuft ....');
             timeManager.startWorkflow()
                 .then(() => console.log("Workflow started" + "\n"))
                 .then(() => console.log('start Monitoring'))
