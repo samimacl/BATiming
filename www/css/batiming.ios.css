@@ -57,12 +57,6 @@ p {
     flex-shrink: 0;
 }
 
-#b_beacon {
-    margin-left: auto;
-    margin-right: auto;
-    position: relative;
-}
-
 .infinite-scroll-preloader {
   margin-top:-20px;
   margin-bottom: 10px;
@@ -74,7 +68,8 @@ p {
 }
 
 .logo {
-    display: block;
-    margin: auto;
-    width: 40%;
+    margin-left: auto;
+    margin-right:auto;
+    text-align: center;
 }
+
