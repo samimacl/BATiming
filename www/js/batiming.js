@@ -217,6 +217,11 @@ var batiming = (function () {
         }
         myApp.pullToRefreshDone();
     }
+	
+	function updateStories(results1) {
+        myApp.template7Data.results1 = results1;
+        $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(results1));
+	}
 
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
