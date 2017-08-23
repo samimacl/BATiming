@@ -151,7 +151,7 @@ var batiming = (function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
             // Aktuelle Vorlesung
-            // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
+            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Zukünftige Vorlesungen
                 database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
@@ -178,7 +178,7 @@ var batiming = (function () {
                         $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
                     });
                 });
-            // });
+            });
         } else {
             // Vorlesung Akttuell
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
