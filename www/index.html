@@ -77,7 +77,7 @@
                     <div class="right"></div>
                 </div>
             </div>
-
+            <a id="b_beacon" href="#" class="floating-button"><i class="icon f7-icons">search</i></a>
             <div class="pages">
                 <div class="page" data-page="index">
                     <div class="page-content pull-to-refresh-content">
@@ -86,7 +86,7 @@
                             <div class="pull-to-refresh-arrow"></div>
                         </div>
                         <div class="myPageContentStudenten"></div>
-                        <a id ="b_beacon" href="#" class="floating-button"><i class="icon f7-icons">search</i></a>
+
                     </div>
                     <!-- <button id="b_beacon" class="button button-fill button-raised">Start Ranging</button> -->
                 </div>
@@ -193,12 +193,13 @@
                 <ul>
                     {{#each this}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{this.lecture}}</div>
+                                    <div class="item-title">Datenbanken und SQL</div>
+                                    <div class="item-after">{{this.begin}}</div>
                                 </div>
-                                <div class="item-subtitle">{{this.begin}}</div>
+                                <div class="item-subtitle">Herr Gamer</div>
                             </div>
                         </a>
                     </li>
@@ -211,12 +212,13 @@
                 <ul>
                     {{#each this.studentNextEntry}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{this.lecture}}</div>
+                                    <div class="item-title">Datenbanken und SQL</div>
+                                    <div class="item-after">{{this.begin}}</div>
                                 </div>
-                                <div class="item-subtitle">{{this.begin}}</div>
+                                <div class="item-subtitle">Herr Gamer</div>
                             </div>
                         </a>
                     </li>
@@ -228,12 +230,13 @@
                 <ul>
                     {{#each this.studentLastEntry}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content item-link">
+                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{this.lecture}}</div>
+                                    <div class="item-title">Datenbanken und SQL</div>
+                                    <div class="item-after">{{this.begin}}</div>
                                 </div>
-                                <div class="item-subtitle">{{this.begin}}</div>
+                                <div class="item-subtitle">Herr Gamer</div>
                             </div>
                         </a>
                     </li>

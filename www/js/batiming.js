@@ -153,9 +153,9 @@ var batiming = (function () {
             // Aktuelle Vorlesung
             // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Zukünftige Vorlesungen
-                database.getAppointmentList(4, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
+                database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
-                    database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
+                    database.getAppointmentList(-5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
                         var results1 = [];
                         var results2 = data2;
                         var results3 = data3;
