@@ -71,4 +71,10 @@ p {
 .infinite-scroll-preloader .preloader {
   width:34px;
   height:34px;
-}      
+}
+
+.logo {
+    display: block;
+    margin: auto;
+    width: 40%;
+}
