@@ -161,15 +161,15 @@ var database = (function () {
     };
 
     //Returns DataSnapshot
-    database.getCurrentLectureKeyByStudyGroup = function (studyGroup, callbackFunction) {
+    database.getCurrentAppointmentByStudyGroup = function (studyGroup, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             if (studyGroup != null) {
                 var date = new Date();
-                var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-                var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                var dateString = dateToFirebaseString(date);
+                var timeString = timeToFirebaseString(date);
                 var beginTime;
-                var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
+                var ref = fbInstance.database().ref("StudyGroupCalendar/" + studyGroup + "/" + dateString);
                 ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                     console.log("OnValue --> " + snap.val());
                     // callbackFunction(snap.val());
@@ -200,10 +200,10 @@ var database = (function () {
                 if (!user) {
                     if (studyGroup != null) {
                         var date = new Date();
-                        var dateString = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
-                        var timeString = date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+                        var dateString = dateToFirebaseString(date);
+                        var timeString = timeToFirebaseString(date);
                         var beginTime;
-                        var ref = fbInstance.database().ref("StudyGroupCalendar/" + dateString + "/" + studyGroup);
+                        var ref = fbInstance.database().ref("StudyGroupCalendar/" + studyGroup + "/" + dateString);
                         ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                             // callbackFunction(snap.val());
                             snap.forEach(function (childNode) {
@@ -304,6 +304,132 @@ var database = (function () {
         }
     }
 
+    database.getAppointmentList = function(dayLimit, studyGroup, callbackFunction) {
+        if (fbInstance.auth().currentUser) {
+            if (dayLimit != null && studyGroup != null) {
+                var dateString = dateToFirebaseString(new Date());
+                var ref = fbInstance.database().ref("StudyGroupCalendar/" + studyGroup);
+                if (dayLimit < 0) {
+                    dayLimit = dayLimit * -1;
+                    ref.orderByKey().endAt(dateString).limitToLast(dayLimit).once("value").then(function (snap) {
+                        //callbackFunction(snap.val());
+                        var counter = 0;
+                        var jsonArray = [];
+                        var jsonValue;
+                        snap.forEach(function (childNode) {
+                            childNode.forEach(function (childChildNode) {
+                                childChildNode.forEach(function (childChildChildNode) {
+                                    if (counter != dayLimit) {
+                                        counter ++;
+                                        jsonValue = childChildNode.val();
+                                        jsonArray.push({
+                                            "appointment": childChildChildNode.key,
+                                            "lecture": jsonValue.Vorlesung_ID,
+                                            "date": childNode.key,
+                                            "begin": childChildNode.key,
+                                            "end": jsonValue.Ende
+                                        });
+                                    } else {
+                                        callbackFunction(jsonArray);
+                                    }
+                                });
+                            });
+                        });
+                    });
+                } else if (dayLimit > 0) {
+                    ref.orderByKey().startAt(dateString).limitToFirst(dayLimit).once("value").then(function (snap) {
+                        var counter = 0;
+                        var jsonArray = [];
+                        var jsonValue;
+                        snap.forEach(function (childNode) {
+                            childNode.forEach(function (childChildNode) {
+                                childChildNode.forEach(function (childChildChildNode) {
+                                    if (counter != dayLimit) {
+                                        counter ++;
+                                        jsonValue = childChildNode.val();
+                                        jsonArray.push({
+                                            "appointment": childChildChildNode.key,
+                                            "lecture": jsonValue.Vorlesung_ID,
+                                            "date": childNode.key,
+                                            "begin": childChildNode.key,
+                                            "end": jsonValue.Ende
+                                        });
+                                    } else {
+                                        callbackFunction(jsonArray);
+                                    }
+                                });
+                            });
+                        });
+                    });
+                }
+            }
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    if (dayLimit != null && studyGroup != null) {
+                        var dateString = dateToFirebaseString(new Date());
+                        var ref = fbInstance.database().ref("StudyGroupCalendar/" + studyGroup);
+                        if (dayLimit < 0) {
+                            dayLimit = dayLimit * -1;
+                            ref.orderByKey().endAt(dateString).limitToLast(dayLimit).once("value").then(function (snap) {
+                                //callbackFunction(snap.val());
+                                var counter = 0;
+                                var jsonArray = [];
+                                var jsonValue;
+                                snap.forEach(function (childNode) {
+                                    childNode.forEach(function (childChildNode) {
+                                        childChildNode.forEach(function (childChildChildNode) {
+                                            if (counter != dayLimit) {
+                                                counter ++;
+                                                jsonValue = childChildNode.val();
+                                                jsonArray.push({
+                                                    "appointment": childChildChildNode.key,
+                                                    "lecture": jsonValue.Vorlesung_ID,
+                                                    "date": childNode.key,
+                                                    "begin": childChildNode.key,
+                                                    "end": jsonValue.Ende
+                                                });
+                                            } else {
+                                                callbackFunction(jsonArray);
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        } else if (dayLimit > 0) {
+                            ref.orderByKey().startAt(dateString).limitToFirst(dayLimit).once("value").then(function (snap) {
+                                var counter = 0;
+                                var jsonArray = [];
+                                var jsonValue;
+                                snap.forEach(function (childNode) {
+                                    childNode.forEach(function (childChildNode) {
+                                        childChildNode.forEach(function (childChildChildNode) {
+                                            if (counter != dayLimit) {
+                                                counter ++;
+                                                jsonValue = childChildNode.val();
+                                                jsonArray.push({
+                                                    "appointment": childChildChildNode.key,
+                                                    "lecture": jsonValue.Vorlesung_ID,
+                                                    "date": childNode.key,
+                                                    "begin": childChildNode.key,
+                                                    "end": jsonValue.Ende
+                                                });
+                                            } else {
+                                                callbackFunction(jsonArray);
+                                            }
+                                        });
+                                    });
+                                });
+                            });
+                        }
+                    }
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
@@ -358,6 +484,7 @@ var database = (function () {
         }
     }
 
+    //Returns void --> Buchung Personenhistorie "Anwensenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
     database.bookHistoryEntry = function (personID, lectureID, terminID, roomDesc, remark, excusedFlag, timestampString) {
@@ -430,5 +557,14 @@ var database = (function () {
             return fbInstance.auth().currentUser.email;
         }
     }
+
+    function dateToFirebaseString(date) {
+        return date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate();
+    }
+
+    function timeToFirebaseString(date) {
+        return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+    }
+
     return database;
 })();
