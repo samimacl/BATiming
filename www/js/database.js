@@ -187,6 +187,8 @@ var database = (function () {
                                     };
                                     callbackFunction(result);
                                 }
+                            } else {
+                                callbackFunction(null);
                             }
                         });
                     });
@@ -220,6 +222,8 @@ var database = (function () {
                                             };
                                             callbackFunction(result);
                                         }
+                                    } else {
+                                        callbackFunction(null);
                                     }
                                 });
                             });
@@ -440,7 +444,10 @@ var database = (function () {
     //         if (appointmentKey != null) {
     //             var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
     //             ref.once("value").then(function (snap) {
-    //                 //
+    //                 var teilnehmerJSON = [];
+    //                 snap.forEach(function (childNode) {
+
+    //                 });
     //             });
     //         } else {
     //             callbackFunction(null);
