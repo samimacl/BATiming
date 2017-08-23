@@ -1,0 +1,5 @@
+{"BA_Vorlesung":[
+    { "Vorlesung":"Java", "Dozent":"Rolf", "Zeit":"12:30"},
+    { "Vorlesung":"FuI", "Dozent":"Drosse", "Zeit":"09:30"},
+	{ "Vorlesung":"Mathe", "Dozent":"Maßmann", "Zeit":"08:30"}
+]}

@@ -95,6 +95,11 @@ var batiming = (function () {
         myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
     });
 
+    myApp.onPageInit('attendance', function (page) {
+        // Daten befüllen Example
+        batiming.getTemplateDataAttendance();
+    });
+
     myApp.onPageBack('settings', function (page) {
         // Daten Speichern beim Seite verlassen Example
         var storedData = myApp.formGetData('my-form');
@@ -106,6 +111,25 @@ var batiming = (function () {
             alert('Yet there is no stored data for this form. Please try to change any field')
         }
     });
+
+    batiming.getTemplateDataAttendance = function () {
+        database.getCurrentLectureKeyByStudyGroup(storageManager.getItem(true, 'userData').Studiengruppe_ID, function (data) {
+            var results1 = [];
+
+            for (var i = 0; i <= data.length; i++) {
+                results1[i] = JSON.Parse(data[i]);
+            };
+
+            // Clear Empty Object in list
+            results1 = results1.filter(function (n) {
+                return n !== null;
+            });
+
+            // CurrentLecture
+            myApp.template7Data.attendance = results1;
+            $$('.page[data-page="attendance"] .page-content .myPageContentStudentenAttendance').html(Template7.templates.attendanceTemplate(results1));
+        });
+	}
 
     $$('.panel-close').on('click', function (e) {
         myApp.closePanel();
