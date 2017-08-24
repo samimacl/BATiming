@@ -188,7 +188,7 @@ var database = (function () {
                                         "end": terminJSON.Ende
                                     };
                                     //callbackFunction(result);
-                                    result = resultJSON; 
+                                    result = resultJSON;
                                 }
                             }
                         });
@@ -212,7 +212,7 @@ var database = (function () {
                             console.log("OnValue --> " + snap.val());
                             // callbackFunction(snap.val());
                             var result = null;
-        
+
                             snap.forEach(function (childNode) {
                                 beginTime = childNode.key;
                                 childNode.forEach(function (childChildNode) {
@@ -226,7 +226,7 @@ var database = (function () {
                                                 "end": terminJSON.Ende
                                             };
                                             //callbackFunction(result);
-                                            result = resultJSON; 
+                                            result = resultJSON;
                                         }
                                     }
                                 });
@@ -313,7 +313,7 @@ var database = (function () {
         }
     }
 
-    database.getAppointmentList = function(dayLimit, studyGroup, callbackFunction) {
+    database.getAppointmentList = function (dayLimit, studyGroup, callbackFunction) {
         if (fbInstance.auth().currentUser) {
             if (dayLimit != null && studyGroup != null) {
                 var dateString = dateToFirebaseString(new Date());
@@ -329,7 +329,7 @@ var database = (function () {
                             childNode.forEach(function (childChildNode) {
                                 childChildNode.forEach(function (childChildChildNode) {
                                     if (counter != dayLimit) {
-                                        counter ++;
+                                        counter++;
                                         jsonValue = childChildNode.val();
                                         jsonArray.push({
                                             "appointment": childChildChildNode.key,
@@ -338,12 +338,11 @@ var database = (function () {
                                             "begin": childChildNode.key,
                                             "end": jsonValue.Ende
                                         });
-                                    } else {
-                                        callbackFunction(jsonArray);
                                     }
                                 });
                             });
                         });
+                        callbackFunction(jsonArray);
                     });
                 } else if (dayLimit > 0) {
                     ref.orderByKey().startAt(dateString).limitToFirst(dayLimit).once("value").then(function (snap) {
@@ -354,7 +353,7 @@ var database = (function () {
                             childNode.forEach(function (childChildNode) {
                                 childChildNode.forEach(function (childChildChildNode) {
                                     if (counter != dayLimit) {
-                                        counter ++;
+                                        counter++;
                                         jsonValue = childChildNode.val();
                                         jsonArray.push({
                                             "appointment": childChildChildNode.key,
@@ -363,12 +362,11 @@ var database = (function () {
                                             "begin": childChildNode.key,
                                             "end": jsonValue.Ende
                                         });
-                                    } else {
-                                        callbackFunction(jsonArray);
                                     }
                                 });
                             });
                         });
+                        callbackFunction(jsonArray);
                     });
                 }
             }
@@ -389,7 +387,7 @@ var database = (function () {
                                     childNode.forEach(function (childChildNode) {
                                         childChildNode.forEach(function (childChildChildNode) {
                                             if (counter != dayLimit) {
-                                                counter ++;
+                                                counter++;
                                                 jsonValue = childChildNode.val();
                                                 jsonArray.push({
                                                     "appointment": childChildChildNode.key,
@@ -414,7 +412,7 @@ var database = (function () {
                                     childNode.forEach(function (childChildNode) {
                                         childChildNode.forEach(function (childChildChildNode) {
                                             if (counter != dayLimit) {
-                                                counter ++;
+                                                counter++;
                                                 jsonValue = childChildNode.val();
                                                 jsonArray.push({
                                                     "appointment": childChildChildNode.key,
@@ -439,9 +437,9 @@ var database = (function () {
         }
     }
 
-    database.getLectureAttendanceListByAppointmentKey = function(appointmentKey, callbackFunction) {
-         //Check if logged in
-         if (fbInstance.auth().currentUser) {
+    database.getLectureAttendanceListByAppointmentKey = function (appointmentKey, callbackFunction) {
+        //Check if logged in
+        if (fbInstance.auth().currentUser) {
             if (appointmentKey != null) {
                 var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
                 ref.once("value").then(function (snap) {
@@ -468,8 +466,8 @@ var database = (function () {
         }
     }
 
-    database.getLectureAttendanceListByPersonKey = function(personKey, callbackFunction) {
-        
+    database.getLectureAttendanceListByPersonKey = function (personKey, callbackFunction) {
+
     }
 
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
@@ -593,11 +591,11 @@ var database = (function () {
         }
     }
 
-    database.getLectureTitles = function(callbackFunction) {
+    database.getLectureTitles = function (callbackFunction) {
 
     }
 
-    database.getDozentenNames = function(callbackFunction) {
+    database.getDozentenNames = function (callbackFunction) {
 
     }
 

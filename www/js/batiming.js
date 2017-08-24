@@ -174,34 +174,64 @@ var batiming = (function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
             // Aktuelle Vorlesung
-            let current = [];
-            myApp.template7Data.student = current;
-            let next = [];
-            let last = [];
-            await database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe,
-                function (data1) {
-                    if (data1 != null)
-                        current = data1;
-                });
-            await database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe,
-                function (data2) {
-                    myApp.template7Data.student.studentNextEntry = data2;
-                });
-            await database.getAppointmentList(-5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe,
-                function (data3) {
-                    myApp.template7Data.student.studentLastEntry = data3;
-                });
-            await fillTemplateData(current, next, last);
-            // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
-            // Zukünftige Vorlesungen
-            //     database.getAppointmentList(8, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
-            // Letzte Einträge
-            //       database.getAppointmentList(-5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
+            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
+                // Zukünftige Vorlesungen
+                database.getAppointmentList(3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
+                    // Letzte Einträge
+                    database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
+                        var results1 = data1;
+                        var results2 = data2;
+                        var results3 = data3;
 
+                        if (results1 != null) {
+                            results1 = results1.filter(function (n) {
+                                return n !== null;
+                            });
+                            results1.forEach(function (element) {
+                                if (element.begin != null)
+                                    element.begin = element.begin.substring(0, 5);
+                                if (element.end != null)
+                                    element.end = element.end.substring(0, 5);
+                            }, this);
+                        }
+                        else
+                            results1 = [];
 
-            //   });
-            // });
-            // });
+                        if (results2 != null) {
+                            results2 = results2.filter(function (n) {
+                                return n !== null;
+                            });
+                            results2.forEach(function (element) {
+                                if (element.begin != null)
+                                    element.begin = element.begin.substring(0, 5);
+                                if (element.end != null)
+                                    element.end = element.end.substring(0, 5);
+                            }, this);
+                        } else
+                            results2 = [];
+
+                        if (results3 != null) {
+                            results3 = results3.filter(function (n) {
+                                return n !== null;
+                            });
+                            results3.forEach(function (element) {
+                                if (element.begin != null)
+                                    element.begin = element.begin.substring(0, 5);
+                                if (element.end != null)
+                                    element.end = element.end.substring(0, 5);
+                            }, this);
+                        } else
+                            results3 = [];
+
+                        // CurrentLecture
+
+                        myApp.template7Data.student = results1;
+                        myApp.template7Data.student.studentNextEntry = results2;
+                        myApp.template7Data.student.studentLastEntry = results3;
+                        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
+                    });
+                });
+            });
         } else {
             // Vorlesung Akttuell
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
@@ -248,6 +278,8 @@ var batiming = (function () {
         console.log('clicked');
         // Eventuell Refresh Template 7 
     });
+
+
 
     return batiming;
 }());
