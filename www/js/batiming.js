@@ -193,8 +193,7 @@ var batiming = (function () {
                                 if (element.end != null)
                                     element.end = element.end.substring(0, 5);
                             }, this);
-                        }
-                        else
+                        } else
                             results1 = [];
 
                         if (results2 != null) {

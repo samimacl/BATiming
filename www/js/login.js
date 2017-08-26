@@ -70,7 +70,7 @@ var login = (function () {
                         batiming.initMaps();
                         myApp.closeModal('.login-screen');
                     });
-                     myApp.mainView.router.loadPage('./views/settings.html');
+                    myApp.mainView.router.loadPage('./views/settings.html');
                 } else {
                     if (data.Rolle != null && data.Rolle == '1') {
                         $$('.view-main').hide();

@@ -455,8 +455,7 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (appointmentKey != null) {
-                    } else {
+                    if (appointmentKey != null) {} else {
                         callbackFunction(null);
                     }
                     unsuscribeAuthEvent();

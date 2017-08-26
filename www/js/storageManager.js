@@ -38,7 +38,7 @@ var storageManager = (function () {
         }
     };
 
-    storageManager.changeItem = function(withPrefix, key, newValue) {
+    storageManager.changeItem = function (withPrefix, key, newValue) {
         let keyName = withPrefix === true ? prefix + separator + key : key;
         localStorage.setItem(keyName, JSON.stringify(newValue));
     }

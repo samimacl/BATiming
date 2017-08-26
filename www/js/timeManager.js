@@ -14,7 +14,7 @@ var timeManager = (function () {
 
     function isDateInLecture(appointment) {
         let now = new Date(Date.now());
-        let nowTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds(); 
+        let nowTime = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds();
         return appointment.end >= nowTime && appointment.begin <= nowTime;
     };
 
