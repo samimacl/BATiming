@@ -193,13 +193,13 @@
                 <ul>
                     {{#each this}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content">
+                        <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">Datenbanken und SQL</div>
-                                    <div class="item-after">{{this.begin}}</div>
+                                    <div class="item-title">{{this.lectureString}}</div>
+                                    <div class="item-after">{{this.timeString}}</div>
                                 </div>
-                                <div class="item-subtitle">Herr Gamer</div>
+                                <div class="item-subtitle">{{this.dozentenString}}</div>
                             </div>
                         </a>
                     </li>
@@ -212,13 +212,13 @@
                 <ul>
                     {{#each this.studentNextEntry}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content">
+                        <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">Datenbanken und SQL</div>
-                                    <div class="item-after">{{this.begin}}</div>
+                                    <div class="item-title">{{this.lectureString}}</div>
+                                    <div class="item-after">{{this.timeString}}</div>
                                 </div>
-                                <div class="item-subtitle">Herr Gamer</div>
+                                <div class="item-subtitle">{{this.dozentenString}}</div>
                             </div>
                         </a>
                     </li>
@@ -230,13 +230,13 @@
                 <ul>
                     {{#each this.studentLastEntry}}
                     <li>
-                        <a href="item.html?id={{this.appointment}}" data-context-name="appointment.{{@index}}" class="item-content">
+                        <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">Datenbanken und SQL</div>
-                                    <div class="item-after">{{this.begin}}</div>
+                                    <div class="item-title">{{this.lectureString}}</div>
+                                    <div class="item-after">{{this.timeString}}</div>
                                 </div>
-                                <div class="item-subtitle">Herr Gamer</div>
+                                <div class="item-subtitle">{{this.dozentenString}}</div>
                             </div>
                         </a>
                     </li>
@@ -247,7 +247,7 @@
 
         <script type="text/template7" id="dozentenTemplate">
             {{#each this}}
-            <div class="content-block-title">Vorlesung {{Name}}</div>
+            <div class="content-block-title">Vorlesung {{this.lectureString}}</div>
             {{/each}}
 
             <div class="content-block-title">Anwesende Studenten</div>
@@ -255,14 +255,15 @@
                 <ul>
                     {{#each this.students}}
                     <li>
-                        <div data-context-name="students.{{@index}}" class="item-content">
+                        <a href="#" data-context-name="students.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{title}}</div>
+                                    <div class="item-title">{{this.lectureString}}</div>
+                                    <div class="item-after">{{this.timeString}}</div>
                                 </div>
-                                <div class="item-subtitle">{{subtitle}}</div>
+                                <div class="item-subtitle">{{this.dozentenString}}</div>
                             </div>
-                        </div>
+                        </a>
                     </li>
                     {{/each}}
                 </ul>

@@ -89,9 +89,9 @@ var batiming = (function () {
     // https://framework7.io/docs/form-data.html
     myApp.onPageInit('settings', function (page) {
         // Get Studiengruppen
-        for (var item in JSON.parse(storageManager.getItem(true, 'studyGroupsData'))) {
-            myApp.smartSelectAddOption('.smart-select select', '<option value = "' + batiming.Map[item].key + '">' + batiming.Map[item].value + '</option>');
-        }
+        JSON.parse(storageManager.getItem(true, 'studyGroupMap')).forEach(function (element) {
+            myApp.smartSelectAddOption('.smart-select select', '<option value = "' + element.key + '">' + element.value + '</option>');
+        }, this);
         myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
     });
 
@@ -116,26 +116,70 @@ var batiming = (function () {
     });
 
     batiming.initMaps = function () {
-        if (batiming.Map === null) {
-            database.getStudyGroups(function (data) {
-                // batiming.Map = data;
-                storageManager.changeItem(true, 'studyGroupsData', data)
-            })
-        }
         database.getStudyGroups(function (data) {
-            storageManager.changeItem(true, 'appointmentData', data)
-        })
+            storageManager.changeItem(true, 'studyGroupMap', data)
+        });
+        database.getLectureTitles(function (data) {
+            storageManager.changeItem(true, 'lectureMap', data);
+
+            data.forEach(function (element) {
+                var result = searchElementInStorageManager(element.dozentID, "dozentenMap");
+                if (result == null) {
+                    database.getPersonByID(element.dozentID, function (personData) {
+                        var mapList = [];
+                        if (storageManager.getItem(true, 'dozentenMap') != null)
+                            mapList = JSON.parse(storageManager.getItem(true, 'dozentenMap'));
+                        mapList.push({
+                            key: element.dozentID,
+                            value: personData.Name + ", " + personData.Vorname
+                        });
+                        storageManager.changeItem(true, 'dozentenMap', mapList);
+                    });
+                }
+            });
+        });
     }
 
-    function mapGetLectureString(id) {
-        if (id != null) {
-            JSON.parse(storageManager.getItem(true, 'appointmentData')).forEach(function (element) {
-                if (element.id = id) {
-                    return element.value;
-                }
-            }, this);
+    function searchElementInStorageManager(key, itemName) {
+        if (storageManager.getItem(true, itemName) != null) {
+            var searchedElement = JSON.parse(storageManager.getItem(true, itemName)).find(function (item) {
+                return item.key == key;
+            });
+            return searchedElement;
         }
         return null;
+    };
+
+    function mapGetString(id, mapName) {
+        if (id != null) {
+            var result = searchElementInStorageManager(id, mapName)
+            if (result != null)
+                return searchedElement.value;
+            return null;
+        }
+        return null;
+    }
+
+    function prepareTemplateData(inputData) {
+        var result = [];
+        if (inputData != null) {
+            result = inputData;
+            if (result.length > 0) {
+                result = result.filter(function (n) {
+                    return n !== null;
+                });
+                result.forEach(function (element) {
+                    if (element.begin != null && element.end != null)
+                        element.timeString = element.begin.substring(0, 5) + " - " + element.end.substring(0, 5);;
+                    if (element.lecture != null) {
+                        element.lectureString = mapGetString(element.lecture, "lectureMap");
+                        element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "dozentenMap");
+                    }
+                }, this);
+            }
+            return result;
+        }
+        return result;
     }
 
     batiming.getTemplateData = function () {
@@ -147,54 +191,9 @@ var batiming = (function () {
                 database.getAppointmentList(3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
                     database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
-                        var results1 = data1;
-                        var results2 = data2;
-                        var results3 = data3;
-
-                        if (results1 != null) {
-                            results1 = results1.filter(function (n) {
-                                return n !== null;
-                            });
-                            results1.forEach(function (element) {
-                                if (element.begin != null)
-                                    element.begin = element.begin.substring(0, 5);
-                                if (element.end != null)
-                                    element.end = element.end.substring(0, 5);
-                                if (element.lecture != null)
-                                    element.lectureString = mapGetLectureString(element.lecture);
-                            }, this);
-                        } else
-                            results1 = [];
-
-                        if (results2 != null) {
-                            results2 = results2.filter(function (n) {
-                                return n !== null;
-                            });
-                            results2.forEach(function (element) {
-                                if (element.begin != null)
-                                    element.begin = element.begin.substring(0, 5);
-                                if (element.end != null)
-                                    element.end = element.end.substring(0, 5);
-                                if (element.lecture != null)
-                                    element.lectureString = mapGetLectureString(element.lecture);
-                            }, this);
-                        } else
-                            results2 = [];
-
-                        if (results3 != null) {
-                            results3 = results3.filter(function (n) {
-                                return n !== null;
-                            });
-                            results3.forEach(function (element) {
-                                if (element.begin != null)
-                                    element.begin = element.begin.substring(0, 5);
-                                if (element.end != null)
-                                    element.end = element.end.substring(0, 5);
-                                if (element.lecture != null)
-                                    element.lectureString = mapGetLectureString(element.lecture);
-                            }, this);
-                        } else
-                            results3 = [];
+                        var results1 = prepareTemplateData(data1);
+                        var results2 = prepareTemplateData(data2);
+                        var results3 = prepareTemplateData(data3);
 
                         // CurrentLecture
                         myApp.template7Data.student = results1;
@@ -209,38 +208,8 @@ var batiming = (function () {
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Anwesende Studenten
                 database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
-                    var results1 = [];
-                    var results2 = [];
-
-                    if (results1 != null) {
-                        results1 = results1.filter(function (n) {
-                            return n !== null;
-                        });
-                        results1.forEach(function (element) {
-                            if (element.begin != null)
-                                element.begin = element.begin.substring(0, 5);
-                            if (element.end != null)
-                                element.end = element.end.substring(0, 5);
-                            if (element.lecture != null)
-                                element.lectureString = mapGetLectureString(element.lecture);
-                        }, this);
-                    } else
-                        results1 = [];
-
-                    if (results2 != null) {
-                        results2 = results2.filter(function (n) {
-                            return n !== null;
-                        });
-                        results2.forEach(function (element) {
-                            if (element.begin != null)
-                                element.begin = element.begin.substring(0, 5);
-                            if (element.end != null)
-                                element.end = element.end.substring(0, 5);
-                            if (element.lecture != null)
-                                element.lectureString = mapGetLectureString(element.lecture);
-                        }, this);
-                    } else
-                        results2 = [];
+                    var results1 = prepareTemplateData(data1);
+                    var results2 = prepareTemplateData(data2);
 
                     // myPageContentDozent
                     myApp.template7Data.dozent = results1;
@@ -254,29 +223,12 @@ var batiming = (function () {
 
     batiming.getTemplateDataAttendance = function () {
         database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
-            var results1 = data1;
-
-            if (results1 != null) {
-                results1 = results1.filter(function (n) {
-                    return n !== null;
-                });
-                results1.forEach(function (element) {
-                    if (element.begin != null)
-                        element.begin = element.begin.substring(0, 5);
-                    if (element.end != null)
-                        element.end = element.end.substring(0, 5);
-                    if (element.lecture != null)
-                        element.lectureString = mapGetLectureString(element.lecture);
-                }, this);
-            } else
-                results1 = [];
+            var results1 = prepareTemplateData(data1);
 
             myApp.template7Data.attendance = results1;
             $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(results1));
         });
     }
-
-
 
     $$('.panel-close').on('click', function (e) {
         myApp.closePanel();

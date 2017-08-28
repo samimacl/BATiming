@@ -88,8 +88,9 @@ var login = (function () {
             console.log(fbUser);
         } else {
             storageManager.removeItem(true, 'userData');
-            storageManager.removeItem(true, 'studyGroupsData');
-            storageManager.removeItem(true, 'appointmentData');
+            storageManager.removeItem(true, 'studyGroupMap');
+            storageManager.removeItem(true, 'lectureMap');
+            storageManager.removeItem(true, 'dozentenMap');
             if (batiming.devMode) {
                 myApp.closeModal('.login-screen');
             }

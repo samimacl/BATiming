@@ -75,7 +75,7 @@ var database = (function () {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             if (userID != null) {
-                var ref = fbInstance.database().ref("Personen/Person_" + userID);
+                var ref = fbInstance.database().ref("Personen/" + userID);
                 ref.once("value").then(function (snap) {
                     callbackFunction(snap.val());
                 });
@@ -86,7 +86,7 @@ var database = (function () {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     if (!userID) {
-                        var ref = fbInstance.database().ref("Personen/Person_" + userID);
+                        var ref = fbInstance.database().ref("Personen/" + userID);
                         ref.once("value").then(function (snap) {
                             callbackFunction(snap.val());
                         });
@@ -330,7 +330,8 @@ var database = (function () {
                                 childChildNode.forEach(function (childChildChildNode) {
                                     if (counter != dayLimit) {
                                         counter++;
-                                        jsonValue = childChildNode.val();
+
+                                        jsonValue = childChildChildNode.val();
                                         jsonArray.push({
                                             "appointment": childChildChildNode.key,
                                             "lecture": jsonValue.Vorlesung_ID,
@@ -354,7 +355,8 @@ var database = (function () {
                                 childChildNode.forEach(function (childChildChildNode) {
                                     if (counter != dayLimit) {
                                         counter++;
-                                        jsonValue = childChildNode.val();
+
+                                        jsonValue = childChildChildNode.val();
                                         jsonArray.push({
                                             "appointment": childChildChildNode.key,
                                             "lecture": jsonValue.Vorlesung_ID,
@@ -388,7 +390,8 @@ var database = (function () {
                                         childChildNode.forEach(function (childChildChildNode) {
                                             if (counter != dayLimit) {
                                                 counter++;
-                                                jsonValue = childChildNode.val();
+
+                                                jsonValue = childChildChildNode.val();
                                                 jsonArray.push({
                                                     "appointment": childChildChildNode.key,
                                                     "lecture": jsonValue.Vorlesung_ID,
@@ -396,12 +399,11 @@ var database = (function () {
                                                     "begin": childChildNode.key,
                                                     "end": jsonValue.Ende
                                                 });
-                                            } else {
-                                                callbackFunction(jsonArray);
                                             }
                                         });
                                     });
                                 });
+                                callbackFunction(jsonArray);
                             });
                         } else if (dayLimit > 0) {
                             ref.orderByKey().startAt(dateString).limitToFirst(dayLimit).once("value").then(function (snap) {
@@ -413,7 +415,8 @@ var database = (function () {
                                         childChildNode.forEach(function (childChildChildNode) {
                                             if (counter != dayLimit) {
                                                 counter++;
-                                                jsonValue = childChildNode.val();
+
+                                                jsonValue = childChildChildNode.val();
                                                 jsonArray.push({
                                                     "appointment": childChildChildNode.key,
                                                     "lecture": jsonValue.Vorlesung_ID,
@@ -421,12 +424,11 @@ var database = (function () {
                                                     "begin": childChildNode.key,
                                                     "end": jsonValue.Ende
                                                 });
-                                            } else {
-                                                callbackFunction(jsonArray);
                                             }
                                         });
                                     });
                                 });
+                                callbackFunction(jsonArray);
                             });
                         }
                     }
@@ -455,7 +457,7 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (appointmentKey != null) {} else {
+                    if (appointmentKey != null) { } else {
                         callbackFunction(null);
                     }
                     unsuscribeAuthEvent();
@@ -591,11 +593,41 @@ var database = (function () {
     }
 
     database.getLectureTitles = function (callbackFunction) {
-
-    }
-
-    database.getDozentenNames = function (callbackFunction) {
-
+        //Check if logged in
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("Lectures");
+            ref.once("value").then(function (snap) {
+                var mapList = [];
+                snap.forEach(function (childNode) {
+                    mapList.push({
+                        key: childNode.key,
+                        value: childNode.val().Titel,
+                        dozentID: childNode.val().Dozent_ID
+                    });
+                });
+                callbackFunction(mapList);
+            });
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("Lectures");
+                    ref.once("value").then(function (snap) {
+                        var mapList = [];
+                        snap.forEach(function (childNode) {
+                            mapList.push({
+                                key: childNode.key,
+                                value: childNode.val().Titel,
+                                dozentID: childNode.val().Dozent_ID
+                            });
+                        });
+                        callbackFunction(mapList);
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
     }
 
     //Returns string
