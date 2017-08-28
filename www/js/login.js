@@ -78,8 +78,8 @@ var login = (function () {
                     } else {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();
-                    }
-                    storageManager.changeItem(true, 'userData', data);
+                    };
+                    storageManager.changeItem(true, 'userData', data)
                     batiming.initMaps();
                     batiming.getTemplateData();
                     myApp.closeModal('.login-screen');
@@ -88,6 +88,8 @@ var login = (function () {
             console.log(fbUser);
         } else {
             storageManager.removeItem(true, 'userData');
+            storageManager.removeItem(true, 'studyGroupsData');
+            storageManager.removeItem(true, 'appointmentData');
             if (batiming.devMode) {
                 myApp.closeModal('.login-screen');
             }
