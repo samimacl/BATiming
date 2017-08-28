@@ -154,7 +154,7 @@ var batiming = (function () {
         if (id != null) {
             var result = searchElementInStorageManager(id, mapName)
             if (result != null)
-                return searchedElement.value;
+                return result.value;
             return null;
         }
         return null;
@@ -164,7 +164,7 @@ var batiming = (function () {
         var result = [];
         if (inputData != null) {
             result = inputData;
-            if (result.length > 0) {
+            if (inputData instanceof Array) {
                 result = result.filter(function (n) {
                     return n !== null;
                 });
@@ -176,6 +176,14 @@ var batiming = (function () {
                         element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "dozentenMap");
                     }
                 }, this);
+            }
+            else {
+                if (result.begin != null && result.end != null)
+                    result.timeString = result.begin.substring(0, 5) + " - " + result.end.substring(0, 5);;
+                if (result.lecture != null) {
+                    result.lectureString = mapGetString(result.lecture, "lectureMap");
+                    result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "dozentenMap");
+                }
             }
             return result;
         }
