@@ -247,7 +247,21 @@
 
         <script type="text/template7" id="dozentenTemplate">
             {{#each this}}
-            <div class="content-block-title">Vorlesung {{this.lectureString}}</div>
+            <div class="content-block-title">Vorlesung</div>
+            <div class="list-block media-list">
+                <ul>
+                    <li>
+                        <a href="#" data-context-name="students.{{@index}}" class="item-content">
+                            <div class="item-inner">
+                                <div class="item-title-row">
+                                    <div class="item-title">{{this.lectureString}}</div>
+                                    <div class="item-after">{{this.timeString}}</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
             {{/each}}
 
             <div class="content-block-title">Anwesende Studenten</div>
@@ -258,10 +272,10 @@
                         <a href="#" data-context-name="students.{{@index}}" class="item-content">
                             <div class="item-inner">
                                 <div class="item-title-row">
-                                    <div class="item-title">{{this.lectureString}}</div>
+                                    <div class="item-title">{{this.personString}}</div>
                                     <div class="item-after">{{this.timeString}}</div>
                                 </div>
-                                <div class="item-subtitle">{{this.dozentenString}}</div>
+                                <div class="item-subtitle">{{this.entschuldigtString}}</div>
                             </div>
                         </a>
                     </li>

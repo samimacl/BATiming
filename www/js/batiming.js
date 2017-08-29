@@ -147,29 +147,50 @@ var batiming = (function () {
         return null;
     }
 
-    function prepareTemplateData(inputData) {
+    function prepareTemplateData(rolle, inputData) {
         var result = [];
         if (inputData != null) {
             result = inputData;
-            if (inputData instanceof Array) {
-                result = result.filter(function (n) {
-                    return n !== null;
-                });
-                result.forEach(function (element) {
-                    if (element.begin != null && element.end != null)
-                        element.timeString = element.begin.substring(0, 5) + " - " + element.end.substring(0, 5);;
-                    if (element.lecture != null) {
-                        element.lectureString = mapGetString(element.lecture, "lectureMap");
-                        element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
+            if (rolle == 0) {
+                if (inputData instanceof Array) {
+                    result = result.filter(function (n) {
+                        return n !== null;
+                    });
+                    result.forEach(function (element) {
+                        if (element.begin != null && element.end != null)
+                            element.timeString = element.begin.substring(0, 5) + " - " + element.end.substring(0, 5);;
+                        if (element.lecture != null) {
+                            element.lectureString = mapGetString(element.lecture, "lectureMap");
+                            element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
+                        }
+                    }, this);
+                }
+                else {
+                    if (result.begin != null && result.end != null)
+                        result.timeString = result.begin.substring(0, 5) + " - " + result.end.substring(0, 5);;
+                    if (result.lecture != null) {
+                        result.lectureString = mapGetString(result.lecture, "lectureMap");
+                        result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
                     }
-                }, this);
-            }
-            else {
-                if (result.begin != null && result.end != null)
-                    result.timeString = result.begin.substring(0, 5) + " - " + result.end.substring(0, 5);;
-                if (result.lecture != null) {
-                    result.lectureString = mapGetString(result.lecture, "lectureMap");
-                    result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
+                }
+            } else {
+                if (inputData instanceof Array) {
+                    result = result.filter(function (n) {
+                        return n !== null;
+                    });
+                    result.forEach(function (element) {
+                        if (element.Kommt != null)
+                            element.timeString = element.Kommt.substring(element.Kommt.length-8, element.Kommt.length);
+                        if (element.Person_ID != null) {
+                            element.personString = mapGetString(element.Person_ID, "personMap");
+                        }
+                        if (element.Entschuldigt != null) {
+                            if (element.Entschuldigt == 1) {
+                                element.entschuldigtString = element.Bemerkung
+                            }
+                        }
+
+                    }, this);
                 }
             }
             return result;
@@ -187,12 +208,14 @@ var batiming = (function () {
                     // Letzte Einträge
                     database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
                         if (data1 != null && data2 != null) {
-                            findAndRemove(data2,"appointment", data1[0].appointment)
+                            findAndRemove(data2, "appointment", data1[0].appointment)
                         }
 
-                        var results1 = prepareTemplateData(data1);
-                        var results2 = prepareTemplateData(data2);
-                        var results3 = prepareTemplateData(data3);
+                        storageManager.changeItem(true, 'currentAppointmentByStudyGroup', data1);
+
+                        var results1 = prepareTemplateData(0, data1);
+                        var results2 = prepareTemplateData(0, data2);
+                        var results3 = prepareTemplateData(0, data3);
 
                         // CurrentLecture
                         myApp.template7Data.student = results1;
@@ -204,19 +227,19 @@ var batiming = (function () {
             });
         } else {
             // Vorlesung Akttuell
-            // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
-            //     // Anwesende Studenten
+            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
+                // Anwesende Studenten
+                storageManager.changeItem(true, 'currentAppointmentByStudyGroup', data1);
+                database.getLectureAttendanceListByAppointmentKey(data1[0].appointment, function (data2) {
+                    var results1 = prepareTemplateData(0, data1);
+                    var results2 = prepareTemplateData(1, data2);
 
-            //     database.getLectureAttendanceListByPersonKey(, function (data2) {
-            //         var results1 = prepareTemplateData(data1);
-            //         var results2 = prepareTemplateData(data2);
-
-            //         // myPageContentDozent
-            //         myApp.template7Data.dozent = results1;
-            //         myApp.template7Data.dozent.students = results2;
-            //         $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
-            //     });
-            // });
+                    // myPageContentDozent
+                    myApp.template7Data.dozent = results1;
+                    myApp.template7Data.dozent.students = results2;
+                    $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
+                });
+            });
         }
         myApp.pullToRefreshDone();
     }
