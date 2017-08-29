@@ -504,7 +504,6 @@ var database = (function () {
                         jsonValue = childNode.val();
                         teilnehmerJSON.push({
                             "Termin_ID" : childNode.key,
-                            "Person_ID" : jsonValue.Person,
                             "Vorlesung_ID" : jsonValue.Vorlesung_ID,
                             "Kommt" : jsonValue.Kommt,
                             "Entschuldigt" : jsonValue.Entschuldigt
@@ -528,7 +527,6 @@ var database = (function () {
                                 jsonValue = childNode.val();
                                 teilnehmerJSON.push({
                                     "Termin_ID" : childNode.key,
-                                    "Person_ID" : jsonValue.Person,
                                     "Vorlesung_ID" : jsonValue.Vorlesung_ID,
                                     "Kommt" : jsonValue.Kommt,
                                     "Entschuldigt" : jsonValue.Entschuldigt
