@@ -66,6 +66,7 @@ var login = (function () {
                     database.getCurrentPerson(function (data) {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();
+                        $$('.view-attendance').hide();
                         if (data != null) {
                             data.PersonID = "Person_" + firebase.auth().currentUser.uid
                         }
@@ -78,9 +79,11 @@ var login = (function () {
                     if (data.Rolle != null && data.Rolle == '1') {
                         $$('.view-main').hide();
                         $$('.view-dozent').show();
+                        $$('.view-attendance').hide();
                     } else {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();
+                        $$('.view-attendance').hide();
                     };
                     if (data != null) {
                         data.PersonID = "Person_" + firebase.auth().currentUser.uid

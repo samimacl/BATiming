@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a id="attendance" href="./views/attendance.html" class="item-link panel-close">
+                    <a id="attendanceID" href="#" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-info-circle"></i><i class="icon f7-icons">time</i></div>
                             <div class="item-inner">
@@ -79,7 +79,7 @@
             </div>
             <a id="b_beacon" href="#" class="floating-button"><i class="icon f7-icons">search</i></a>
             <div class="pages">
-                <div class="page" data-page="index">
+                <div class="page" data-page="indexsstudent">
                     <div class="page-content pull-to-refresh-content">
                         <div class="pull-to-refresh-layer">
                             <div class="preloader"></div>
@@ -88,7 +88,7 @@
                         <div class="myPageContentStudenten"></div>
 
                     </div>
-                    <!-- <button id="b_beacon" class="button button-fill button-raised">Start Ranging</button> -->
+                    <button id="b_beacon" class="button button-fill button-raised">Start Ranging</button> -->
                 </div>
             </div>
         </div>
@@ -107,13 +107,57 @@
                 </div>
             </div>
             <div class="pages">
-                <div class="page" data-page="index">
+                <div class="page" data-page="indexdozent">
                     <div class="page-content pull-to-refresh-content">
                         <div class="pull-to-refresh-layer">
                             <div class="preloader"></div>
                             <div class="pull-to-refresh-arrow"></div>
                         </div>
                         <div class="myPageContentDozent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Att View -->
+        <div class="view view-attendance navbar-through">
+            <div class="navbar">
+                <div class="navbar-inner">
+                    <div class="left">
+                        <a href="#" class="back link">
+                            <i class="icon icon-back"></i>
+                            <span>Back</span>
+                        </a>
+                    </div>
+                    <div class="center sliding">Attendance</div>
+                    <div class="right">
+                        <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="pages">
+                <div class="page" data-page="attendance">
+                    <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title" data-searchbar-found=".searchbar-found"
+                        data-searchbar-not-found=".searchbar-not-found">
+                        <div class="searchbar-input">
+                            <input type="search" placeholder="Search">
+                            <a href="#" class="searchbar-clear"></a>
+                        </div>
+                        <a href="#" class="searchbar-cancel">Cancel</a>
+                    </form>
+                    <div class="page-content pull-to-refresh-content">
+                        <div class="pull-to-refresh-layer">
+                            <div class="preloader"></div>
+                            <div class="pull-to-refresh-arrow"></div>
+                        </div>
+                        <div class="myPageContentStudentenAttendance"></div>
+                        <div class="searchbar-overlay"></div>
+
+                        <div class="content-block searchbar-not-found">
+                            Keine Ergebnisse gefunden.
+                        </div>
+
+                        <div class="list-block media-list stories-list list-block-search searchbar-found"></div>
                     </div>
                 </div>
             </div>
@@ -185,146 +229,168 @@
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- template7 templates -->
-        <script type="text/template7" id="studentenTemplate">
-            <div class="content-block-title">Aktuelle Vorlesung</div>
-            <div class="list-block media-list">
-                <ul>
-                    {{#each this}}
-                    <li>
-                        <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">{{this.lectureString}}</div>
-                                    <div class="item-after">{{this.timeString}}</div>
-                                </div>
-                                <div class="item-subtitle">{{this.dozentenString}}</div>
+    <!-- template7 templates -->
+    <script type="text/template7" id="studentenTemplate">
+        <div class="content-block-title">Aktuelle Vorlesung</div>
+        <div class="list-block media-list">
+            <ul>
+                {{#each this}}
+                <li>
+                    <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{this.lectureString}}</div>
+                                <div class="item-after">{{this.timeString}}</div>
                             </div>
-                        </a>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
+                            <div class="item-subtitle">{{this.dozentenString}}</div>
+                        </div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
 
-            <div class="content-block-title">Zukünftige Termine :</div>
-            <div class="list-block media-list">
-                <ul>
-                    {{#each this.studentNextEntry}}
-                    <li>
-                        <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">{{this.lectureString}}</div>
-                                    <div class="item-after">{{this.timeString}}</div>
-                                </div>
-                                <div class="item-subtitle">{{this.dozentenString}}</div>
+        <div class="content-block-title">Zukünftige Termine :</div>
+        <div class="list-block media-list">
+            <ul>
+                {{#each this.studentNextEntry}}
+                <li>
+                    <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{this.lectureString}}</div>
+                                <div class="item-after">{{this.timeString}}</div>
                             </div>
-                        </a>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-            <div class="content-block-title">Letzte Einträge :</div>
-            <div class="list-block media-list">
-                <ul>
-                    {{#each this.studentLastEntry}}
-                    <li>
-                        <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">{{this.lectureString}}</div>
-                                    <div class="item-after">{{this.timeString}}</div>
-                                </div>
-                                <div class="item-subtitle">{{this.dozentenString}}</div>
+                            <div class="item-subtitle">{{this.dozentenString}}</div>
+                        </div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+        <div class="content-block-title">Letzte Einträge :</div>
+        <div class="list-block media-list">
+            <ul>
+                {{#each this.studentLastEntry}}
+                <li>
+                    <a href="#" data-context-name="appointment.{{@index}}" class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{this.lectureString}}</div>
+                                <div class="item-after">{{this.timeString}}</div>
                             </div>
-                        </a>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-        </script>
+                            <div class="item-subtitle">{{this.dozentenString}}</div>
+                        </div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </script>
 
-        <script type="text/template7" id="dozentenTemplate">
-            {{#each this}}
-            <div class="content-block-title">Vorlesung</div>
-            <div class="list-block media-list">
-                <ul>
-                    <li>
-                        <a href="#" data-context-name="students.{{@index}}" class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">{{this.lectureString}}</div>
-                                    <div class="item-after">{{this.timeString}}</div>
-                                </div>
+    <script type="text/template7" id="dozentenTemplate">
+        {{#each this}}
+        <div class="content-block-title">Vorlesung</div>
+        <div class="list-block media-list">
+            <ul>
+                <li>
+                    <a href="#" data-context-name="students.{{@index}}" class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{this.lectureString}}</div>
+                                <div class="item-after">{{this.timeString}}</div>
                             </div>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            {{/each}}
+                        </div>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        {{/each}}
 
-            <div class="content-block-title">Anwesende Studenten</div>
-            <div class="list-block media-list">
-                <ul>
-                    {{#each this.students}}
-                    <li>
-                        <a href="#" data-context-name="students.{{@index}}" class="item-content">
-                            <div class="item-inner">
-                                <div class="item-title-row">
-                                    <div class="item-title">{{this.personString}}</div>
-                                    <div class="item-after">{{this.timeString}}</div>
-                                </div>
-                                <div class="item-subtitle">{{this.entschuldigtString}}</div>
+        <div class="content-block-title">Anwesende Studenten</div>
+        <div class="list-block media-list">
+            <ul>
+                {{#each this.students}}
+                <li>
+                    <a href="#" data-context-name="students.{{@index}}" class="item-content">
+                        <div class="item-inner">
+                            <div class="item-title-row">
+                                <div class="item-title">{{this.personString}}</div>
+                                <div class="item-after">{{this.timeString}}</div>
                             </div>
-                        </a>
-                    </li>
-                    {{/each}}
-                </ul>
-            </div>
-        </script>
+                            <div class="item-subtitle">{{this.entschuldigtString}}</div>
+                        </div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </script>
 
-        <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
-        <script>
-            (function () {
-                if (Framework7.prototype.device.android) {
-                    /*   Dom7('head').append(
-                           '<link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">' +
-                           '<link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">' +
-                           '<link rel="stylesheet" href="css/batiming.material.css">'
-                       ); */
-                } // else { 
-                Dom7('head').append(
-                    '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">' +
-                    '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">' +
-                    '<link rel="stylesheet" href="lib/framework7/css/framework7-icons.css">' +
-                    '<link rel="stylesheet" href="css/batiming.ios.css">'
-                );
-                //}
-            })();
-        </script>
+    <script type="text/template7" id="attendanceTemplate">
+        <div class="content-block-title ">Meine Anwesenheiten</div>
+        <div class="list-block media-list ">
+            <ul>
+                {{#each this}}
+                <li>
+                    <a href="# " data-context-name="attendance.{{@index}} " class="item-content ">
+                        <div class="item-inner ">
+                            <div class="item-title-row ">
+                                <div class="item-title ">{{this.lectureString}}</div>
+                                <div class="item-after ">{{this.timeString}}</div>
+                            </div>
+                            <div class="item-subtitle ">{{this.entschuldigtString}}</div>
+                        </div>
+                    </a>
+                </li>
+                {{/each}}
+            </ul>
+        </div>
+    </script>
 
-        <script type="text/javascript" src="./lib/firebase/firebase.js"></script>
-        <script>
-            // Initialize Firebase
-            var config = {
-                apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
-                authDomain: "ba-timing.firebaseapp.com",
-                databaseURL: "https://ba-timing.firebaseio.com",
-                storageBucket: "ba-timing.appspot.com",
-                messagingSenderId: "1050294194541"
-            };
-            firebase.initializeApp(config);
-        </script>
+    <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
+    <script>
+        (function () {
+            if (Framework7.prototype.device.android) {
+                /*   Dom7('head').append(
+                       '<link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">' +
+                       '<link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">' +
+                       '<link rel="stylesheet" href="css/batiming.material.css">'
+                   ); */
+            } // else { 
+            Dom7('head').append(
+                '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">' +
+                '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">' +
+                '<link rel="stylesheet" href="lib/framework7/css/framework7-icons.css">' +
+                '<link rel="stylesheet" href="css/batiming.ios.css">'
+            );
+            //}
+        })();
+    </script>
 
-        <script type="text/javascript" src="js/database.js"></script>
-        <script type="text/javascript" src="js/storageManager.js"></script>
-        <script type="text/javascript" src="js/timeManager.js"></script>
-        <script type="text/javascript" src="js/batiming.js"></script>
-        <script type="text/javascript" src="js/global.js"></script>
-        <script type="text/javascript" src="js/beacon.js"></script>
-        <script type="text/javascript" src="js/login.js"></script>
-        <script type="text/javascript" src="js/searchbar.js"></script>
+    <script type="text/javascript" src="./lib/firebase/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyANfxgws-hUd8UULyWBdUvz4BjRlBhq6e4",
+            authDomain: "ba-timing.firebaseapp.com",
+            databaseURL: "https://ba-timing.firebaseio.com",
+            storageBucket: "ba-timing.appspot.com",
+            messagingSenderId: "1050294194541"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+    <script type="text/javascript" src="js/database.js"></script>
+    <script type="text/javascript" src="js/storageManager.js"></script>
+    <script type="text/javascript" src="js/timeManager.js"></script>
+    <script type="text/javascript" src="js/batiming.js"></script>
+    <script type="text/javascript" src="js/global.js"></script>
+    <script type="text/javascript" src="js/beacon.js"></script>
+    <script type="text/javascript" src="js/login.js"></script>
+    <script type="text/javascript" src="js/searchbar.js"></script>
 </body>
 
 </html>

@@ -45,7 +45,8 @@ var batiming = (function () {
     // Add view
     var mainView = myApp.addView('.view-main', {
         // Because we want to use dynamic navbar, material design doesn't support it.
-        dynamicNavbar: true
+        dynamicNavbar: true,
+        domCache: true //enable inline pages
     });
 
     var dozentView = myApp.addView('.view-dozent', {
@@ -224,7 +225,7 @@ var batiming = (function () {
                         myApp.template7Data.student = results1;
                         myApp.template7Data.student.studentNextEntry = results2;
                         myApp.template7Data.student.studentLastEntry = results3;
-                        $$('.page[data-page="index"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
+                        $$('.page[data-page="indexsstudent"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
                     });
                 });
             });
@@ -241,7 +242,7 @@ var batiming = (function () {
                         // myPageContentDozent
                         myApp.template7Data.dozent = results1;
                         myApp.template7Data.dozent.students = results2;
-                        $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
+                        $$('.page[data-page="indexdozent"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
                     });
                 }
             });
@@ -266,13 +267,20 @@ var batiming = (function () {
                 return n !== null;
             });
             result.forEach(function (element) {
-                if (element.VorlesungID != null) {
-                    element.lectureString = mapGetString(element.VorlesungID, "lectureMap");
+                if (element.Vorlesung_ID != null) {
+                    element.lectureString = mapGetString(element.Vorlesung_ID, "lectureMap");
                 }
+                if (element.Entschuldigt != null) {
+                    if (element.Entschuldigt == 1) {
+                        element.entschuldigtString = element.Bemerkung
+                    }
+                }
+                if (element.Kommt != null)
+                    element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
             });
 
-            myApp.template7Data.attendance = results1;
-            $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(results1));
+            myApp.template7Data.attendance = result;
+            $$('.page[data-page="attendance"] .page-content .myPageContentStudentenAttendance').html(Template7.templates.attendanceTemplate(result));
         });
     }
 
@@ -283,6 +291,28 @@ var batiming = (function () {
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
     });
+
+    $$('#attendanceID').on('click', function (e) {
+        // mainView.router.load({ pageName: 'attendance' });
+        $$('.view-main').hide();
+        $$('.view-dozent').hide();
+        $$('.view-attendance').show();
+    });
+
+    $$('#home').on('click', function (e) {
+        if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
+            // mainView.router.load({ pageName: 'indexsstudent' });
+            $$('.view-main').show();
+            $$('.view-dozent').hide();
+            $$('.view-attendance').hide();
+        } else {
+            // mainView.router.load({ pageName: 'indexdozent' });
+            $$('.view-main').hide();
+            $$('.view-dozent').show();
+            $$('.view-attendance').hide();
+        }
+    });
+
 
     return batiming;
 }());
