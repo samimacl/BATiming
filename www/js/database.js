@@ -481,7 +481,7 @@ var database = (function () {
                 "Bemerkung": remark,
                 "Entschuldigt": excusedFlag,
                 "Kommt": timestampString,
-                "Person": personID
+                "Person": "Person_" + personID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
@@ -491,7 +491,7 @@ var database = (function () {
                         "Bemerkung": remark,
                         "Entschuldigt": excusedFlag,
                         "Kommt": timestampString,
-                        "Person": personID
+                        "Person": "Person_" + personID
                     });
                     unsuscribeAuthEvent();
                 }
