@@ -446,8 +446,15 @@ var database = (function () {
                 var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
                 ref.once("value").then(function (snap) {
                     var teilnehmerJSON = [];
+                    var jsonValue;
                     snap.forEach(function (childNode) {
-
+                        jsonValue = childNode.val();
+                        teilnehmerJSON.push({
+                            "EntryKey" : childNode.key,
+                            "Person_ID" : jsonValue.Person,
+                            "Kommt" : jsonValue.Kommt,
+                            "Entschuldigt" : jsonValue.Entschuldigt
+                        });
                     });
                 });
             } else {
@@ -457,7 +464,22 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (appointmentKey != null) { } else {
+                    if (appointmentKey != null) {
+                        var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                        ref.once("value").then(function (snap) {
+                            var teilnehmerJSON = [];
+                            var jsonValue;
+                            snap.forEach(function (childNode) {
+                                jsonValue = childNode.val();
+                                teilnehmerJSON.push({
+                                    "EntryKey" : childNode.key,
+                                    "Person_ID" : jsonValue.Person,
+                                    "Kommt" : jsonValue.Kommt,
+                                    "Entschuldigt" : jsonValue.Entschuldigt
+                                });
+                            });
+                        });
+                    } else {
                         callbackFunction(null);
                     }
                     unsuscribeAuthEvent();
