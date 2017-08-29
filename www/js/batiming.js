@@ -215,6 +215,7 @@ var batiming = (function () {
             // Vorlesung Akttuell
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Anwesende Studenten
+                // getLectureAttendanceListByAppointmentKey
                 database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     var results1 = prepareTemplateData(data1);
                     var results2 = prepareTemplateData(data2);
