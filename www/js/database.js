@@ -480,6 +480,7 @@ var database = (function () {
                                     "Entschuldigt" : jsonValue.Entschuldigt
                                 });
                             });
+                            callbackFunction(teilnehmerJSON);
                         });
                     } else {
                         callbackFunction(null);
@@ -491,21 +492,24 @@ var database = (function () {
         }
     }
 
-    database.getLectureAttendanceListByPersonKey = function (appointmentKey, callbackFunction) {
+    database.getLectureAttendanceListByPersonKey = function (personKey, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             if (appointmentKey != null) {
-                var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                var ref = fbInstance.database().ref("PersonHistory/" + personKey);
                 ref.once("value").then(function (snap) {
                     var teilnehmerJSON = [];
                     var jsonValue;
                     snap.forEach(function (childNode) {
-                        jsonValue = childNode.val();
-                        teilnehmerJSON.push({
-                            "EntryKey" : childNode.key,
-                            "Person_ID" : jsonValue.Person,
-                            "Kommt" : jsonValue.Kommt,
-                            "Entschuldigt" : jsonValue.Entschuldigt
+                        childNode.forEach(function (childChildNode) {
+                            jsonValue = childChildNode.val();
+                            teilnehmerJSON.push({
+                                "Termin_ID" : childNode.key,
+                                "Person_ID" : jsonValue.Person,
+                                "Vorlesung_ID" : jsonValue.Vorlesung_ID,
+                                "Kommt" : jsonValue.Kommt,
+                                "Entschuldigt" : jsonValue.Entschuldigt
+                            });
                         });
                     });
                 });
@@ -517,17 +521,20 @@ var database = (function () {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
                     if (appointmentKey != null) {
-                        var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                        var ref = fbInstance.database().ref("PersonHistory/" + personKey);
                         ref.once("value").then(function (snap) {
                             var teilnehmerJSON = [];
                             var jsonValue;
                             snap.forEach(function (childNode) {
-                                jsonValue = childNode.val();
-                                teilnehmerJSON.push({
-                                    "EntryKey" : childNode.key,
-                                    "Person_ID" : jsonValue.Person,
-                                    "Kommt" : jsonValue.Kommt,
-                                    "Entschuldigt" : jsonValue.Entschuldigt
+                                childNode.forEach(function (childChildNode) {
+                                    jsonValue = childChildNode.val();
+                                    teilnehmerJSON.push({
+                                        "Termin_ID" : childNode.key,
+                                        "Person_ID" : jsonValue.Person,
+                                        "Vorlesung_ID" : jsonValue.Vorlesung_ID,
+                                        "Kommt" : jsonValue.Kommt,
+                                        "Entschuldigt" : jsonValue.Entschuldigt
+                                    });
                                 });
                             });
                         });
@@ -600,13 +607,13 @@ var database = (function () {
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
     database.bookHistoryEntry = function (personID, lectureID, appointmentKey, roomDesc, remark, excusedFlag, timestampString) {
         if (fbInstance.auth().currentUser) {
-            var ref = fbInstance.database().ref("PersonHistory/" + 'Person_' + personID + "/" + appointmentKey).push();
+            var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + appointmentKey).push();
             ref.set({
                 "Bemerkung": remark,
                 "Entschuldigt": excusedFlag,
                 "Kommt": timestampString,
                 "Raum": roomDesc,
-                "VorlesungID": lectureID
+                "Vorlesung_ID": lectureID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
@@ -617,7 +624,7 @@ var database = (function () {
                         "Entschuldigt": excusedFlag,
                         "Kommt": timestampString,
                         "Raum": roomDesc,
-                        "VorlesungID": lectureID
+                        "Vorlesung_ID": lectureID
                     });
                     unsuscribeAuthEvent();
                 }
