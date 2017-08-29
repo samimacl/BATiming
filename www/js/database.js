@@ -173,7 +173,7 @@ var database = (function () {
                 ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                     console.log("OnValue --> " + snap.val());
                     // callbackFunction(snap.val());
-                    var result = null;
+                    var result = [];
 
                     snap.forEach(function (childNode) {
                         beginTime = childNode.key;
@@ -188,7 +188,7 @@ var database = (function () {
                                         "end": terminJSON.Ende
                                     };
                                     //callbackFunction(result);
-                                    result = resultJSON;
+                                    result.push(resultJSON);
                                 }
                             }
                         });
@@ -211,7 +211,7 @@ var database = (function () {
                         ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
                             console.log("OnValue --> " + snap.val());
                             // callbackFunction(snap.val());
-                            var result = null;
+                            var result = [];
 
                             snap.forEach(function (childNode) {
                                 beginTime = childNode.key;
@@ -226,7 +226,7 @@ var database = (function () {
                                                 "end": terminJSON.Ende
                                             };
                                             //callbackFunction(result);
-                                            result = resultJSON;
+                                            result.push(resultJSON);
                                         }
                                     }
                                 });
@@ -446,8 +446,15 @@ var database = (function () {
                 var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
                 ref.once("value").then(function (snap) {
                     var teilnehmerJSON = [];
+                    var jsonValue;
                     snap.forEach(function (childNode) {
-
+                        jsonValue = childNode.val();
+                        teilnehmerJSON.push({
+                            "EntryKey" : childNode.key,
+                            "Person_ID" : jsonValue.Person,
+                            "Kommt" : jsonValue.Kommt,
+                            "Entschuldigt" : jsonValue.Entschuldigt
+                        });
                     });
                 });
             } else {
@@ -457,7 +464,22 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (appointmentKey != null) { } else {
+                    if (appointmentKey != null) {
+                        var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                        ref.once("value").then(function (snap) {
+                            var teilnehmerJSON = [];
+                            var jsonValue;
+                            snap.forEach(function (childNode) {
+                                jsonValue = childNode.val();
+                                teilnehmerJSON.push({
+                                    "EntryKey" : childNode.key,
+                                    "Person_ID" : jsonValue.Person,
+                                    "Kommt" : jsonValue.Kommt,
+                                    "Entschuldigt" : jsonValue.Entschuldigt
+                                });
+                            });
+                        });
+                    } else {
                         callbackFunction(null);
                     }
                     unsuscribeAuthEvent();
@@ -467,8 +489,54 @@ var database = (function () {
         }
     }
 
-    database.getLectureAttendanceListByPersonKey = function (personKey, callbackFunction) {
-
+    database.getLectureAttendanceListByPersonKey = function (appointmentKey, callbackFunction) {
+        //Check if logged in
+        if (fbInstance.auth().currentUser) {
+            if (appointmentKey != null) {
+                var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                ref.once("value").then(function (snap) {
+                    var teilnehmerJSON = [];
+                    var jsonValue;
+                    snap.forEach(function (childNode) {
+                        jsonValue = childNode.val();
+                        teilnehmerJSON.push({
+                            "EntryKey" : childNode.key,
+                            "Person_ID" : jsonValue.Person,
+                            "Kommt" : jsonValue.Kommt,
+                            "Entschuldigt" : jsonValue.Entschuldigt
+                        });
+                    });
+                });
+            } else {
+                callbackFunction(null);
+            }
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    if (appointmentKey != null) {
+                        var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey + "/Teilnehmer");
+                        ref.once("value").then(function (snap) {
+                            var teilnehmerJSON = [];
+                            var jsonValue;
+                            snap.forEach(function (childNode) {
+                                jsonValue = childNode.val();
+                                teilnehmerJSON.push({
+                                    "EntryKey" : childNode.key,
+                                    "Person_ID" : jsonValue.Person,
+                                    "Kommt" : jsonValue.Kommt,
+                                    "Entschuldigt" : jsonValue.Entschuldigt
+                                });
+                            });
+                        });
+                    } else {
+                        callbackFunction(null);
+                    }
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
     }
 
     //Returns void --> Buchung Vorlesungshistorie "Anwesenheit"
@@ -481,7 +549,7 @@ var database = (function () {
                 "Bemerkung": remark,
                 "Entschuldigt": excusedFlag,
                 "Kommt": timestampString,
-                "Person": personID
+                "Person": "Person_" + personID
             });
         } else {
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
@@ -491,7 +559,7 @@ var database = (function () {
                         "Bemerkung": remark,
                         "Entschuldigt": excusedFlag,
                         "Kommt": timestampString,
-                        "Person": personID
+                        "Person": "Person_" + personID
                     });
                     unsuscribeAuthEvent();
                 }

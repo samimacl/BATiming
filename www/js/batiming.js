@@ -121,22 +121,6 @@ var batiming = (function () {
         });
         database.getLectureTitles(function (data) {
             storageManager.changeItem(true, 'lectureMap', data);
-
-            // data.forEach(function (element) {
-            //     var result = searchElementInStorageManager(element.dozentID, "dozentenMap");
-            //     if (result == null) {
-            //         database.getPersonByID(element.dozentID, function (personData) {
-            //             var mapList = [];
-            //             if (storageManager.getItem(true, 'dozentenMap') != null)
-            //                 mapList = JSON.parse(storageManager.getItem(true, 'dozentenMap'));
-            //             mapList.push({
-            //                 key: element.dozentID,
-            //                 value: personData.Name + ", " + personData.Vorname
-            //             });
-            //             storageManager.changeItem(true, 'dozentenMap', mapList);
-            //         });
-            //     }
-            // });
         });
         database.getPersonNames(function (data) {
             storageManager.changeItem(true, 'personMap', data);
@@ -199,9 +183,13 @@ var batiming = (function () {
             // Aktuelle Vorlesung
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Zukünftige Vorlesungen
-                database.getAppointmentList(3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
+                database.getAppointmentList(4, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
                     database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
+                        if (data1 != null && data2 != null) {
+                            findAndRemove(data2,"appointment", data1[0].appointment)
+                        }
+
                         var results1 = prepareTemplateData(data1);
                         var results2 = prepareTemplateData(data2);
                         var results3 = prepareTemplateData(data3);
@@ -216,21 +204,30 @@ var batiming = (function () {
             });
         } else {
             // Vorlesung Akttuell
-            database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
-                // Anwesende Studenten
-                // getLectureAttendanceListByAppointmentKey
-                database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
-                    var results1 = prepareTemplateData(data1);
-                    var results2 = prepareTemplateData(data2);
+            // database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
+            //     // Anwesende Studenten
 
-                    // myPageContentDozent
-                    myApp.template7Data.dozent = results1;
-                    myApp.template7Data.dozent.students = results2;
-                    $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
-                });
-            });
+            //     database.getLectureAttendanceListByPersonKey(, function (data2) {
+            //         var results1 = prepareTemplateData(data1);
+            //         var results2 = prepareTemplateData(data2);
+
+            //         // myPageContentDozent
+            //         myApp.template7Data.dozent = results1;
+            //         myApp.template7Data.dozent.students = results2;
+            //         $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
+            //     });
+            // });
         }
         myApp.pullToRefreshDone();
+    }
+
+    function findAndRemove(array, property, value) {
+        array.forEach(function (result, index) {
+            if (result[property] === value) {
+                //Remove from array
+                array.splice(index, 1);
+            }
+        });
     }
 
     batiming.getTemplateDataAttendance = function () {
