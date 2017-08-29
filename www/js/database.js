@@ -501,15 +501,13 @@ var database = (function () {
                     var teilnehmerJSON = [];
                     var jsonValue;
                     snap.forEach(function (childNode) {
-                        childNode.forEach(function (childChildNode) {
-                            jsonValue = childChildNode.val();
-                            teilnehmerJSON.push({
-                                "Termin_ID" : childNode.key,
-                                "Person_ID" : jsonValue.Person,
-                                "Vorlesung_ID" : jsonValue.Vorlesung_ID,
-                                "Kommt" : jsonValue.Kommt,
-                                "Entschuldigt" : jsonValue.Entschuldigt
-                            });
+                        jsonValue = childNode.val();
+                        teilnehmerJSON.push({
+                            "Termin_ID" : childNode.key,
+                            "Person_ID" : jsonValue.Person,
+                            "Vorlesung_ID" : jsonValue.Vorlesung_ID,
+                            "Kommt" : jsonValue.Kommt,
+                            "Entschuldigt" : jsonValue.Entschuldigt
                         });
                     });
                     callbackFunction(teilnehmerJSON);
@@ -527,15 +525,13 @@ var database = (function () {
                             var teilnehmerJSON = [];
                             var jsonValue;
                             snap.forEach(function (childNode) {
-                                childNode.forEach(function (childChildNode) {
-                                    jsonValue = childChildNode.val();
-                                    teilnehmerJSON.push({
-                                        "Termin_ID" : childNode.key,
-                                        "Person_ID" : jsonValue.Person,
-                                        "Vorlesung_ID" : jsonValue.Vorlesung_ID,
-                                        "Kommt" : jsonValue.Kommt,
-                                        "Entschuldigt" : jsonValue.Entschuldigt
-                                    });
+                                jsonValue = childNode.val();
+                                teilnehmerJSON.push({
+                                    "Termin_ID" : childNode.key,
+                                    "Person_ID" : jsonValue.Person,
+                                    "Vorlesung_ID" : jsonValue.Vorlesung_ID,
+                                    "Kommt" : jsonValue.Kommt,
+                                    "Entschuldigt" : jsonValue.Entschuldigt
                                 });
                             });
                             callbackFunction(teilnehmerJSON);
