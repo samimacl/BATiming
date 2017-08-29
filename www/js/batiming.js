@@ -122,21 +122,24 @@ var batiming = (function () {
         database.getLectureTitles(function (data) {
             storageManager.changeItem(true, 'lectureMap', data);
 
-            data.forEach(function (element) {
-                var result = searchElementInStorageManager(element.dozentID, "dozentenMap");
-                if (result == null) {
-                    database.getPersonByID(element.dozentID, function (personData) {
-                        var mapList = [];
-                        if (storageManager.getItem(true, 'dozentenMap') != null)
-                            mapList = JSON.parse(storageManager.getItem(true, 'dozentenMap'));
-                        mapList.push({
-                            key: element.dozentID,
-                            value: personData.Name + ", " + personData.Vorname
-                        });
-                        storageManager.changeItem(true, 'dozentenMap', mapList);
-                    });
-                }
-            });
+            // data.forEach(function (element) {
+            //     var result = searchElementInStorageManager(element.dozentID, "dozentenMap");
+            //     if (result == null) {
+            //         database.getPersonByID(element.dozentID, function (personData) {
+            //             var mapList = [];
+            //             if (storageManager.getItem(true, 'dozentenMap') != null)
+            //                 mapList = JSON.parse(storageManager.getItem(true, 'dozentenMap'));
+            //             mapList.push({
+            //                 key: element.dozentID,
+            //                 value: personData.Name + ", " + personData.Vorname
+            //             });
+            //             storageManager.changeItem(true, 'dozentenMap', mapList);
+            //         });
+            //     }
+            // });
+        });
+        database.getPersonNames(function (data) {
+            storageManager.changeItem(true, 'personMap', data);
         });
     }
 
@@ -173,7 +176,7 @@ var batiming = (function () {
                         element.timeString = element.begin.substring(0, 5) + " - " + element.end.substring(0, 5);;
                     if (element.lecture != null) {
                         element.lectureString = mapGetString(element.lecture, "lectureMap");
-                        element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "dozentenMap");
+                        element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
                     }
                 }, this);
             }
@@ -182,7 +185,7 @@ var batiming = (function () {
                     result.timeString = result.begin.substring(0, 5) + " - " + result.end.substring(0, 5);;
                 if (result.lecture != null) {
                     result.lectureString = mapGetString(result.lecture, "lectureMap");
-                    result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "dozentenMap");
+                    result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
                 }
             }
             return result;

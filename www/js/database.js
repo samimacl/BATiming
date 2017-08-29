@@ -630,6 +630,47 @@ var database = (function () {
         }
     }
 
+    //Returns JSON-Object
+    database.getPersonNames = function (callbackFunction) {
+        //Check if logged in
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("Personen");
+            ref.once("value").then(function (snap) {
+                var mapList = [];
+                snap.forEach(function (childNode) {
+                    mapList.push({
+                        key: childNode.key,
+                        value: childNode.val().Name + ", " + childNode.val().Vorname,
+                        name: childNode.val().Name,
+                        vorname: childNode.val().Vorname
+                    });
+                });
+                callbackFunction(mapList);
+            });
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("Personen");
+                    ref.once("value").then(function (snap) {
+                        var mapList = [];
+                        snap.forEach(function (childNode) {
+                            mapList.push({
+                                key: childNode.key,
+                                value: childNode.val().Name + ", " + childNode.val().Vorname,
+                                name: childNode.val().Name,
+                                vorname: childNode.val().Vorname
+                            });
+                        });
+                        callbackFunction(mapList);
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
+
     //Returns string
     database.getUsersMailaddress = function () {
         if (!fbInstance.auth().currentUser) {

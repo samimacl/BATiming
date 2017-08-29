@@ -90,7 +90,8 @@ var login = (function () {
             storageManager.removeItem(true, 'userData');
             storageManager.removeItem(true, 'studyGroupMap');
             storageManager.removeItem(true, 'lectureMap');
-            storageManager.removeItem(true, 'dozentenMap');
+            // storageManager.removeItem(true, 'dozentenMap');
+            storageManager.removeItem(true, 'personMap');
             if (batiming.devMode) {
                 myApp.closeModal('.login-screen');
             }
