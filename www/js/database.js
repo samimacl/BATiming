@@ -453,12 +453,8 @@ var database = (function () {
                             "EntryKey" : childNode.key,
                             "Person_ID" : jsonValue.Person,
                             "Kommt" : jsonValue.Kommt,
-<<<<<<< HEAD
-                            "Entschuldigt" : jsonValue.Entschuldigt
-=======
                             "Entschuldigt" : jsonValue.Entschuldigt,
                             "Bemerkung" : jsonValue.Bemerkung
->>>>>>> master
                         });
                     });
                     callbackFunction(teilnehmerJSON);
@@ -495,11 +491,7 @@ var database = (function () {
         }
     }
 
-<<<<<<< HEAD
     database.getLectureAttendanceListByPersonKey = function (personKey, callbackFunction) {
-=======
-    database.getLectureAttendanceListByPersonKey = function (appointmentKey, callbackFunction) {
->>>>>>> master
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             if (appointmentKey != null) {
