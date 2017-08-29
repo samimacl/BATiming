@@ -495,7 +495,7 @@ var database = (function () {
     database.getLectureAttendanceListByPersonKey = function (personKey, callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
-            if (appointmentKey != null) {
+            if (personKey != null) {
                 var ref = fbInstance.database().ref("PersonHistory/" + personKey);
                 ref.once("value").then(function (snap) {
                     var teilnehmerJSON = [];
@@ -512,6 +512,7 @@ var database = (function () {
                             });
                         });
                     });
+                    callbackFunction(teilnehmerJSON);
                 });
             } else {
                 callbackFunction(null);
@@ -520,7 +521,7 @@ var database = (function () {
             //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
             var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
                 if (!user) {
-                    if (appointmentKey != null) {
+                    if (personKey != null) {
                         var ref = fbInstance.database().ref("PersonHistory/" + personKey);
                         ref.once("value").then(function (snap) {
                             var teilnehmerJSON = [];
@@ -537,6 +538,7 @@ var database = (function () {
                                     });
                                 });
                             });
+                            callbackFunction(teilnehmerJSON);
                         });
                     } else {
                         callbackFunction(null);

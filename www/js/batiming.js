@@ -207,8 +207,11 @@ var batiming = (function () {
                 database.getAppointmentList(4, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
                     database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
+
                         if (data1 != null && data2 != null) {
-                            findAndRemove(data2, "appointment", data1[0].appointment)
+                            if (data1[0] != undefined) {
+                                findAndRemove(data2, "appointment", data1[0].appointment)
+                            }
                         }
 
                         storageManager.changeItem(true, 'currentAppointmentByStudyGroup', data1);
@@ -263,7 +266,7 @@ var batiming = (function () {
                 return n !== null;
             });
             result.forEach(function (element) {
-                if (element.VorlesungID != null){
+                if (element.VorlesungID != null) {
                     element.lectureString = mapGetString(element.VorlesungID, "lectureMap");
                 }
             });
