@@ -180,7 +180,7 @@ var batiming = (function () {
                     });
                     result.forEach(function (element) {
                         if (element.Kommt != null)
-                            element.timeString = element.Kommt.substring(element.Kommt.length-8, element.Kommt.length);
+                            element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
                         if (element.Person_ID != null) {
                             element.personString = mapGetString(element.Person_ID, "personMap");
                         }
@@ -230,15 +230,17 @@ var batiming = (function () {
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Anwesende Studenten
                 storageManager.changeItem(true, 'currentAppointmentByStudyGroup', data1);
-                database.getLectureAttendanceListByAppointmentKey(data1[0].appointment, function (data2) {
-                    var results1 = prepareTemplateData(0, data1);
-                    var results2 = prepareTemplateData(1, data2);
+                if (data1[0] != undefined) {
+                    database.getLectureAttendanceListByAppointmentKey(data1[0].appointment, function (data2) {
+                        var results1 = prepareTemplateData(0, data1);
+                        var results2 = prepareTemplateData(1, data2);
 
-                    // myPageContentDozent
-                    myApp.template7Data.dozent = results1;
-                    myApp.template7Data.dozent.students = results2;
-                    $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
-                });
+                        // myPageContentDozent
+                        myApp.template7Data.dozent = results1;
+                        myApp.template7Data.dozent.students = results2;
+                        $$('.page[data-page="index"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
+                    });
+                }
             });
         }
         myApp.pullToRefreshDone();
@@ -254,8 +256,17 @@ var batiming = (function () {
     }
 
     batiming.getTemplateDataAttendance = function () {
-        database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
-            var results1 = prepareTemplateData(data1);
+        database.getLectureAttendanceListByPersonKey(JSON.parse(storageManager.getItem(true, 'userData')).PersonID, function (data) {
+            var result = data;
+
+            result = result.filter(function (n) {
+                return n !== null;
+            });
+            result.forEach(function (element) {
+                if (element.VorlesungID != null){
+                    element.lectureString = mapGetString(element.VorlesungID, "lectureMap");
+                }
+            });
 
             myApp.template7Data.attendance = results1;
             $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(results1));

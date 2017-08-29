@@ -66,6 +66,9 @@ var login = (function () {
                     database.getCurrentPerson(function (data) {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();
+                        if (data != null) {
+                            data.PersonID = "Person_" + firebase.auth().currentUser.uid
+                        }
                         storageManager.addItem(true, 'userData', data);
                         batiming.initMaps();
                         myApp.closeModal('.login-screen');
@@ -79,6 +82,9 @@ var login = (function () {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();
                     };
+                    if (data != null) {
+                        data.PersonID = "Person_" + firebase.auth().currentUser.uid
+                    }
                     storageManager.changeItem(true, 'userData', data)
                     batiming.initMaps();
                     batiming.getTemplateData();
@@ -92,7 +98,7 @@ var login = (function () {
             storageManager.removeItem(true, 'lectureMap');
             storageManager.removeItem(true, 'personMap');
             storageManager.removeItem(true, 'currentAppointmentByStudyGroup');
-            
+
             if (batiming.devMode) {
                 myApp.closeModal('.login-screen');
             }
