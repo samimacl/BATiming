@@ -453,9 +453,15 @@ var database = (function () {
                             "EntryKey" : childNode.key,
                             "Person_ID" : jsonValue.Person,
                             "Kommt" : jsonValue.Kommt,
+<<<<<<< HEAD
                             "Entschuldigt" : jsonValue.Entschuldigt
+=======
+                            "Entschuldigt" : jsonValue.Entschuldigt,
+                            "Bemerkung" : jsonValue.Bemerkung
+>>>>>>> master
                         });
                     });
+                    callbackFunction(teilnehmerJSON);
                 });
             } else {
                 callbackFunction(null);
@@ -489,7 +495,11 @@ var database = (function () {
         }
     }
 
+<<<<<<< HEAD
     database.getLectureAttendanceListByPersonKey = function (personKey, callbackFunction) {
+=======
+    database.getLectureAttendanceListByPersonKey = function (appointmentKey, callbackFunction) {
+>>>>>>> master
         //Check if logged in
         if (fbInstance.auth().currentUser) {
             if (appointmentKey != null) {
@@ -697,6 +707,47 @@ var database = (function () {
             this.setUserAuth(this.userMail, this.userPassword);
         }
     }
+
+    //Returns JSON-Object
+    database.getPersonNames = function (callbackFunction) {
+        //Check if logged in
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("Personen");
+            ref.once("value").then(function (snap) {
+                var mapList = [];
+                snap.forEach(function (childNode) {
+                    mapList.push({
+                        key: childNode.key,
+                        value: childNode.val().Name + ", " + childNode.val().Vorname,
+                        name: childNode.val().Name,
+                        vorname: childNode.val().Vorname
+                    });
+                });
+                callbackFunction(mapList);
+            });
+        } else {
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("Personen");
+                    ref.once("value").then(function (snap) {
+                        var mapList = [];
+                        snap.forEach(function (childNode) {
+                            mapList.push({
+                                key: childNode.key,
+                                value: childNode.val().Name + ", " + childNode.val().Vorname,
+                                name: childNode.val().Name,
+                                vorname: childNode.val().Vorname
+                            });
+                        });
+                        callbackFunction(mapList);
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
 
     //Returns string
     database.getUsersMailaddress = function () {
