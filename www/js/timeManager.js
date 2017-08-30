@@ -10,7 +10,7 @@ var timeManager = (function () {
     let timeManager = {};
 
     timeManager.state = 0;
-    let bookingData = null;
+    var bookingData = null;
 
     function isDateInLecture(appointment) {
         let now = new Date(Date.now());
@@ -29,43 +29,29 @@ var timeManager = (function () {
         if (this.state > 0)
             showNotification('Hint', 'Workflow already started.', true);
 
-        bookingData = null;
-        let isCached = false;
-        let currentLecture = JSON.parse(storageManager.getItem(true, 'currentLecture'));
-        if (currentLecture != null)
-            isCached = isDateInLecture(currentLecture);
-
-        if (!isCached) {
-            let user = JSON.parse(storageManager.getItem(true, 'userData'));
-            await database.getCurrentLectureKeyByStudyGroup(user.Studiengruppe, function (data) {
-                if (data == null)
-                    showNotification('Error', 'No data fonund.', true);
-
-                bookingData = data;
-                console.log(bookingData);
-            });
+        let currentLecture = storageManager.getItem(true, 'currentAppointmentByStudyGroup');
+        if (currentLecture != null && currentLecture[0] !== undefined) {
+            bookingData = JSON.parse(currentLecture)[0];
+            this.state++;
+            console.log('State is: ' + this.state);
+        } else {
+            showNotification('Error', 'No current lecture!', true);
         }
-
-        if (isCached)
-            showNotification('Hint', 'Already signed in to lecture:' + '\n' + JSON.stringify(currentLecture), true);
-
-        this.state++;
-        console.log('State is: ' + this.state);
     }
 
     timeManager.bookTimeEntry = async function (pluginResult) {
         console.log('State bookTimeEntry: ' + this.state);
         if (this.state = 1) {
             console.log("Begin saving time entry");
-            if (bookingData == null)
-                showNotification('Error', 'No booking data found', true);
-
-            storageManager.changeItem(true, 'currentLecture', data);
             let excusedFlag = '0';
-            let remark = 'Test';
+            let remark = '';
             let timestamp = getTimestamp();
-            let roomDesc = '203';
+            let roomDesc = '202';
             try {
+                let user = JSON.parse(storageManager.getItem(true, 'userData'));
+                //if not isApproved?
+                if (user.Rolle == "1")
+                    await database.releaseLectureHistoryEntry(bookingData.appointment, database.getCurrentUserID(), timestamp);
                 await database.bookLectureHistoryPersonEntry(bookingData.appointment, database.getCurrentUserID(), '0', remark, timestamp);
                 this.state++;
                 await database.bookHistoryEntry(database.getCurrentUserID(), bookingData.lecture, bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
