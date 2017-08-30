@@ -259,7 +259,7 @@ var batiming = (function () {
     }
 
     batiming.getTemplateDataAttendance = function () {
-        database.getLectureAttendanceListByPersonKey("Person_" + firebase.auth().currentUser.uid, function (data) {
+        database.getLectureAttendanceListByPersonKey("Person_" + database.getCurrentUserID(), function (data) {
             if (data != null) {
                 var result = data;
 
