@@ -18,9 +18,6 @@ var batiming = (function () {
     batiming.isIos = true;
     batiming.devMode = false;
 
-    //Maps
-    batiming.Map = null;
-
     Template7.global = {
         android: batiming.isAndroid,
         ios: batiming.isIos
@@ -46,7 +43,6 @@ var batiming = (function () {
     var mainView = myApp.addView('.view-main', {
         // Because we want to use dynamic navbar, material design doesn't support it.
         dynamicNavbar: true,
-        domCache: true //enable inline pages
     });
 
     var dozentView = myApp.addView('.view-dozent', {
@@ -263,7 +259,7 @@ var batiming = (function () {
     }
 
     batiming.getTemplateDataAttendance = function () {
-        database.getLectureAttendanceListByPersonKey(JSON.parse(storageManager.getItem(true, 'userData')).PersonID, function (data) {
+        database.getLectureAttendanceListByPersonKey("Person_" + firebase.auth().currentUser.uid, function (data) {
             if (data != null) {
                 var result = data;
 
