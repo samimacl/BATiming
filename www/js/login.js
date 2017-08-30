@@ -78,6 +78,7 @@ var login = (function () {
                     if (data.Rolle != null && data.Rolle == '1') {
                         $$('.view-main').hide();
                         $$('.view-dozent').show();
+
                     } else {
                         $$('.view-main').show();
                         $$('.view-dozent').hide();

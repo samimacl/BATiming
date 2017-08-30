@@ -261,27 +261,30 @@ var batiming = (function () {
 
     batiming.getTemplateDataAttendance = function () {
         database.getLectureAttendanceListByPersonKey(JSON.parse(storageManager.getItem(true, 'userData')).PersonID, function (data) {
-            var result = data;
+            if (data != null) {
+                var result = data;
 
-            result = result.filter(function (n) {
-                return n !== null;
-            });
-            result.forEach(function (element) {
-                if (element.Vorlesung_ID != null) {
-                    element.lectureString = mapGetString(element.Vorlesung_ID, "lectureMap");
-                }
-                if (element.Entschuldigt != null) {
-                    if (element.Entschuldigt == 1) {
-                        element.entschuldigtString = element.Bemerkung
+                result = result.filter(function (n) {
+                    return n !== null;
+                });
+                result.forEach(function (element) {
+                    if (element.Vorlesung_ID != null) {
+                        element.lectureString = mapGetString(element.Vorlesung_ID, "lectureMap");
                     }
-                }
-                if (element.Kommt != null)
-                    element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
-            });
+                    if (element.Entschuldigt != null) {
+                        if (element.Entschuldigt == 1) {
+                            element.entschuldigtString = element.Bemerkung
+                        }
+                    }
+                    if (element.Kommt != null)
+                        element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
+                });
 
-            myApp.template7Data.attendance = result;
-            $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(result));
+                myApp.template7Data.attendance = result;
+                $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(result));
+            }
         });
+        myApp.pullToRefreshDone();
     }
 
     $$('.panel-close').on('click', function (e) {
@@ -290,6 +293,7 @@ var batiming = (function () {
 
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
+        batiming.getTemplateDataAttendance();
     });
 
     $$('#attendanceID').on('click', function (e) {
