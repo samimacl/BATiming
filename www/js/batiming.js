@@ -112,8 +112,11 @@ var batiming = (function () {
     });
 
     myApp.onPageInit('attendance', function (page) {
-        // Daten befüllen Example
         batiming.getTemplateDataAttendance();
+
+        $$('.pull-to-refresh-content').on('refresh', function () {
+            batiming.getTemplateDataAttendance();
+        });
     });
 
     batiming.initMaps = function () {
@@ -293,14 +296,6 @@ var batiming = (function () {
 
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
-        batiming.getTemplateDataAttendance();
-    });
-
-    $$('#attendanceID').on('click', function (e) {
-        // mainView.router.load({ pageName: 'attendance' });
-        // $$('.view-main').hide();
-        // $$('.view-dozent').hide();
-        // $$('.view-attendance').show();
     });
 
     $$('#home').on('click', function (e) {
