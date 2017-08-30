@@ -280,7 +280,7 @@ var batiming = (function () {
             });
 
             myApp.template7Data.attendance = result;
-            $$('.page[data-page="attendance"] .page-content .myPageContentStudentenAttendance').html(Template7.templates.attendanceTemplate(result));
+            $$('.page[data-page="attendance"] .page-content .list-block').html(Template7.templates.attendanceTemplate(result));
         });
     }
 
@@ -294,22 +294,16 @@ var batiming = (function () {
 
     $$('#attendanceID').on('click', function (e) {
         // mainView.router.load({ pageName: 'attendance' });
-        $$('.view-main').hide();
-        $$('.view-dozent').hide();
-        $$('.view-attendance').show();
+        // $$('.view-main').hide();
+        // $$('.view-dozent').hide();
+        // $$('.view-attendance').show();
     });
 
     $$('#home').on('click', function (e) {
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
-            // mainView.router.load({ pageName: 'indexsstudent' });
-            $$('.view-main').show();
-            $$('.view-dozent').hide();
-            $$('.view-attendance').hide();
+            mainView.router.load({ pageName: 'indexsstudent' });
         } else {
-            // mainView.router.load({ pageName: 'indexdozent' });
-            $$('.view-main').hide();
-            $$('.view-dozent').show();
-            $$('.view-attendance').hide();
+            mainView.router.load({ pageName: 'indexdozent' });
         }
     });
 

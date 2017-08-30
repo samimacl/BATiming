@@ -20,7 +20,7 @@
         <div class="list-block">
             <ul>
                 <li>
-                    <a id="home" href="./index.html" class="item-link panel-close">
+                    <a id="home" href="#" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-home"></i><i class="icon f7-icons">home</i></div>
                             <div class="item-inner">
@@ -30,7 +30,7 @@
                     </a>
                 </li>
                 <li>
-                    <a id="attendanceID" href="#" class="item-link panel-close">
+                    <a id="attendanceID" href="./views/attendance.html" class="item-link panel-close">
                         <div class="item-content">
                             <div class="item-media"><i class="icon fa fa-info-circle"></i><i class="icon f7-icons">time</i></div>
                             <div class="item-inner">
@@ -114,50 +114,6 @@
                             <div class="pull-to-refresh-arrow"></div>
                         </div>
                         <div class="myPageContentDozent"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Att View -->
-        <div class="view view-attendance navbar-through">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left">
-                        <a href="#" class="back link">
-                            <i class="icon icon-back"></i>
-                            <span>Back</span>
-                        </a>
-                    </div>
-                    <div class="center sliding">Attendance</div>
-                    <div class="right">
-                        <a href="#" class="link icon-only open-panel"><i class="icon icon-bars"></i></a>
-                    </div>
-                </div>
-            </div>
-            <div class="pages">
-                <div class="page" data-page="attendance">
-                    <form class="searchbar searchbar-init" data-search-list=".list-block-search" data-search-in=".item-title" data-searchbar-found=".searchbar-found"
-                        data-searchbar-not-found=".searchbar-not-found">
-                        <div class="searchbar-input">
-                            <input type="search" placeholder="Search">
-                            <a href="#" class="searchbar-clear"></a>
-                        </div>
-                        <a href="#" class="searchbar-cancel">Cancel</a>
-                    </form>
-                    <div class="page-content pull-to-refresh-content">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
-                        <div class="myPageContentStudentenAttendance"></div>
-                        <div class="searchbar-overlay"></div>
-
-                        <div class="content-block searchbar-not-found">
-                            Keine Ergebnisse gefunden.
-                        </div>
-
-                        <div class="list-block media-list stories-list list-block-search searchbar-found"></div>
                     </div>
                 </div>
             </div>
@@ -330,24 +286,21 @@
     </script>
 
     <script type="text/template7" id="attendanceTemplate">
-        <div class="content-block-title ">Meine Anwesenheiten</div>
-        <div class="list-block media-list ">
-            <ul>
-                {{#each this}}
-                <li>
-                    <a href="# " data-context-name="attendance.{{@index}} " class="item-content ">
-                        <div class="item-inner ">
-                            <div class="item-title-row ">
-                                <div class="item-title ">{{this.lectureString}}</div>
-                                <div class="item-after ">{{this.timeString}}</div>
-                            </div>
-                            <div class="item-subtitle ">{{this.entschuldigtString}}</div>
+        <ul>
+            {{#each this}}
+            <li>
+                <a href="# " data-context-name="attendance.{{@index}} " class="item-content ">
+                    <div class="item-inner ">
+                        <div class="item-title-row ">
+                            <div class="item-title ">{{this.lectureString}}</div>
+                            <div class="item-after ">{{this.timeString}}</div>
                         </div>
-                    </a>
-                </li>
-                {{/each}}
-            </ul>
-        </div>
+                        <div class="item-subtitle ">{{this.entschuldigtString}}</div>
+                    </div>
+                </a>
+            </li>
+            {{/each}}
+        </ul>
     </script>
 
     <script type="text/javascript" src="lib/framework7/js/framework7.min.js"></script>
