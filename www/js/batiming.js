@@ -163,6 +163,10 @@ var batiming = (function () {
                             element.lectureString = mapGetString(element.lecture, "lectureMap");
                             element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
                         }
+                        if (element.date != null){
+                            var d = new Date(element.date)
+                            element.dateString = d.getDate()+"."+ (d.getMonth()+1) +"."+ d.getFullYear();
+                        }
                     }, this);
                 }
                 else {
@@ -197,7 +201,17 @@ var batiming = (function () {
         }
         return result;
     }
-
+ function GetDateFormat(controlName) {
+        if ($('#' + controlName).val() != "") {      
+            var d1 = Date.parse($('#' + controlName).val().toString().replace(/([0-9]+)\/([0-9]+)/,'$2/$1'));
+            if (d1 == null) {
+                alert('Date Invalid.');
+                $('#' + controlName).val("");
+            }
+                var array = d1.toString('dd-MMM-yyyy');
+                $('#' + controlName).val(array);
+        }
+    }
     batiming.getTemplateData = function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
