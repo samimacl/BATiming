@@ -158,7 +158,7 @@ var batiming = (function () {
                     });
                     result.forEach(function (element) {
                         if (element.begin != null && element.end != null)
-                            element.timeString = element.begin.substring(0, 5) + " - " + element.end.substring(0, 5);;
+                            element.timeString = element.begin.substring(0, 5) + "-" + element.end.substring(0, 5);;
                         if (element.lecture != null) {
                             element.lectureString = mapGetString(element.lecture, "lectureMap");
                             element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
@@ -171,7 +171,7 @@ var batiming = (function () {
                 }
                 else {
                     if (result.begin != null && result.end != null)
-                        result.timeString = result.begin.substring(0, 5) + " - " + result.end.substring(0, 5);;
+                        result.timeString = result.begin.substring(0, 5) + "-" + result.end.substring(0, 5);;
                     if (result.lecture != null) {
                         result.lectureString = mapGetString(result.lecture, "lectureMap");
                         result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
