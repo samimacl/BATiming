@@ -206,20 +206,30 @@ var batiming = (function () {
         }
         return result;
     }
-    
+
     batiming.getTemplateData = function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
             // Aktuelle Vorlesung
             database.getCurrentAppointmentByStudyGroup(JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data1) {
                 // Zukünftige Vorlesungen
-                database.getAppointmentList(4, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
+                database.getAppointmentList(5, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data2) {
                     // Letzte Einträge
                     database.getAppointmentList(-3, JSON.parse(storageManager.getItem(true, 'userData')).Studiengruppe, function (data3) {
 
                         if (data1 != null && data2 != null) {
                             if (data1[0] != undefined) {
                                 findAndRemove(data2, "appointment", data1[0].appointment)
+                                var searchedElement = data2.find(function (item) {
+                                    return item.date == data1[0].date;
+                                });
+                                if (searchedElement != null) {
+                                    data3.unshift(searchedElement);
+                                    delete data3[(data3.length - 1)];
+                                    data3.length = (data3.length - 1);
+
+                                    findAndRemove(data2, "date", data1[0].date)
+                                }
                             }
                         }
 
@@ -253,6 +263,7 @@ var batiming = (function () {
                         $$('.page[data-page="indexdozent"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
                     });
                 }
+
             });
         }
         myApp.pullToRefreshDone();
@@ -263,6 +274,15 @@ var batiming = (function () {
             if (result[property] === value) {
                 //Remove from array
                 array.splice(index, 1);
+            }
+        });
+    }
+
+    function findAndReturn(array, property, value) {
+        array.forEach(function (result, index) {
+            if (result[property] === value) {
+                //Remove from array
+                return array[index]
             }
         });
     }
