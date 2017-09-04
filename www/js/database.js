@@ -478,7 +478,8 @@ var database = (function () {
                                     "EntryKey" : childNode.key,
                                     "Person_ID" : jsonValue.Person,
                                     "Kommt" : jsonValue.Kommt,
-                                    "Entschuldigt" : jsonValue.Entschuldigt
+                                    "Entschuldigt" : jsonValue.Entschuldigt,
+                                    "Bemerkung" : jsonValue.Bemerkung
                                 });
                             });
                             callbackFunction(teilnehmerJSON);
@@ -507,7 +508,8 @@ var database = (function () {
                             "Termin_ID" : childNode.key,
                             "Vorlesung_ID" : jsonValue.Vorlesung_ID,
                             "Kommt" : jsonValue.Kommt,
-                            "Entschuldigt" : jsonValue.Entschuldigt
+                            "Entschuldigt" : jsonValue.Entschuldigt,
+                            "Bemerkung" : jsonValue.Bemerkung
                         });
                     });
                     callbackFunction(teilnehmerJSON);
@@ -530,7 +532,8 @@ var database = (function () {
                                     "Termin_ID" : childNode.key,
                                     "Vorlesung_ID" : jsonValue.Vorlesung_ID,
                                     "Kommt" : jsonValue.Kommt,
-                                    "Entschuldigt" : jsonValue.Entschuldigt
+                                    "Entschuldigt" : jsonValue.Entschuldigt,
+                                    "Bemerkung" : jsonValue.Bemerkung
                                 });
                             });
                             callbackFunction(teilnehmerJSON);
