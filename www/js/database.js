@@ -184,6 +184,7 @@ var database = (function () {
                                     let resultJSON = {
                                         "appointment": childChildNode.key,
                                         "lecture": terminJSON.Vorlesung_ID,
+                                        "date": snap.key,
                                         "begin": beginTime,
                                         "end": terminJSON.Ende
                                     };
