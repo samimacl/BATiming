@@ -703,7 +703,6 @@ var database = (function () {
         }
     }
 
-<<<<<<< HEAD
     database.personHistoryEntryExists = function(appointmentKey, personID, callbackFunction) {
         if (fbInstance.auth().currentUser) {
             var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + appointmentKey);
@@ -733,8 +732,6 @@ var database = (function () {
         }
     }
 
-=======
->>>>>>> a966f25e113692cf1a6bbb7c0d310b0cea4023fc
     database.getStudyGroups = function (callbackFunction) {
         //Check if logged in
         if (fbInstance.auth().currentUser) {
