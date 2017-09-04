@@ -36,7 +36,6 @@ var batiming = (function () {
         swipePanel: 'left',
         precompileTemplates: true,
         template7Pages: true,
-
     });
 
     // Add view
@@ -315,7 +314,6 @@ var batiming = (function () {
             mainView.router.load({ pageName: 'indexdozent' });
         }
     });
-
 
     return batiming;
 }());
