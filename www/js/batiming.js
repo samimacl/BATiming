@@ -158,7 +158,8 @@ var batiming = (function () {
                     });
                     result.forEach(function (element) {
                         if (element.begin != null && element.end != null)
-                            element.timeString = element.begin.substring(0, 5) + "-" + element.end.substring(0, 5);;
+                            element.timeString = element.begin.substring(0, 5) + "-" + element.end.substring(0, 5);
+
                         if (element.lecture != null) {
                             element.lectureString = mapGetString(element.lecture, "lectureMap");
                             element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
@@ -171,10 +172,15 @@ var batiming = (function () {
                 }
                 else {
                     if (result.begin != null && result.end != null)
-                        result.timeString = result.begin.substring(0, 5) + "-" + result.end.substring(0, 5);;
+                        result.timeString = result.begin.substring(0, 5) + "-" + result.end.substring(0, 5);
+
                     if (result.lecture != null) {
                         result.lectureString = mapGetString(result.lecture, "lectureMap");
                         result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
+                    }
+                    if (element.date != null) {
+                        var d = new Date(element.date)
+                        element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
                     }
                 }
             } else {
@@ -201,17 +207,7 @@ var batiming = (function () {
         }
         return result;
     }
-    function GetDateFormat(controlName) {
-        if ($('#' + controlName).val() != "") {
-            var d1 = Date.parse($('#' + controlName).val().toString().replace(/([0-9]+)\/([0-9]+)/, '$2/$1'));
-            if (d1 == null) {
-                alert('Date Invalid.');
-                $('#' + controlName).val("");
-            }
-            var array = d1.toString('dd-MMM-yyyy');
-            $('#' + controlName).val(array);
-        }
-    }
+    
     batiming.getTemplateData = function () {
         // Aktueller Termin
         if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
@@ -290,7 +286,7 @@ var batiming = (function () {
                             element.entschuldigtString = element.Bemerkung
                         }
                     }
-                    if (element.Kommt != null){
+                    if (element.Kommt != null) {
                         element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
                         var d = new Date(element.Kommt)
                         element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
