@@ -598,6 +598,50 @@ var database = (function () {
         }
     }
 
+    database.lectureIsReleased = function(appointmentKey, callbackFunction) {
+         //Check if logged in
+         if (fbInstance.auth().currentUser) {
+            if (appointmentKey != null) {
+                var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey);
+                ref.once("value").then(function (snap) {
+                    if (snap.val() != null) {
+                        if (snap.val().DozentenFreigabe != null) {
+                            callbackFunction(true);
+                        } else {
+                            callbackFunction(false);
+                        }
+                    }
+                    callbackFunction(false);
+                });
+            } else {
+                callbackFunction(null);
+            }
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    if (appointmentKey != null) {
+                        var ref = fbInstance.database().ref("LectureHistory/" + appointmentKey);
+                        ref.once("value").then(function (snap) {
+                            if (snap.val() != null) {
+                                if (snap.val().DozentenFreigabe != null) {
+                                    callbackFunction(true);
+                                } else {
+                                    callbackFunction(false);
+                                }
+                            }
+                            callbackFunction(false);
+                        });
+                    } else {
+                        callbackFunction(null);
+                    }
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
     //Returns void --> Buchung Personenhistorie "Anwensenheit"
     //timeStampString-Format: YYYY-MM-DDTHH:mm:SS
     //timestampString = timestamp.getFullYear() + "-" + timestamp.getMonth() + "-" + timestamp.getDate() + "T" + timestamp.getHours() + ":" + timestamp.getMinutes() + ":" + timestamp.getSeconds();
