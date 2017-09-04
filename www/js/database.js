@@ -184,6 +184,7 @@ var database = (function () {
                                     let resultJSON = {
                                         "appointment": childChildNode.key,
                                         "lecture": terminJSON.Vorlesung_ID,
+                                        "date": snap.key,
                                         "begin": beginTime,
                                         "end": terminJSON.Ende
                                     };
@@ -665,6 +666,64 @@ var database = (function () {
                         "Kommt": timestampString,
                         "Raum": roomDesc,
                         "Vorlesung_ID": lectureID
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
+    database.personHistoryEntryExists = function(appointmentKey, personID, callbackFunction) {
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + appointmentKey);
+            ref.once("value").then(function (snap) {
+                if (snap.val() != null) {
+                    callbackFunction(true);
+                } else {
+                    callbackFunction(false);
+                }
+            });
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + appointmentKey);
+                    ref.once("value").then(function (snap) {
+                        if (snap.val() != null) {
+                            callbackFunction(true);
+                        } else {
+                            callbackFunction(false);
+                        }
+                    });
+                    unsuscribeAuthEvent();
+                }
+            });
+            this.setUserAuth(this.userMail, this.userPassword);
+        }
+    }
+
+    database.personHistoryEntryExists = function(appointmentKey, personID, callbackFunction) {
+        if (fbInstance.auth().currentUser) {
+            var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + appointmentKey);
+            ref.once("value").then(function (snap) {
+                if (snap.val() != null) {
+                    callbackFunction(true);
+                } else {
+                    callbackFunction(false);
+                }
+            });
+        } else {
+            //Login + Callback wenn eingeloggt, dann nochmaliger Funktionsaufruf
+            var unsuscribeAuthEvent = fbInstance.auth().onAuthStateChanged(function (user) {
+                if (!user) {
+                    var ref = fbInstance.database().ref("PersonHistory/" + personID + "/" + appointmentKey);
+                    ref.once("value").then(function (snap) {
+                        if (snap.val() != null) {
+                            callbackFunction(true);
+                        } else {
+                            callbackFunction(false);
+                        }
                     });
                     unsuscribeAuthEvent();
                 }
