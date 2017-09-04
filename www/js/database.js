@@ -730,7 +730,6 @@ var database = (function () {
             });
             this.setUserAuth(this.userMail, this.userPassword);
         }
-        }
     }
 
     database.getStudyGroups = function (callbackFunction) {
