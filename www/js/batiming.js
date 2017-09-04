@@ -163,9 +163,9 @@ var batiming = (function () {
                             element.lectureString = mapGetString(element.lecture, "lectureMap");
                             element.dozentenString = mapGetString(searchElementInStorageManager(element.lecture, "lectureMap").dozentID, "personMap");
                         }
-                        if (element.date != null){
+                        if (element.date != null) {
                             var d = new Date(element.date)
-                            element.dateString = d.getDate()+"."+ (d.getMonth()+1) +"."+ d.getFullYear();
+                            element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
                         }
                     }, this);
                 }
@@ -201,15 +201,15 @@ var batiming = (function () {
         }
         return result;
     }
- function GetDateFormat(controlName) {
-        if ($('#' + controlName).val() != "") {      
-            var d1 = Date.parse($('#' + controlName).val().toString().replace(/([0-9]+)\/([0-9]+)/,'$2/$1'));
+    function GetDateFormat(controlName) {
+        if ($('#' + controlName).val() != "") {
+            var d1 = Date.parse($('#' + controlName).val().toString().replace(/([0-9]+)\/([0-9]+)/, '$2/$1'));
             if (d1 == null) {
                 alert('Date Invalid.');
                 $('#' + controlName).val("");
             }
-                var array = d1.toString('dd-MMM-yyyy');
-                $('#' + controlName).val(array);
+            var array = d1.toString('dd-MMM-yyyy');
+            $('#' + controlName).val(array);
         }
     }
     batiming.getTemplateData = function () {
@@ -283,14 +283,18 @@ var batiming = (function () {
                 result.forEach(function (element) {
                     if (element.Vorlesung_ID != null) {
                         element.lectureString = mapGetString(element.Vorlesung_ID, "lectureMap");
+                        element.dozentenString = mapGetString(searchElementInStorageManager(element.Vorlesung_ID, "lectureMap").dozentID, "personMap");
                     }
                     if (element.Entschuldigt != null) {
                         if (element.Entschuldigt == 1) {
                             element.entschuldigtString = element.Bemerkung
                         }
                     }
-                    if (element.Kommt != null)
+                    if (element.Kommt != null){
                         element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
+                        var d = new Date(element.Kommt)
+                        element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
+                    }
                 });
 
                 myApp.template7Data.attendance = result;
