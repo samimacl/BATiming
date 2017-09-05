@@ -73,7 +73,7 @@
                             <i class="icon icon-bars"></i>
                         </a>
                     </div>
-                    <div class="center sliding">BATiming</div>
+                    <div class="center sliding">BA<sup>Timing</sup></div>
                     <div class="right"></div>
                 </div>
             </div>
@@ -283,19 +283,19 @@
     <script>
         (function () {
             if (Framework7.prototype.device.android) {
-                /*   Dom7('head').append(
-                       '<link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">' +
-                       '<link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">' +
-                       '<link rel="stylesheet" href="css/batiming.material.css">'
-                   ); */
-            } // else { 
-            Dom7('head').append(
-                '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">' +
-                '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">' +
-                '<link rel="stylesheet" href="lib/framework7/css/framework7-icons.css">' +
-                '<link rel="stylesheet" href="css/batiming.ios.css">'
-            );
-            //}
+                Dom7('head').append(
+                    '<link rel="stylesheet" href="lib/framework7/css/framework7.material.min.css">' +
+                    '<link rel="stylesheet" href="lib/framework7/css/framework7.material.colors.min.css">' +
+                    '<link rel="stylesheet" href="css/batiming.material.css">'
+                );
+            } else {
+                Dom7('head').append(
+                    '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.min.css">' +
+                    '<link rel="stylesheet" href="lib/framework7/css/framework7.ios.colors.min.css">' +
+                    '<link rel="stylesheet" href="lib/framework7/css/framework7-icons.css">' +
+                    '<link rel="stylesheet" href="css/batiming.ios.css">'
+                );
+            }
         })();
     </script>
 
