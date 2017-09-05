@@ -171,7 +171,7 @@ var database = (function () {
                 var beginTime;
                 var ref = fbInstance.database().ref("StudyGroupCalendar/" + studyGroup + "/" + dateString);
                 ref.orderByKey().endAt(timeString).once("value").then(function (snap) {
-                    console.log("OnValue --> " + snap.val());
+                    // console.log("OnValue --> " + snap.val());
                     // callbackFunction(snap.val());
                     var result = [];
 

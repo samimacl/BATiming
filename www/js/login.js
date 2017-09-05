@@ -75,6 +75,7 @@ var login = (function () {
                     storageManager.changeItem(true, 'userData', data)
                     batiming.initMaps();
                     batiming.getTemplateData();
+                    myApp.mainView.router.loadPage('index.html');
                     myApp.closeModal('.login-screen');
                 }
             });

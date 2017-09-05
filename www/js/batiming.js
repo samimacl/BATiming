@@ -113,7 +113,7 @@ var batiming = (function () {
             });
         } else {
             // keine Änderungen
-            alert('Yet there is no stored data for this form. Please try to change any field')
+            console.log("Settings --> Keine Änderungen");
         }
     });
     
