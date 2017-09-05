@@ -79,39 +79,13 @@
             </div>
             <a id="b_beacon" href="#" class="floating-button"><i class="icon f7-icons">search</i></a>
             <div class="pages">
-                <div class="page" data-page="indexsstudent">
+                <div class="page" data-page="index">
                     <div class="page-content pull-to-refresh-content">
                         <div class="pull-to-refresh-layer">
                             <div class="preloader"></div>
                             <div class="pull-to-refresh-arrow"></div>
                         </div>
-                        <div class="myPageContentStudenten"></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Dozent View -->
-        <div class="view view-dozent navbar-through">
-            <div class="navbar">
-                <div class="navbar-inner">
-                    <div class="left">
-                        <a id="menuicon" href="#" class="open-panel link icon-only">
-                            <i class="icon icon-bars"></i>
-                        </a>
-                    </div>
-                    <div class="center sliding">BATiming</div>
-                    <div class="right"></div>
-                </div>
-            </div>
-            <div class="pages">
-                <div class="page" data-page="indexdozent">
-                    <div class="page-content pull-to-refresh-content">
-                        <div class="pull-to-refresh-layer">
-                            <div class="preloader"></div>
-                            <div class="pull-to-refresh-arrow"></div>
-                        </div>
-                        <div class="myPageContentDozent"></div>
+                        <div class="myPageContent"></div>
                     </div>
                 </div>
             </div>
@@ -254,8 +228,9 @@
                         <div class="item-inner">
                             <div class="item-title-row">
                                 <div class="item-title">{{this.lectureString}}</div>
-                                <div class="item-after">{{this.timeString}}</div>
+                                <div class="item-after">{{this.timeString}}<br>{{this.dateString}}</div>
                             </div>
+                            <div class="item-subtitle">{{this.dozentenString}}</div>
                         </div>
                     </a>
                 </li>

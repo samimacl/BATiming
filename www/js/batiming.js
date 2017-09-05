@@ -44,9 +44,9 @@ var batiming = (function () {
         dynamicNavbar: true,
     });
 
-    var dozentView = myApp.addView('.view-dozent', {
-        dynamicNavbar: true
-    });
+    // var dozentView = myApp.addView('.view-dozent', {
+    //     dynamicNavbar: true
+    // });
 
     // Handle Cordova Device Ready Event
     $$(document).on('deviceready', function () {
@@ -243,7 +243,7 @@ var batiming = (function () {
                         myApp.template7Data.student = results1;
                         myApp.template7Data.student.studentNextEntry = results2;
                         myApp.template7Data.student.studentLastEntry = results3;
-                        $$('.page[data-page="indexsstudent"] .page-content .myPageContentStudenten').html(Template7.templates.studentenTemplate(results1));
+                        $$('.page[data-page="index"] .page-content .myPageContent').html(Template7.templates.studentenTemplate(results1));
                     });
                 });
             });
@@ -260,7 +260,7 @@ var batiming = (function () {
                         // myPageContentDozent
                         myApp.template7Data.dozent = results1;
                         myApp.template7Data.dozent.students = results2;
-                        $$('.page[data-page="indexdozent"] .page-content .myPageContentDozent').html(Template7.templates.dozentenTemplate(results1));
+                        $$('.page[data-page="index"] .page-content .myPageContent').html(Template7.templates.dozentenTemplate(results1));
                     });
                 }
 
@@ -314,7 +314,7 @@ var batiming = (function () {
                             if (parts[2].length == 1) {
                                 parts[2] = "0" + parts[2]
                             }
-                            dateString = parts[0] +"-"+parts[1]+"-"+parts[2]+"T"+element.timeString
+                            dateString = parts[0] + "-" + parts[1] + "-" + parts[2] + "T" + element.timeString
                             d = new Date(dateString)
                         } else {
                             d = new Date(element.Kommt)
@@ -339,11 +339,7 @@ var batiming = (function () {
     });
 
     $$('#home').on('click', function (e) {
-        if (JSON.parse(storageManager.getItem(true, 'userData')).Rolle == 0) {
-            mainView.router.load({ pageName: 'indexsstudent' });
-        } else {
-            mainView.router.load({ pageName: 'indexdozent' });
-        }
+        mainView.router.load({ pageName: 'index' });
     });
 
     return batiming;

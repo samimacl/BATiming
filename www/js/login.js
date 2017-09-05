@@ -65,21 +65,13 @@ var login = (function () {
                     database.createPerson(firebase.auth().currentUser.uid, "", "", "", "", 0);
                     database.getCurrentPerson(function (data) {
                         $$('.view-main').show();
-                        $$('.view-dozent').hide();
                         storageManager.addItem(true, 'userData', data);
                         batiming.initMaps();
                         myApp.closeModal('.login-screen');
                     });
                     myApp.mainView.router.loadPage('./views/settings.html');
                 } else {
-                    if (data.Rolle != null && data.Rolle == '1') {
-                        $$('.view-main').hide();
-                        $$('.view-dozent').show();
-
-                    } else {
-                        $$('.view-main').show();
-                        $$('.view-dozent').hide();
-                    };
+                    $$('.view-main').show();
                     storageManager.changeItem(true, 'userData', data)
                     batiming.initMaps();
                     batiming.getTemplateData();
