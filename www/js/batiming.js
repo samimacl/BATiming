@@ -323,7 +323,7 @@ var batiming = (function () {
 
                         if (timeString != null){
                             if (timeString.length != 8) {
-                                timeString.split(':');
+                                parts = timeString.split(':');
                                 if (parts[1].length == 1) {
                                     parts[1] = "0" + parts[1]
                                 }
@@ -342,7 +342,7 @@ var batiming = (function () {
                             if (dateString.length == 10) {
                                 d = new Date(element.Kommt)
                             } else {
-                                dateString.split('-');
+                                parts = dateString.split('-');
                                 if (parts[1].length == 1) {
                                     parts[1] = "0" + parts[1]
                                 }
