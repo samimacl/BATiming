@@ -298,7 +298,27 @@ var batiming = (function () {
                     }
                     if (element.Kommt != null) {
                         element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
-                        var d = new Date(element.Kommt)
+                        var dateString = null;
+                        var d = null;
+                        if (element.Kommt.length == 18) {
+                            dateString = element.Kommt.substring(0, 9);
+                        }
+                        if (element.Kommt.length == 17) {
+                            dateString = element.Kommt.substring(0, 8);
+                        }
+                        if (dateString != null) {
+                            var parts = dateString.split('-');
+                            if (parts[1].length == 1) {
+                                parts[1] = "0" + parts[1]
+                            }
+                            if (parts[2].length == 1) {
+                                parts[2] = "0" + parts[2]
+                            }
+                            dateString = parts[0] +"-"+parts[1]+"-"+parts[2]+"T"+element.timeString
+                            d = new Date(dateString)
+                        } else {
+                            d = new Date(element.Kommt)
+                        }
                         element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
                     }
                 });
