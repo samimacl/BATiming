@@ -44,10 +44,6 @@ var batiming = (function () {
         dynamicNavbar: true,
     });
 
-    // var dozentView = myApp.addView('.view-dozent', {
-    //     dynamicNavbar: true
-    // });
-
     // Handle Cordova Device Ready Event
     $$(document).on('deviceready', function () {
         console.log("Device is ready!");
@@ -81,14 +77,27 @@ var batiming = (function () {
         }
     });
 
-    // https://framework7.io/docs/form-storage.html
-    // https://framework7.io/docs/form-data.html
     myApp.onPageInit('settings', function (page) {
         // Get Studiengruppen
         JSON.parse(storageManager.getItem(true, 'studyGroupMap')).forEach(function (element) {
             myApp.smartSelectAddOption('.smart-select select', '<option value = "' + element.key + '">' + element.value + '</option>');
         }, this);
         myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
+    });
+
+    myApp.onPageInit('attendance', function (page) {
+        batiming.getTemplateDataAttendance();
+
+        $$('.pull-to-refresh-content').on('refresh', function () {
+            batiming.getTemplateDataAttendance();
+        });
+    });
+
+    myApp.onPageInit('index', function (page){
+        $$('.pull-to-refresh-content').on('refresh', function () {
+            batiming.getTemplateData();
+        });
+        batiming.getTemplateData();
     });
 
     myApp.onPageBack('settings', function (page) {
@@ -105,15 +114,7 @@ var batiming = (function () {
             alert('Yet there is no stored data for this form. Please try to change any field')
         }
     });
-
-    myApp.onPageInit('attendance', function (page) {
-        batiming.getTemplateDataAttendance();
-
-        $$('.pull-to-refresh-content').on('refresh', function () {
-            batiming.getTemplateDataAttendance();
-        });
-    });
-
+    
     batiming.initMaps = function () {
         database.getStudyGroups(function (data) {
             storageManager.changeItem(true, 'studyGroupMap', data)
@@ -123,6 +124,15 @@ var batiming = (function () {
         });
         database.getPersonNames(function (data) {
             storageManager.changeItem(true, 'personMap', data);
+        });
+    }
+
+    function findAndRemove(array, property, value) {
+        array.forEach(function (result, index) {
+            if (result[property] === value) {
+                //Remove from array
+                array.splice(index, 1);
+            }
         });
     }
 
@@ -169,19 +179,19 @@ var batiming = (function () {
                         }
                     }, this);
                 }
-                else {
-                    if (result.begin != null && result.end != null)
-                        result.timeString = result.begin.substring(0, 5) + "-" + result.end.substring(0, 5);
+                // else {
+                //     if (result.begin != null && result.end != null)
+                //         result.timeString = result.begin.substring(0, 5) + "-" + result.end.substring(0, 5);
 
-                    if (result.lecture != null) {
-                        result.lectureString = mapGetString(result.lecture, "lectureMap");
-                        result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
-                    }
-                    if (element.date != null) {
-                        var d = new Date(element.date)
-                        element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
-                    }
-                }
+                //     if (result.lecture != null) {
+                //         result.lectureString = mapGetString(result.lecture, "lectureMap");
+                //         result.dozentenString = mapGetString(searchElementInStorageManager(result.lecture, "lectureMap").dozentID, "personMap");
+                //     }
+                //     if (element.date != null) {
+                //         var d = new Date(element.date)
+                //         element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
+                //     }
+                // }
             } else {
                 if (inputData instanceof Array) {
                     result = result.filter(function (n) {
@@ -269,15 +279,6 @@ var batiming = (function () {
         myApp.pullToRefreshDone();
     }
 
-    function findAndRemove(array, property, value) {
-        array.forEach(function (result, index) {
-            if (result[property] === value) {
-                //Remove from array
-                array.splice(index, 1);
-            }
-        });
-    }
-
     batiming.getTemplateDataAttendance = function () {
         database.getLectureAttendanceListByPersonKey("Person_" + database.getCurrentUserID(), function (data) {
             if (data != null) {
@@ -336,10 +337,6 @@ var batiming = (function () {
 
     $$('.pull-to-refresh-content').on('refresh', function () {
         batiming.getTemplateData();
-    });
-
-    $$('#home').on('click', function (e) {
-        mainView.router.load({ pageName: 'index' });
     });
 
     return batiming;
