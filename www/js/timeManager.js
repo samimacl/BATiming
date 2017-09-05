@@ -49,17 +49,33 @@ var timeManager = (function () {
             let roomDesc = '202';
             try {
                 let user = JSON.parse(storageManager.getItem(true, 'userData'));
-                //if not isApproved?
-                if (user.Rolle == "1")
+                let isApproved = false;
+                await database.lectureIsReleased(bookingData.appointment, function (data) {
+                    isApproved = data != null ? data : false;
+                });
+                
+                //Student
+                if (user.Rolle == "0" && isApproved) {
+                    showNotification('Hint', 'Vorlesung bereits begonnen, bei Verwaltung melden.', false);
+                    remark = 'Unentschuldigte Verspätung!';
+                }
+
+                if (user.Rolle == "1" && !isApproved)
                     await database.releaseLectureHistoryEntry(bookingData.appointment, database.getCurrentUserID(), timestamp);
-                await database.bookLectureHistoryPersonEntry(bookingData.appointment, database.getCurrentUserID(), '0', remark, timestamp);
-                this.state++;
-                await database.bookHistoryEntry(database.getCurrentUserID(), bookingData.lecture, bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
+
+                await database.personHistoryEntryExists(bookingData.appointment, 'Person_' + database.getCurrentUserID(), function (data) {
+                    let result = data != null ? data : false;
+                    if (!result) {
+                        await database.bookLectureHistoryPersonEntry(bookingData.appointment, database.getCurrentUserID(), '0', remark, timestamp);
+                        this.state++;
+                        await database.bookHistoryEntry(database.getCurrentUserID(), bookingData.lecture, bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
+                        this.state++;
+                    }
+                });
             } catch (e) {
                 showNotification('Error', e.message, true);
             }
 
-            this.state++;
             console.log('State end of booking: ' + this.state);
             this.stopWorkflow();
         }
