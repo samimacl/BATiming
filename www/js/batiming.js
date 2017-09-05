@@ -253,7 +253,7 @@ var batiming = (function () {
                                     data3.unshift(searchedElement);
                                     data3 = sortByKey(data3);
                                     if (data3.length == 4)
-                                        delete data3[(data3.length-1)]
+                                        delete data3[(data3.length - 1)]
                                     findAndRemove(data2, "date", data1[0].date)
                                 }
                             }
@@ -314,27 +314,43 @@ var batiming = (function () {
                         }
                     }
                     if (element.Kommt != null) {
-                        element.timeString = element.Kommt.substring(element.Kommt.length - 8, element.Kommt.length);
-                        var dateString = null;
-                        var d = null;
-                        if (element.Kommt.length == 18) {
-                            dateString = element.Kommt.substring(0, 9);
+                        var dateString, timeString, parts, d = null;
+
+                        parts = element.Kommt.split('T');
+                        dateString = parts[0];
+                        timeString = parts[1];
+
+                        if (timeString != null){
+                            if (timeString.length != 8) {
+                                timeString.split(':');
+                                if (parts[1].length == 1) {
+                                    parts[1] = "0" + parts[1]
+                                }
+                                if (parts[2].length == 1) {
+                                    parts[2] = "0" + parts[2]
+                                }
+                                if (parts[3].length == 1) {
+                                    parts[3] = "0" + parts[3]
+                                }
+                                timeString = parts[0] + ":" + parts[1] + ":" + parts[2]
+                            }
                         }
-                        if (element.Kommt.length == 17) {
-                            dateString = element.Kommt.substring(0, 8);
-                        }
+                        element.timeString = timeString;
+
                         if (dateString != null) {
-                            var parts = dateString.split('-');
-                            if (parts[1].length == 1) {
-                                parts[1] = "0" + parts[1]
+                            if (dateString.length == 10) {
+                                d = new Date(element.Kommt)
+                            } else {
+                                dateString.split('-');
+                                if (parts[1].length == 1) {
+                                    parts[1] = "0" + parts[1]
+                                }
+                                if (parts[2].length == 1) {
+                                    parts[2] = "0" + parts[2]
+                                }
+                                dateString = parts[0] + "-" + parts[1] + "-" + parts[2] + "T" + element.timeString
+                                d = new Date(dateString)
                             }
-                            if (parts[2].length == 1) {
-                                parts[2] = "0" + parts[2]
-                            }
-                            dateString = parts[0] + "-" + parts[1] + "-" + parts[2] + "T" + element.timeString
-                            d = new Date(dateString)
-                        } else {
-                            d = new Date(element.Kommt)
                         }
                         element.dateString = d.getDate() + "." + (d.getMonth() + 1) + "." + d.getFullYear();
                     }
