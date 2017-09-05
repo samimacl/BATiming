@@ -49,9 +49,9 @@ var batiming = (function () {
         console.log("Device is ready!");
         beacon.initialize();
 
-       /* cordova.plugins.backgroundMode.enable();
-        if (batiming.isAndroid)
-            cordova.plugins.backgroundMode.overrideBackButton(); */
+        /* cordova.plugins.backgroundMode.enable();
+         if (batiming.isAndroid)
+             cordova.plugins.backgroundMode.overrideBackButton(); */
     });
 
     $$('#b_beacon').on('click', function () {
@@ -63,18 +63,17 @@ var batiming = (function () {
                 .then(() => beacon.startMonitoringForRegion(beacon.beaconRegion))
                 .then(() => setTimeout(function () {
                     if (timeManager.state > 0) {
+                        beacon.stopScanForBeacon(beacon.beaconRegion);
                         timeManager.stopWorkflow();
+                        myApp.hidePreloader();
                         showNotification('Timeout', 'A timeout occured while scanning for iBeacon', true);
                     }
-                }, 5000))
+                }, 6000))
                 .catch(function (e) {
                     console.log(e)
+                    timeManager.stopWorkflow();
                 });
-        } finally {
-            beacon.stopScanForBeacon(beacon.beaconRegion);
-            timeManager.stopWorkflow();
-            myApp.hidePreloader();
-        }
+        } finally {}
     });
 
     myApp.onPageInit('settings', function (page) {

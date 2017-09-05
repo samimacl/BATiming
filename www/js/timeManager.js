@@ -10,7 +10,6 @@ var timeManager = (function () {
     let timeManager = {};
 
     timeManager.state = 0;
-    timeManager.bookingData = null;
 
     function isDateInLecture(appointment) {
         let now = new Date(Date.now());
@@ -31,7 +30,6 @@ var timeManager = (function () {
 
         let currentLecture = storageManager.getItem(true, 'currentAppointmentByStudyGroup');
         if (currentLecture != null && JSON.parse(currentLecture)[0] != null) {
-            this.bookingData = JSON.parse(currentLecture)[0];
             this.state++;
             console.log('State is: ' + this.state);
         } else {
@@ -49,28 +47,32 @@ var timeManager = (function () {
             let roomDesc = '202';
             try {
                 let user = JSON.parse(storageManager.getItem(true, 'userData'));
+                let currentLecture = JSON.parse(storageManager.getItem(true, 'currentAppointmentByStudyGroup'))[0];
                 let isApproved = false;
-                await database.lectureIsReleased(this.bookingData.appointment, function (data) {
+                await database.lectureIsReleased(currentLecture.appointment, function (data) {
                     isApproved = data != null ? data : false;
                 });
-                
+
                 //Student
                 if (user.Rolle == "0" && isApproved) {
                     showNotification('Hint', 'Vorlesung bereits begonnen, bei Verwaltung melden.', false);
                     remark = 'Unentschuldigte Verspätung!';
                 }
 
+                let personID = 'Person_' + database.getCurrentUserID();
                 if (user.Rolle == "1" && !isApproved)
-                    await database.releaseLectureHistoryEntry(this.bookingData.appointment, database.getCurrentUserID(), timestamp);
+                    await database.releaseLectureHistoryEntry(currentLecture.appointment, personID, timestamp);
 
-                let personID = "Person_" + database.getCurrentUserID();
-                await database.personHistoryEntryExists(this.bookingData.appointment, personID, async function (data) {
+
+                await database.personHistoryEntryExists(currentLecture.appointment, personID, async(data) => {
                     let result = data != null ? data : false;
                     if (result != null && !result) {
-                        await database.bookLectureHistoryPersonEntry(this.bookingData.appointment, personID, '0', remark, timestamp);
+                        await database.bookLectureHistoryPersonEntry(currentLecture.appointment, personID, '0', remark, timestamp);
                         this.state++;
-                        await database.bookHistoryEntry(database.getCurrentUserID(), this.bookingData.lecture, this.bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
+                        await database.bookHistoryEntry(personID, currentLecture.lecture, currentLecture.appointment, roomDesc, remark, excusedFlag, timestamp);
                         this.state++;
+                    } else {
+                        showNotification('Hint', 'Anwesenheit bereits gebucht.', false);
                     }
                 });
             } catch (e) {
@@ -84,7 +86,7 @@ var timeManager = (function () {
 
     timeManager.stopWorkflow = function () {
         this.state = 0;
-        this.bookingData = null;
+        myApp.hidePreloader();
         console.log('Workflow stopped...');
     }
 

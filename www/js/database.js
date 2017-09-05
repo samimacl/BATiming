@@ -614,8 +614,9 @@ var database = (function () {
                         } else {
                             callbackFunction(false);
                         }
+                    } else {
+                        callbackFunction(false);
                     }
-                    callbackFunction(false);
                 });
             } else {
                 callbackFunction(null);
@@ -633,8 +634,9 @@ var database = (function () {
                                 } else {
                                     callbackFunction(false);
                                 }
+                            } else {
+                                callbackFunction(false);
                             }
-                            callbackFunction(false);
                         });
                     } else {
                         callbackFunction(null);
