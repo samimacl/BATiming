@@ -49,9 +49,9 @@ var batiming = (function () {
         console.log("Device is ready!");
         beacon.initialize();
 
-        cordova.plugins.backgroundMode.enable();
+       /* cordova.plugins.backgroundMode.enable();
         if (batiming.isAndroid)
-            cordova.plugins.backgroundMode.overrideBackButton();
+            cordova.plugins.backgroundMode.overrideBackButton(); */
     });
 
     $$('#b_beacon').on('click', function () {
