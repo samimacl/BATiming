@@ -10,7 +10,7 @@ var timeManager = (function () {
     let timeManager = {};
 
     timeManager.state = 0;
-    timeManger.timeManager.bookingData = null;
+    timeManager.bookingData = null;
 
     function isDateInLecture(appointment) {
         let now = new Date(Date.now());
@@ -30,8 +30,8 @@ var timeManager = (function () {
             showNotification('Hint', 'Workflow already started.', true);
 
         let currentLecture = storageManager.getItem(true, 'currentAppointmentByStudyGroup');
-        if (currentLecture != null && JSON.parse(currentLecture)[0] !== undefined) {
-            timeManager.bookingData = JSON.parse(currentLecture)[0];
+        if (currentLecture != null && JSON.parse(currentLecture)[0] != null) {
+            this.bookingData = JSON.parse(currentLecture)[0];
             this.state++;
             console.log('State is: ' + this.state);
         } else {
@@ -50,7 +50,7 @@ var timeManager = (function () {
             try {
                 let user = JSON.parse(storageManager.getItem(true, 'userData'));
                 let isApproved = false;
-                await database.lectureIsReleased(timeManager.bookingData.appointment, function (data) {
+                await database.lectureIsReleased(this.bookingData.appointment, function (data) {
                     isApproved = data != null ? data : false;
                 });
                 
@@ -61,15 +61,15 @@ var timeManager = (function () {
                 }
 
                 if (user.Rolle == "1" && !isApproved)
-                    await database.releaseLectureHistoryEntry(timeManager.bookingData.appointment, database.getCurrentUserID(), timestamp);
+                    await database.releaseLectureHistoryEntry(this.bookingData.appointment, database.getCurrentUserID(), timestamp);
 
                 let personID = "Person_" + database.getCurrentUserID();
-                await database.personHistoryEntryExists(timeManager.bookingData.appointment, personID, async function (data) {
+                await database.personHistoryEntryExists(this.bookingData.appointment, personID, async function (data) {
                     let result = data != null ? data : false;
                     if (result != null && !result) {
-                        await database.bookLectureHistoryPersonEntry(timeManager.bookingData.appointment, personID, '0', remark, timestamp);
+                        await database.bookLectureHistoryPersonEntry(this.bookingData.appointment, personID, '0', remark, timestamp);
                         this.state++;
-                        await database.bookHistoryEntry(database.getCurrentUserID(), timeManager.bookingData.lecture, timeManager.bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
+                        await database.bookHistoryEntry(database.getCurrentUserID(), this.bookingData.lecture, this.bookingData.appointment, roomDesc, remark, excusedFlag, timestamp);
                         this.state++;
                     }
                 });
@@ -84,12 +84,8 @@ var timeManager = (function () {
 
     timeManager.stopWorkflow = function () {
         this.state = 0;
-        timeManager.bookingData = null;
+        this.bookingData = null;
         console.log('Workflow stopped...');
-    }
-
-    timeManager.getBookingData = function () {
-        return timeManager.bookingData;
     }
 
     return timeManager;
