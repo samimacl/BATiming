@@ -49,20 +49,20 @@ var timeManager = (function () {
                 let user = JSON.parse(storageManager.getItem(true, 'userData'));
                 let currentLecture = JSON.parse(storageManager.getItem(true, 'currentAppointmentByStudyGroup'))[0];
                 let isApproved = false;
-                await database.lectureIsReleased(currentLecture.appointment, function (data) {
-                    isApproved = data != null ? data : false;
-                });
-
-                //Student
-                if (user.Rolle == "0" && isApproved) {
-                    showNotification('Hint', 'Vorlesung bereits begonnen, bei Verwaltung melden.', false);
-                    remark = 'Unentschuldigte Verspätung!';
-                }
-
                 let personID = 'Person_' + database.getCurrentUserID();
-                if (user.Rolle == "1" && !isApproved)
-                    await database.releaseLectureHistoryEntry(currentLecture.appointment, personID, timestamp);
+                
+                await database.lectureIsReleased(currentLecture.appointment, async (data) => {
+                    isApproved = data != null ? data : false;
 
+                    //Student
+                    if (user.Rolle == "0" && isApproved) {
+                        showNotification('Hint', 'Vorlesung bereits begonnen, bei Verwaltung melden.', false);
+                        remark = 'Unentschuldigte Verspätung!';
+                    }
+                    
+                    if (user.Rolle == "1" && !isApproved)
+                        await database.releaseLectureHistoryEntry(currentLecture.appointment, personID, timestamp);
+                });
 
                 await database.personHistoryEntryExists(currentLecture.appointment, personID, async(data) => {
                     let result = data != null ? data : false;

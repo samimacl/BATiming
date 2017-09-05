@@ -66,14 +66,16 @@ var batiming = (function () {
                         beacon.stopScanForBeacon(beacon.beaconRegion);
                         timeManager.stopWorkflow();
                         myApp.hidePreloader();
-                        showNotification('Timeout', 'A timeout occured while scanning for iBeacon', true);
+                        //showNotification('Timeout', 'A timeout occured while scanning for iBeacon', true);
                     }
-                }, 6000))
+                }, 10000))
                 .catch(function (e) {
                     console.log(e)
                     timeManager.stopWorkflow();
                 });
-        } finally {}
+        } finally {
+            //beacon.stopScanForBeacon(beacon.beaconRegion);
+        }
     });
 
     myApp.onPageInit('settings', function (page) {
