@@ -852,9 +852,7 @@ var database = (function () {
 
     //Returns string
     database.getUsersMailaddress = function () {
-        if (!fbInstance.auth().currentUser) {
-            return fbInstance.auth().currentUser.email;
-        }
+        return fbInstance.auth().currentUser.email;
     }
 
     function dateToFirebaseString(date) {

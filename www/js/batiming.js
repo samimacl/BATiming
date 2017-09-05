@@ -82,7 +82,9 @@ var batiming = (function () {
         JSON.parse(storageManager.getItem(true, 'studyGroupMap')).forEach(function (element) {
             myApp.smartSelectAddOption('.smart-select select', '<option value = "' + element.key + '">' + element.value + '</option>');
         }, this);
-        myApp.formFromData('#my-form', JSON.parse(storageManager.getItem(true, 'userData')));
+        var formData = JSON.parse(storageManager.getItem(true, 'userData'));
+        formData.email = database.getUsersMailaddress();
+        myApp.formFromData('#my-form', formData);
     });
 
     myApp.onPageInit('attendance', function (page) {
