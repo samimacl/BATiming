@@ -95,7 +95,7 @@ var batiming = (function () {
         });
     });
 
-    myApp.onPageInit('index', function (page){
+    myApp.onPageInit('index', function (page) {
         $$('.pull-to-refresh-content').on('refresh', function () {
             batiming.getTemplateData();
         });
@@ -116,7 +116,7 @@ var batiming = (function () {
             console.log("Settings --> Keine Änderungen");
         }
     });
-    
+
     batiming.initMaps = function () {
         database.getStudyGroups(function (data) {
             storageManager.changeItem(true, 'studyGroupMap', data)
@@ -156,6 +156,20 @@ var batiming = (function () {
             return null;
         }
         return null;
+    }
+
+    function sortByKey(data) {
+        var keys = [];
+        var result = [];
+
+        data.forEach(function (element) {
+            keys.push(element.appointment);
+        });
+        keys.sort();
+        for (var i = 0; i < keys.length; i++) {
+            result.push(data.find(function (item) { return item.appointment == keys[i] }));
+        }
+        return result.reverse();
     }
 
     function prepareTemplateData(rolle, inputData) {
@@ -237,6 +251,9 @@ var batiming = (function () {
                                 });
                                 if (searchedElement != null) {
                                     data3.unshift(searchedElement);
+                                    data3 = sortByKey(data3);
+                                    if (data3.length == 4)
+                                        delete data3[(data3.length-1)]
                                     findAndRemove(data2, "date", data1[0].date)
                                 }
                             }
